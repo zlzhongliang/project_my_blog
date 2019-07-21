@@ -1,0 +1,93 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block body %}
+    <link rel='stylesheet' href='{% static 'blog/css/main_style.css' %}' type='text/css'/>
+    <div class="content-wrap">
+        <div class="content">
+
+            <div class="widget d_tag">
+                <div class="d_tags">
+                    <a title="我的个人资料" href="#">我的资料</a>
+                    <a title="我发布的文章" href="#">我的文章</a>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <aside class="sidebar">
+        <article class="excerpt">
+            <header>
+                <a class="label label-important">当前页面<i class="label-arrow"></i></a>
+                <h2><a>我的个人资料</a>
+                </h2>
+            </header>
+
+            <table style="font-size: 20px;" border="0" width="100%">
+                <tr bgcolor="#d3d3d3" style="height: 55px">
+                    <td style="width: 20%">&nbsp;&nbsp;用户名 :</td>
+                    <td style="width: 40%">&nbsp;&nbsp;{{ user.username }}</td>
+                    <td style="width: 40%"><h2><a style="font-size: 16px" href="#">修改</a></h2></td>
+                </tr>
+                <tr style="height: 55px">
+                    <td style="width: 20%">&nbsp;&nbsp;密码 :</td>
+                    <td style="width: 40%">&nbsp;&nbsp;*********</td>
+                    <td style="width: 40%"><h2><a style="font-size: 16px" href="#">修改</a></h2></td>
+                </tr>
+                <tr bgcolor="#d3d3d3" style="height: 55px">
+                    <td style="width: 20%">&nbsp;&nbsp;邮箱 :</td>
+                    <td style="width: 40%">&nbsp;&nbsp;{{ user.email }}</td>
+                    <td style="width: 40%"><h2><a style="font-size: 16px" href="#">修改</a></h2></td>
+                </tr>
+                <tr style="height: 55px">
+                    <td style="width: 20%">&nbsp;&nbsp;头像 :</td>
+                    <td style="width: 40%">&nbsp;&nbsp;<img width="40px" height="40px" style="border-radius: 50%"
+                                                            src='/static/{{ user.icon }}'></td>
+                    <td style="width: 40%"><h2><a style="font-size: 16px" href="#">修改</a></h2></td>
+                </tr>
+                <form method="post">
+                    <tr bgcolor="#d3d3d3" style="height: 55px">
+                        <td style="width: 20%">&nbsp;&nbsp;性别 :</td>
+                        <td style="width: 40%">
+                            <table >
+                                <tr>
+                                    {% if user.sex == '0' %}
+                                        <td><label for="sex_1"><input id="sex_1" name="sex" type="radio">&nbsp;男&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        </td>
+                                        <td><label for="sex_2"><input id="sex_2" name="sex" type="radio"
+                                                                      checked>&nbsp;女&nbsp;</label></td>
+                                    {% elif user.sex == '1' %}
+                                        <td><label for="sex_1"><input id="sex_1" name="sex" type="radio" checked>&nbsp;男&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        </td>
+                                        <td><label for="sex_2"><input id="sex_2" name="sex" type="radio"
+                                                                      >&nbsp;女&nbsp;</label></td>
+                                    {% else %}
+                                        <td><label for="sex_1"><input id="sex_1" name="sex" type="radio">&nbsp;男&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        </td>
+                                        <td><label for="sex_2"><input id="sex_2" name="sex" type="radio">&nbsp;女&nbsp;</label></td>
+                                    {% endif %}
+                                </tr>
+                            </table>
+
+                        </td>
+                        <td style="width: 40%"><h2><a style="font-size: 16px" href="#">修改</a></h2></td>
+                    </tr>
+                </form>
+
+                <tr style="height: 55px">
+                    <td style="width: 20%">&nbsp;&nbsp;手机号码 :</td>
+                    <td style="width: 40%">&nbsp;&nbsp;{{ user.phonenumber }}</td>
+                    <td style="width: 40%"><h2><a style="font-size: 16px" href="#">修改</a></h2></td>
+                </tr>
+                <tr bgcolor="#d3d3d3" style="height: 55px">
+                    <td style="width: 20%">&nbsp;&nbsp;注册时间 :</td>
+                    <td style="width: 40%">&nbsp;&nbsp;{{ user.registertime }}</td>
+                    <td style="width: 40%"><h2><a style="font-size: 16px" href="#">修改</a></h2></td>
+                </tr>
+            </table>
+
+        </article>
+
+    </aside>
+
+{% endblock %}
