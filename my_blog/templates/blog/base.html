@@ -8,7 +8,7 @@
 {#    目前IE8尚在测试版中，所以为了避免制作出的页面在IE8下面出现错误，建议直接将IE8使用IE7进行渲染#}
 <meta http-equiv="X-UA-Compatible" content="IE=10,IE=9,IE=8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-<title>雪舞丨钟亮的个人博客</title>
+<title>{{ title }}</title>
 <script>
 window._deel = {name: '静觅',url: 'https://cuiqingcai.com/wp-content/themes/Yusi', ajaxpager: 'on', commenton: 0, roll: [12,13]}
 </script>
@@ -79,7 +79,7 @@ a.bibtex_title{
 }
 </style>
 <meta name="keywords" content="钟亮,雪舞,爬虫,Python,C,Java,PHP,HTML,JS,教程">
-<meta name="description" content="钟亮的个人主页">
+<meta name="description" content="雪舞-钟亮的个人博客">
         <script type="text/javascript">
             jQuery(document).ready( function() {
                 jQuery('.video').fitVids();
@@ -158,8 +158,6 @@ var _hmt = _hmt || [];
 <section class="container">
     <div class="speedbar">
 					<div class="pull-right">
-
-
                         {% if token == null %}
                             <i class="fa fa-user"></i> <a href="{% url 'blog:login' %}">投稿</a>&nbsp;&nbsp;&nbsp;   <i class="fa fa-power-off"></i>
                             <a href="{% url 'blog:login' %}">登录</a>

@@ -7,30 +7,42 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from blog.models import UserModel
 
-global date_base
-date_base = {}
-
 
 def index(request):
     token = request.session.get('token')
-    date = {'token': token}
-    return render(request, 'blog/index.html', date)
+    data = {'token': token}
+    data['title'] = "雪舞-钟亮的个人博客"
+    print(token)
+    return render(request, 'blog/index.html', data)
 
 
-def life(requset):
-    return render(requset, 'blog/life.html')
+def life(request):
+    token = request.session.get('token')
+    data = {'token': token}
+    data['title'] = "生活笔记-雪舞"
+    return render(request, 'blog/life.html', data)
 
 
-def skill(requset):
-    return render(requset, 'blog/skill.html')
+def skill(request):
+    token = request.session.get('token')
+    data = {'token': token}
+    data['title'] = "技术杂谈-雪舞"
+
+    return render(request, 'blog/skill.html', data)
 
 
 def resources(request):
-    return render(request, 'blog/resources.html')
+    token = request.session.get('token')
+    data = {'token': token}
+    data['title'] = "福利专区-雪舞"
+    return render(request, 'blog/resources.html', data)
 
 
 def about(request):
-    return render(request, 'blog/about.html')
+    token = request.session.get('token')
+    data = {'token': token}
+    data['title'] = "关于自己-雪舞"
+    return render(request, 'blog/about.html', data)
 
 
 def main(request):
@@ -41,10 +53,9 @@ def main(request):
         try:
             user = UserModel.objects.get(ticket=ticket)
             date = {'user': user,
-                    'token': token
+                    'token': token,
+                    'title': "个人中心-"+ user.username,
                     }
-            print(user.sex)
-            print(type(user))
             return render(request, 'blog/main.html', date)
         except Exception as e:
             quit()
@@ -59,7 +70,8 @@ def login(request):
     if ticket:
         return redirect('/main')
     else:
-        return render(request, 'blog/login.html')
+        data = {'title': '登陆页面-雪舞'}
+        return render(request, 'blog/login.html', data)
 
 
 def do_login(request):
@@ -84,7 +96,8 @@ def do_login(request):
 
 
 def register(request):
-    return render(request, 'blog/register.html')
+    data = {'title': '注册页面-雪舞'}
+    return render(request, 'blog/register.html', data)
 
 
 def do_register(request):
@@ -105,3 +118,21 @@ def do_register(request):
 def quit(request):
     logout(request)
     return redirect('/index')
+
+def main_article(request):
+    ticket = request.session.get('ticket')
+    token = request.session.get('token')
+
+    if ticket:
+        try:
+            user = UserModel.objects.get(ticket=ticket)
+            date = {'user': user,
+                    'token': token,
+                    'title': "我发布的文章-"+user.username,
+                    }
+            return render(request, 'blog/main_article.html', date)
+        except Exception as e:
+            quit()
+            return redirect("/login")
+    else:
+        return redirect("/login")

@@ -8,3 +8,31 @@ cryptography：2.19
 由于pymysql: 0.9.3 版本过低 需要注销下面的django源文件
 File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\django\db\backends\mysql\base.py", line 35
 File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\django\db\backends\mysql\base.py", line 36
+
+把容器打包成镜像
+docker commit afcaf46e8305 centos:vim
+
+
+1. 登录阿里云Docker Registry
+$ sudo docker login --username=370499002@qq.com registry.cn-hangzhou.aliyuncs.com
+用于登录的用户名为阿里云账号全名，密码为开通服务时设置的密码。
+
+您可以在产品控制台首页修改登录密码。
+
+2. 从Registry中拉取镜像
+$ sudo docker pull registry.cn-hangzhou.aliyuncs.com/my_blog/my_blog:[镜像版本号]
+3. 将镜像推送到Registry
+$ sudo docker login --username=370499002@qq.com registry.cn-hangzhou.aliyuncs.com
+$ sudo docker tag [ImageId] registry.cn-hangzhou.aliyuncs.com/my_blog/my_blog:[镜像版本号]
+$ sudo docker push registry.cn-hangzhou.aliyuncs.com/my_blog/my_blog:[镜像版本号]
+请根据实际镜像信息替换示例中的[ImageId]和[镜像版本号]参数。
+
+login:
+docker exec -it [xxxxxx] /bin/bash
+
+web:
+docker run -it --name web  -v /project_my_blog:/project_my_blog -p 8080:8080  [docker_nameid]  /bin/bash
+
+mysql:
+docker run -p 3306:3306 --name [name] -v /project_my_blog/mysql/conf:/etc/mysql/conf.d -v /project_my_blog/mysql/logs:/etc/mysql/logs -v /project_my_blog/mysql/data:/var/lib/mysql -d [docker_nameid]
+
