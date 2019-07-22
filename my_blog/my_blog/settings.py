@@ -25,7 +25,7 @@ SECRET_KEY = 'frly$=9u^refjb@g%(_864c2ere#-2re71sa33j5@f4e^xjx0d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -80,7 +80,7 @@ DATABASES = {
         'NAME': 'my_blog',
         'USER': 'zhongliang',
         'PASSWORD': 'Px8023.*',
-        'HOST': 'localhost',
+        'HOST': '192.168.229.140',
         'PORT': '3306',
     }
 }
