@@ -4,6 +4,7 @@ from blog import views
 
 urlpatterns = [
 url(r'^index$', views.index, name='index'),
+url(r'^article$', views.article, name='article'),
 url(r'^main_article$', views.main_article, name='main_article'),
 url(r'^quit$', views.quit, name='quit'),
 url(r'^main$', views.main, name='main'),

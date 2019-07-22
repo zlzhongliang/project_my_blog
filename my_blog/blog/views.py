@@ -136,3 +136,13 @@ def main_article(request):
             return redirect("/login")
     else:
         return redirect("/login")
+
+
+def article(request):
+    token = request.session.get('token')
+    data = {'title': "文章的标题",
+            'token': token,
+            }
+    return render(request, 'blog/article.html', data)
+
+
