@@ -57,7 +57,7 @@ class ArticleModel(models.Model):
     praise = models.IntegerField(default=0, verbose_name='点赞')
     share = models.IntegerField(default=0, verbose_name='分享')
     is_Delete = models.BooleanField(default=True,verbose_name='是否显示')
-    reserve1 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
+    synopsis = models.CharField(max_length=500, default='0', verbose_name='大纲')
     reserve2 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
     reserve3 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
     reserve4 = models.CharField(max_length=62, default='0', verbose_name='保留字段')

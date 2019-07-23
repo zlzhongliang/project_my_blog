@@ -122,14 +122,14 @@ var _hmt = _hmt || [];
 
 		<ul class="nav">
 			<li id="menu-item-44" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-44"><a href="/">首页</a></li>
-<li id="menu-item-14" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-14"><a href="{% url 'blog:life' %}">生活笔记</a>
+<li id="menu-item-14" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-14"><a href="{% url 'blog:article_list' 0 0 0 %}">生活笔记</a>
 <ul class="sub-menu">
 	<li id="menu-item-19" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-19"><a href="/">个人随笔</a></li>
 	<li id="menu-item-18" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-18"><a href="/">个人日记</a></li>
-	<li id="menu-item-15" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-15"><a href="/">个人展示</a></li>
+	<li id="menu-item-15" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-15"><a href="{% url 'blog:article_list' 0 2 0 %}">个人展示</a></li>
 </ul>
 </li>
-<li id="menu-item-7" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-7"><a href="{% url 'blog:skill' %}">技术杂谈</a>
+<li id="menu-item-7" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-7"><a href="{% url 'blog:article_list' 1 0 0 %}">技术杂谈</a>
 <ul class="sub-menu">
 	<li id="menu-item-9" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-9"><a href="/">C/C++</a></li>
 	<li id="menu-item-11" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-11"><a href="/">Java</a></li>
@@ -140,7 +140,7 @@ var _hmt = _hmt || [];
 	<li id="menu-item-16" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-16"><a href="/">Other</a></li>
 </ul>
 </li>
-<li id="menu-item-418" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-418"><a href="{% url 'blog:resources' %}">福利专区</a></li>
+<li id="menu-item-418" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-418"><a href="{% url 'blog:article_list' 2 0 0 %}">福利专区</a></li>
 <li id="menu-item-851" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-851"><a href="{% url 'blog:about' %}">关于自己</a></li>
 <li id="menu-item-251" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-251"><a href="/">给我留言</a></li>
 <li id="menu-item-1131" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1131"><a href="/">赞助作者</a></li>

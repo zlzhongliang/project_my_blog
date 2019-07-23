@@ -5,22 +5,31 @@ from django.contrib.auth import logout
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from blog.models import UserModel
+from blog.models import UserModel, ArticleModel
 
 
 def index(request):
     token = request.session.get('token')
-    data = {'token': token}
-    data['title'] = "雪舞-钟亮的个人博客"
-    print(token)
+    articles = ArticleModel.objects.all().order_by('sort')
+    data = {'token': token,
+            'title': "雪舞-钟亮的个人博客",
+            'articles': articles,
+            }
     return render(request, 'blog/index.html', data)
 
 
-def life(request):
+def article_list(request,first_classify,second_classify,third_classify):
+    if second_classify == 0:
+        articles = ArticleModel.objects.filter(first_classify=first_classify).order_by('sort')
+    else:
+        articles = ArticleModel.objects.filter(first_classify=first_classify, second_classify=second_classify).order_by('sort')
+    title_list = ["生活笔记", "技术杂谈", "福利专区"]
     token = request.session.get('token')
-    data = {'token': token}
-    data['title'] = "生活笔记-雪舞"
-    return render(request, 'blog/life.html', data)
+    data = {'token': token,
+            'title': title_list[int(first_classify)],
+            'articles': articles,
+            }
+    return render(request, 'blog/article_list.html', data)
 
 
 def skill(request):
@@ -138,10 +147,15 @@ def main_article(request):
         return redirect("/login")
 
 
-def article(request):
+def article(request,articleid):
+    article = ArticleModel.objects.get(id=articleid)
+    article_title = article.title
+    content = article.content
     token = request.session.get('token')
     data = {'title': "文章的标题",
             'token': token,
+            'article_title': article_title,
+            'content': content,
             }
     return render(request, 'blog/article.html', data)
 
