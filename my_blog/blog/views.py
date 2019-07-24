@@ -23,7 +23,6 @@ def index(request):
 
 
 def article_list(request,first_classify,second_classify,third_classify):
-    global list2
     if third_classify == '0':
         if second_classify == '0':
             articles = ArticleModel.objects.filter(first_classify=first_classify).order_by('sort')
@@ -35,7 +34,6 @@ def article_list(request,first_classify,second_classify,third_classify):
 
     token = request.session.get('token')
     data = {'token': token,
-            'list2': list2,
             'articles': articles,
             }
     return render(request, 'blog/article_list.html', data)
@@ -66,15 +64,34 @@ def about(request):
 def main(request):
     ticket = request.session.get('ticket')
     token = request.session.get('token')
-
     if ticket:
         try:
             user = UserModel.objects.get(ticket=ticket)
-            date = {'user': user,
+            data = {'user': user,
                     'token': token,
                     'title': "个人中心-"+ user.username,
                     }
-            return render(request, 'blog/main.html', date)
+            if request.method == 'POST':
+                username = request.POST.get('username')
+                try:
+                    test = UserModel.objects.get(username=username)
+                    if test != user:
+                        data['username_result'] = "用户名已存在"
+                        return render(request, 'blog/main.html', data)
+                    else:
+                        return render(request, 'blog/main.html', data)
+                except Exception as e:
+                    if 1 < len(username) < 7:
+                        user.username = username
+                        user.save()
+                        request.session['token'] = username
+                        data['token'] = username
+                        return render(request, 'blog/main.html', data)
+                    else:
+                        data['username_result'] = "请输入2-6位的用户名"
+                        return render(request, 'blog/main.html', data)
+            else:
+                return render(request, 'blog/main.html', data)
         except Exception as e:
             quit()
             return redirect("/login")
@@ -157,7 +174,6 @@ def main_article(request):
 
 
 def article(request,articleid):
-    global list1,list2
     article = ArticleModel.objects.get(id=articleid)
     s1 = list1[int(article.first_classify)]
     s2 = list2[int(article.first_classify)][int(article.second_classify)-1]
