@@ -6,15 +6,15 @@
     {% endblock %}
     {% for article in articles %}
 <article class="excerpt">
-	<header><a class="label label-important" href="https://cuiqingcai.com/category/technique">{{ title }}<i class="label-arrow"></i></a><h2><a target="_blank" href="https://cuiqingcai.com/6841.html" title="七分钟全面了解位运算">{{ article.title }}  </a></h2>
+	<header><a class="label label-important" href="{% url 'blog:article_list' article.first_classify 0 0%}">{{ article.get_first_classify_display }}{{ article.ssecond_classify }}<i class="label-arrow"></i></a><h2><a target="_blank" href="{% url 'blog:article' article.id %}" title="{{ article.title }}">{{ article.title }}  </a></h2>
 	</header>
-	<div class="focus"><a target="_blank" href="https://cuiqingcai.com/6841.html"><img class="thumb" src="https://cuiqingcai.com/wp-content/themes/Yusi/timthumb.php?src=https://user-gold-cdn.xitu.io/2019/7/12/16be42ccba578426?w=448&amp;h=206&amp;f=png&amp;s=15358&h=123&w=200&q=90&zc=1&ct=1" alt="{{ article.title }}" /></a></div>
+	<div class="focus"><a target="_blank" href="{% url 'blog:article' article.id %}"><img class="thumb" src="/static/{{ article.picture }}" alt="{{ article.title }}" /></a></div>
 			<span class="note"> {{ article.synopsis }}...</span>
 <p class="auth-span">
-		<span class="muted"><i style="background-image: url({% static 'blog/img/smill_img/person.png' %});background-size: 100% 100%" class="fa fa-user"></i> <a href="https://cuiqingcai.com/author/zenrust">{{ article.author.username }}</a></span>
+		<span class="muted"><i style="background-image: url({% static 'blog/img/smill_img/person.png' %});background-size: 100% 100%" class="fa fa-user"></i> <a href="{% url 'blog:article_list' 0 0 article.author.id %}">{{ article.author.username }}</a></span>
 		<span class="muted"><i style="background-image: url({% static 'blog/img/smill_img/date.png' %});background-size: 100% 100%" class="fa fa-clock-o"></i> {{ article.issuedate }}</span>
-        <span class="muted"><i style="background-image: url({% static 'blog/img/smill_img/eyes.png' %});background-size: 100% 100%" class="fa fa-eye"></i> browse_count浏览</span>
-        <span class="muted"><i style="background-image: url({% static 'blog/img/smill_img/comment.png' %});background-size: 100% 100%" class="fa fa-comments-o"></i> <a target="_blank" href="https://cuiqingcai.com/6841.html#respond">0评论</a></span>
+        <span class="muted"><i style="background-image: url({% static 'blog/img/smill_img/eyes.png' %});background-size: 100% 100%" class="fa fa-eye"></i> {{ article.browse_count }}浏览</span>
+        <span class="muted"><i style="background-image: url({% static 'blog/img/smill_img/comment.png' %});background-size: 100% 100%" class="fa fa-comments-o"></i> <a target="_blank" href="{% url 'blog:article' article.id %}#comments">0评论</a></span>
         <span class="muted">
 <a href="javascript:;" data-action="ding" data-id="6841" id="Addlike" class="action"><i style="background-image: url({% static 'blog/img/smill_img/love.png' %});background-size: 100% 100%" class="fa fa-heart-o"></i><span class="count">{{ article.praise }}</span>喜欢</a></span></p>
 </article>

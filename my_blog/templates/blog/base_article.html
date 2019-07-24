@@ -4,16 +4,16 @@
 
     <div class="content-wrap">
 	<div class="content">
-<div class="breadcrumbs"><a title="返回首页" href="https://cuiqingcai.com"><i class="fa fa-home"></i></a> <small>></small> <a href="https://cuiqingcai.com/category/life">生活笔记</a> <small>></small> <a href="https://cuiqingcai.com/category/life/notes">个人随笔</a> <small>></small> <span class="muted">对崔庆才的个人采访记录</span></div>
+<div class="breadcrumbs"><a title="返回首页" href="{% url 'blog:index' %}"><i class="fa fa-home"></i></a> <small>></small> <a href="{% url 'blog:article_list' article.first_classify 0 0 %}">{{ s1 }}</a> <small>></small> <a href="{% url 'blog:article_list' article.first_classify article.second_classify 0%}">{{ s2 }}</a> <small>></small> <span class="muted">{{ article.title }}</span></div>
 				<header class="article-header">
-			<h1 class="article-title"><a href="https://cuiqingcai.com/6702.html">对崔庆才的个人采访记录</a></h1>
+			<h1 class="article-title"><a href="#">{{ article.title }}</a></h1>
 			<div class="meta">
-				<span id="mute-category" class="muted"><i class="fa fa-list-alt"></i><a href="https://cuiqingcai.com/category/life/notes"> 个人随笔</a></span>				<span class="muted"><i class="fa fa-user"></i> <a href="https://cuiqingcai.com/author/cqcre">崔庆才</a></span>
-				<time class="muted"><i class="fa fa-clock-o"></i> 2019-07-04 19:05</time>
-				<span class="muted"><i class="fa fa-eye"></i> 4664浏览</span>
-				<span class="muted"><i class="fa fa-comments-o"></i> <a href="https://cuiqingcai.com/6702.html#comments">10评论</a></span>							</div>
+				<span id="mute-category" class="muted"><i class="fa fa-list-alt"></i><a href="{% url 'blog:article_list' article.first_classify article.second_classify 0%}"> {{ s2 }}</a></span>				<span class="muted"><i class="fa fa-user"></i> <a href="{% url 'blog:article_list' 0 0 article.author.id %}">{{ article.author.username }}</a></span>
+				<time class="muted"><i class="fa fa-clock-o"></i> {{ article.issuedate }}</time>
+				<span class="muted"><i class="fa fa-eye"></i> {{ article.browse_count }}浏览</span>
+				<span class="muted"><i class="fa fa-comments-o"></i> <a href="#comments">评论</a></span>							</div>
 		</header>
-<div class="banner banner-post"><a href="https://edu.hellobi.com/course/157"><img src="https://qiniu.cuiqingcai.com/wp-content/uploads/2017/04/横图：崔庆才-自己动手，丰衣足食！Python3网络爬虫实战案例.png" /></a>
+<div class="banner banner-post"><a href="{% url 'blog:index' %}"><img src="{% static 'blog/img/article/article_picture.png' %}" /></a>
 <script>
 (function(){
     var bp = document.createElement('script');

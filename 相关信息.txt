@@ -5,6 +5,8 @@ pymysql: 0.9.3
 cryptography：2.19
 
 
+
+
 由于pymysql: 0.9.3 版本过低 需要注销下面的django源文件
 File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\django\db\backends\mysql\base.py", line 35
 File "C:\Users\Administrator\AppData\Local\Programs\Python\Python37\lib\site-packages\django\db\backends\mysql\base.py", line 36
@@ -30,9 +32,15 @@ $ sudo docker push registry.cn-hangzhou.aliyuncs.com/my_blog/my_blog:[镜像版本号
 login:
 docker exec -it [xxxxxx] /bin/bash
 
-web:
+
+启动web:
 docker run -it --name web  -v /project_my_blog:/project_my_blog -p 8080:8080  [docker_nameid]  /bin/bash
 
-mysql:
+启动mysql:
 docker run -p 3306:3306 --name [name] -v /project_my_blog/mysql/conf:/etc/mysql/conf.d -v /project_my_blog/mysql/logs:/etc/mysql/logs -v /project_my_blog/mysql/data:/var/lib/mysql -d [docker_nameid]
+
+启动pycharm：
+/usr/src/pycharm-2018.3.4/bin/pycharm.sh
+
+
 

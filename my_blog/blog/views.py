@@ -6,27 +6,36 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 from blog.models import UserModel, ArticleModel
-
+global list1,list2
+list1 = ["生活笔记", "技术杂谈", "福利专区"]
+list2 = [['个人随笔','个人日记','个人展示'],['C/C++','java','PHP','HTML','Python','JS','Other'],['福利专区']]
 
 def index(request):
+    global list2
     token = request.session.get('token')
     articles = ArticleModel.objects.all().order_by('sort')
     data = {'token': token,
             'title': "雪舞-钟亮的个人博客",
             'articles': articles,
+            'list2': list2
             }
     return render(request, 'blog/index.html', data)
 
 
 def article_list(request,first_classify,second_classify,third_classify):
-    if second_classify == 0:
-        articles = ArticleModel.objects.filter(first_classify=first_classify).order_by('sort')
+    global list2
+    if third_classify == '0':
+        if second_classify == '0':
+            articles = ArticleModel.objects.filter(first_classify=first_classify).order_by('sort')
+        else:
+            articles = ArticleModel.objects.filter(first_classify=first_classify, second_classify=second_classify).order_by('sort')
     else:
-        articles = ArticleModel.objects.filter(first_classify=first_classify, second_classify=second_classify).order_by('sort')
-    title_list = ["生活笔记", "技术杂谈", "福利专区"]
+        user = UserModel.objects.get(id = int(third_classify))
+        articles = ArticleModel.objects.filter(author=user).order_by('sort')
+
     token = request.session.get('token')
     data = {'token': token,
-            'title': title_list[int(first_classify)],
+            'list2': list2,
             'articles': articles,
             }
     return render(request, 'blog/article_list.html', data)
@@ -148,14 +157,16 @@ def main_article(request):
 
 
 def article(request,articleid):
+    global list1,list2
     article = ArticleModel.objects.get(id=articleid)
-    article_title = article.title
-    content = article.content
+    s1 = list1[int(article.first_classify)]
+    s2 = list2[int(article.first_classify)][int(article.second_classify)-1]
     token = request.session.get('token')
     data = {'title': "文章的标题",
             'token': token,
-            'article_title': article_title,
-            'content': content,
+            'article': article,
+            's1': s1,
+            's2': s2,
             }
     return render(request, 'blog/article.html', data)
 

@@ -43,11 +43,28 @@ class UserModel(models.Model):
 
 
 class ArticleModel(models.Model):
+    first_class = (
+        (0, u'生活笔记'),
+        (1, u'技术杂谈'),
+        (2, u'福利专区'),
+    )
+    second_class = (
+        (1, u'C/C++'),
+        (2, u'java'),
+        (3, u'PHP'),
+        (4, u'HTML'),
+        (5, u'Python'),
+        (6, u'JS'),
+        (7, u'Other'),
+    )
+    third_class = (
+        (1)
+    )
     title = models.CharField(max_length=200, verbose_name='文章标题')
     content = models.TextField(verbose_name='正文')
-    picture = models.ImageField(default='blog/img/user/icon.png', verbose_name='图片')
-    first_classify = models.IntegerField(verbose_name='一级分类')
-    second_classify = models.IntegerField(verbose_name='二级分类')
+    picture = models.ImageField(default='blog/img/article/default.png', verbose_name='图片')
+    first_classify = models.IntegerField(choices=first_class,verbose_name='一级分类')
+    second_classify = models.IntegerField(choices=second_class,verbose_name='二级分类')
     third_classify = models.IntegerField(verbose_name='三级分类')
     author = models.ForeignKey(UserModel, on_delete=models.CASCADE, verbose_name='作者')
     issuedate = models.DateTimeField(auto_now_add=True,verbose_name='发布时间')

@@ -18,4 +18,5 @@
 		6: JS
 		7: Other
 	2£º¸£Àû×¨Çø
-		0£º
+		0£º{% list1[int(article.first_classify)][int(article.second_classify)] %}
+
