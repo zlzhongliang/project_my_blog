@@ -11,12 +11,12 @@
 	<div class="focus"><a target="_blank" href="{% url 'blog:article' article.id %}"><img class="thumb" src="/static/{{ article.picture }}" alt="{{ article.title }}" /></a></div>
 			<span class="note"> {{ article.synopsis }}...</span>
 <p class="auth-span">
-		<span class="muted"><i style="background-image: url({% static 'blog/img/smill_img/person.png' %});background-size: 100% 100%" class="fa fa-user"></i> <a href="{% url 'blog:article_list' 0 0 article.author.id %}">{{ article.author.username }}</a></span>
-		<span class="muted"><i style="background-image: url({% static 'blog/img/smill_img/date.png' %});background-size: 100% 100%" class="fa fa-clock-o"></i> {{ article.issuedate }}</span>
-        <span class="muted"><i style="background-image: url({% static 'blog/img/smill_img/eyes.png' %});background-size: 100% 100%" class="fa fa-eye"></i> {{ article.browse_count }}浏览</span>
-        <span class="muted"><i style="background-image: url({% static 'blog/img/smill_img/comment.png' %});background-size: 100% 100%" class="fa fa-comments-o"></i> <a target="_blank" href="{% url 'blog:article' article.id %}#comments">0评论</a></span>
+		<span class="muted"><i class="iconfont icon-wo"></i> <a href="{% url 'blog:article_list' 0 0 article.author.id %}">{{ article.author.username }}</a></span>
+		<span class="muted"><i class="iconfont icon-shizhong"></i> {{ article.issuedate }}</span>
+        <span class="muted"><i class="iconfont icon-eye"></i> {{ article.browse_count }}浏览</span>
+        <span class="muted"><i class="iconfont icon-pinglun"></i> <a target="_blank" href="{% url 'blog:article' article.id %}#comments">0评论</a></span>
         <span class="muted">
-<a href="javascript:;" data-action="ding" data-id="6841" id="Addlike" class="action"><i style="background-image: url({% static 'blog/img/smill_img/love.png' %});background-size: 100% 100%" class="fa fa-heart-o"></i><span class="count">{{ article.praise }}</span>喜欢</a></span></p>
+<a href="javascript:;" data-action="ding" data-id="6841" id="Addlike" class="action"><i class="iconfont icon-icon-test"></i><span class="count">{{ article.praise }}</span>喜欢</a></span></p>
 </article>
     {% endfor %}
 <div class="pagination"><ul><li class="prev-page"></li><li class="active"><span>1</span></li><li><a href='https://cuiqingcai.com/page/2'>2</a></li><li><a href='https://cuiqingcai.com/page/3'>3</a></li><li><a href='https://cuiqingcai.com/page/4'>4</a></li><li><a href='https://cuiqingcai.com/page/5'>5</a></li><li><span> ... </span></li><li class="next-page"><a href="https://cuiqingcai.com/page/2" >下一页</a></li></ul></div>	</div>

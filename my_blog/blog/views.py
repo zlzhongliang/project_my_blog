@@ -6,23 +6,31 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 from blog.models import UserModel, ArticleModel
-global list1,list2
+global list1,list2,likes
 list1 = ["生活笔记", "技术杂谈", "福利专区"]
 list2 = [['个人随笔','个人日记','个人展示'],['C/C++','java','PHP','HTML','Python','JS','Other'],['福利专区']]
+likes = ArticleModel.objects.all().order_by('-share')[:8]
+
+def test(request):
+    return render(request, 'blog/1.html')
+
 
 def index(request):
-    global list2
     token = request.session.get('token')
     articles = ArticleModel.objects.all().order_by('sort')
+    praises = ArticleModel.objects.all().order_by('-praise')[:5]
     data = {'token': token,
             'title': "雪舞-钟亮的个人博客",
             'articles': articles,
-            'list2': list2
+            'list2': list2,
+            'praises': praises,
+            'likes': likes
             }
     return render(request, 'blog/index.html', data)
 
 
 def article_list(request,first_classify,second_classify,third_classify):
+
     if third_classify == '0':
         if second_classify == '0':
             articles = ArticleModel.objects.filter(first_classify=first_classify).order_by('sort')
@@ -35,23 +43,9 @@ def article_list(request,first_classify,second_classify,third_classify):
     token = request.session.get('token')
     data = {'token': token,
             'articles': articles,
+            'likes': likes,
             }
     return render(request, 'blog/article_list.html', data)
-
-
-def skill(request):
-    token = request.session.get('token')
-    data = {'token': token}
-    data['title'] = "技术杂谈-雪舞"
-
-    return render(request, 'blog/skill.html', data)
-
-
-def resources(request):
-    token = request.session.get('token')
-    data = {'token': token}
-    data['title'] = "福利专区-雪舞"
-    return render(request, 'blog/resources.html', data)
 
 
 def about(request):

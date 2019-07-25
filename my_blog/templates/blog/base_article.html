@@ -4,14 +4,15 @@
 
     <div class="content-wrap">
 	<div class="content">
-<div class="breadcrumbs"><a title="返回首页" href="{% url 'blog:index' %}"><i class="fa fa-home"></i></a> <small>></small> <a href="{% url 'blog:article_list' article.first_classify 0 0 %}">{{ s1 }}</a> <small>></small> <a href="{% url 'blog:article_list' article.first_classify article.second_classify 0%}">{{ s2 }}</a> <small>></small> <span class="muted">{{ article.title }}</span></div>
+<div class="breadcrumbs"><a title="返回首页" href="{% url 'blog:index' %}"><i class="iconfont icon-fl-jia" style="font-size: 22px"></i></a> <small>></small> <a href="{% url 'blog:article_list' article.first_classify 0 0 %}">{{ s1 }}</a> <small>></small> <a href="{% url 'blog:article_list' article.first_classify article.second_classify 0%}">{{ s2 }}</a> <small>></small> <span class="muted">{{ article.title }}</span></div>
 				<header class="article-header">
 			<h1 class="article-title"><a href="#">{{ article.title }}</a></h1>
 			<div class="meta">
-				<span id="mute-category" class="muted"><i class="fa fa-list-alt"></i><a href="{% url 'blog:article_list' article.first_classify article.second_classify 0%}"> {{ s2 }}</a></span>				<span class="muted"><i class="fa fa-user"></i> <a href="{% url 'blog:article_list' 0 0 article.author.id %}">{{ article.author.username }}</a></span>
-				<time class="muted"><i class="fa fa-clock-o"></i> {{ article.issuedate }}</time>
-				<span class="muted"><i class="fa fa-eye"></i> {{ article.browse_count }}浏览</span>
-				<span class="muted"><i class="fa fa-comments-o"></i> <a href="#comments">评论</a></span>							</div>
+				<span id="mute-category" class="muted"><i class="fa fa-list-alt"></i><a href="{% url 'blog:article_list' article.first_classify article.second_classify 0%}"> {{ s2 }}</a></span>
+                <span class="muted"><i class="iconfont icon-wo"></i> <a href="{% url 'blog:article_list' 0 0 article.author.id %}">{{ article.author.username }}</a></span>
+				<time class="muted"><i class="iconfont icon-shizhong"></i> {{ article.issuedate }}</time>
+				<span class="muted"><i class="iconfont icon-eye"></i> {{ article.browse_count }}浏览</span>
+				<span class="muted"><i class="iconfont icon-pinglun"></i> <a href="#comments">评论</a></span>							</div>
 		</header>
 <div class="banner banner-post"><a href="{% url 'blog:index' %}"><img src="{% static 'blog/img/article/article_picture.png' %}" /></a>
 <script>

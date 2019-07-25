@@ -1,6 +1,33 @@
+
 @font-face {
-	font-family:FontAwesome;src:url(fonts/fontawesome-webfont.eot?v=4.1.0);src:url(fonts/fontawesome-webfont.eot?#iefix&v=4.1.0) format('embedded-opentype'),url(fonts/fontawesome-webfont.woff?v=4.1.0) format('woff'),url(fonts/fontawesome-webfont.ttf?v=4.1.0) format('truetype'),url(fonts/fontawesome-webfont.svg?v=4.1.0#fontawesomeregular) format('svg');font-weight:400;font-style:normal
+  font-family: 'iconfont';
+  src: url('../fonts/iconfont.eot');
+  src: url('../fonts/iconfont.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/iconfont.woff2') format('woff2'),
+      url('../fonts/iconfont.woff') format('woff'),
+      url('../fonts/iconfont.ttf') format('truetype'),
+      url('../fonts/iconfont.svg#iconfont') format('svg');
 }
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/*@font-face {*/
+	/*font-family:FontAwesome;*/
+	/*src: url('../fonts/iconfont.eot');*/
+	/*src: url('../fonts/iconfont.eot?#iefix') format('embedded-opentype'),*/
+		/*url('../fonts/iconfont.woff2') format('woff2'),*/
+		/*url('../fonts/iconfont.woff') format('woff'),*/
+		/*url('../fonts/iconfont.ttf') format('truetype'),*/
+		/*url('../fonts/iconfont.svg#iconfont') format('svg');*/
+	/*font-weight:400;font-style:normal*/
+/*}*/
 
 .fa {
 	display: inline-block;
@@ -214,7 +241,7 @@
 }
 
 .fa-search:before {
-	content: "\f002"
+	content: "&#xe64d;"
 }
 
 .fa-envelope-o:before {

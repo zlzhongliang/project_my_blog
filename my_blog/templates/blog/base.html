@@ -48,6 +48,7 @@ img.emoji {
 <link rel='stylesheet' id='l2h_style-css' href='{% static 'blog/css/12h_style.css' %}' type='text/css' media='screen, print' />
 <link rel='stylesheet' id='l2h_print_style-css' href='{% static 'blog/css/12h_print_style.css' %}' type='text/css' media='print' />
 <link rel='stylesheet' id='style-css' href='{% static 'blog/css/style.css' %}' type='text/css' media='all' />
+<link rel="stylesheet" type="text/css" href="{% static 'blog/fonts/iconfont.css' %}">
 <script type='text/javascript' src='//libs.baidu.com/jquery/1.8.3/jquery.min.js?ver=1.0'></script>
 <script type='text/javascript'>
 {#/* <![CDATA[ */#}
@@ -147,7 +148,10 @@ var _hmt = _hmt || [];
 <li id="menu-item-4571" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4571"><a href="/">技术交流</a></li>
 <li id="menu-item-6397" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-6397"><a href="/">项目合作</a></li>
 <li style="float:right;">
-                    <div class="toggle-search"><i style="background-image: url({% static 'blog/img/smill_img/search.png' %});background-size: 100% 100%" class="fa fa-search"></i></div>
+
+
+                    <div class="toggle-search"><i class="iconfont icon-sousuo" style="font-size: 22px"></i></div>
+
 <div class="search-expand" style="display: none;"><div class="search-expand-inner"><form method="get" class="searchform themeform" onsubmit="location.href='https://cuiqingcai.com/?s=' + encodeURIComponent(this.s.value).replace(/%20/g, '+'); return false;" action="/"><div> <input type="ext" class="search" name="s" onblur="if(this.value=='')this.value='search...';" onfocus="if(this.value=='search...')this.value='';" value="search..."></div></form></div></div>
 </li>
 		</ul>
@@ -159,18 +163,20 @@ var _hmt = _hmt || [];
     <div class="speedbar">
 					<div class="pull-right">
                         {% if token == null %}
-                            <i class="fa fa-user" style="background-image: url({% static 'blog/img/smill_img/person.png' %});background-size: 100% 100%" ></i> <a href="{% url 'blog:login' %}">投稿</a>&nbsp;&nbsp;&nbsp;
-                            <i style="background-image: url({% static 'blog/img/smill_img/power.png' %});background-size: 100% 100%" class="fa fa-power-off"></i>
+                            <i class="iconfont icon-youjian" ></i>
+                            <a href="{% url 'blog:login' %}">投稿</a>&nbsp;&nbsp;&nbsp;
+                            <i class="iconfont icon-guanji"></i>
                             <a href="{% url 'blog:login' %}">登录</a>
                         {% else %}
-                            <i class="fa fa-user" style="background-image: url({% static 'blog/img/smill_img/person.png' %});background-size: 100% 100%" ></i> <a href="{% url 'blog:main' %}">{{ token }}</a>&nbsp;&nbsp;&nbsp; <i style="background-image: url({% static 'blog/img/smill_img/power.png' %});background-size: 100% 100%" class="fa fa-power-off"></i>
+                            <i class="iconfont icon-wo" ></i> <a href="{% url 'blog:main' %}">{{ token }}</a>&nbsp;&nbsp;&nbsp;
+                            <i  class="iconfont icon-guanji"></i>
                             <a href="{% url 'blog:quit' %}">退出</a>
                         {% endif %}
 
 
 
                     </div>
-				<div class="toptip"><strong class="text-success"><i style="background-image: url({% static 'blog/img/smill_img/welcome.png' %});background-size: 100% 100%" class="fa fa-volume-up"></i> </strong>  欢迎来访~</div>
+				<div class="toptip"><strong class="text-success"><i class="iconfont icon-weibiaoti1"></i> </strong>  欢迎来访~</div>
 	</div>
 
 
