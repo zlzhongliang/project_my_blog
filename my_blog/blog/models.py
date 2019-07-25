@@ -71,3 +71,15 @@ class ArticleModel(models.Model):
     def createArticle(cls, title, content, picture, first_classify, second_classify, third_classify):
         article = cls(title=title, content=content, picture=picture, first_classify=first_classify, second_classify=second_classify, third_classify=third_classify)
         return article
+
+
+class LinkModel(models.Model):
+    link = models.CharField(max_length=50,verbose_name='链接地址')
+    link_name = models.CharField(max_length=20,verbose_name='链接名称')
+    sort = models.IntegerField(default=0, verbose_name='排序')
+    issuedate = models.DateTimeField(auto_now_add=True,verbose_name='发布时间')
+    is_Delete = models.BooleanField(default=True,verbose_name='是否显示')
+    @classmethod
+    def createArticle(cls, link, link_name, sort):
+        link = cls(link=link, link_name=link_name, sort=sort)
+        return link

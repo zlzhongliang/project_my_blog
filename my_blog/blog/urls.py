@@ -4,6 +4,10 @@ from blog import views
 
 urlpatterns = [
 url(r'^test$', views.test, name='test'),
+url(r'^message$', views.message, name='message'),
+url(r'^donate$', views.donate, name='donate'),
+url(r'^exchange$', views.exchange, name='exchange'),
+url(r'^project$', views.project, name='project'),
 url(r'^index$', views.index, name='index'),
 url(r'^article/(\d+)$', views.article, name='article'),
 url(r'^main_article$', views.main_article, name='main_article'),

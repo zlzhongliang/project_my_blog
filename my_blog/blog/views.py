@@ -5,11 +5,13 @@ from django.contrib.auth import logout
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from blog.models import UserModel, ArticleModel
-global list1,list2,likes
+from blog.models import UserModel, ArticleModel, LinkModel
+
+global list1,list2,likes,likes
 list1 = ["生活笔记", "技术杂谈", "福利专区"]
 list2 = [['个人随笔','个人日记','个人展示'],['C/C++','java','PHP','HTML','Python','JS','Other'],['福利专区']]
 likes = ArticleModel.objects.all().order_by('-share')[:8]
+links = LinkModel.objects.all().order_by('sort')
 
 def test(request):
     return render(request, 'blog/1.html')
@@ -24,14 +26,16 @@ def index(request):
             'articles': articles,
             'list2': list2,
             'praises': praises,
-            'likes': likes
+            'likes': likes,
+            'links': links,
+            'nav1': "current-menu-item",
             }
     return render(request, 'blog/index.html', data)
 
 
-def article_list(request,first_classify,second_classify,third_classify):
+def article_list(request, first_classify, second_classify, third_classify):
 
-    if third_classify == '0':
+    if third_classify == '0':  # 这是作者文章列表的标记
         if second_classify == '0':
             articles = ArticleModel.objects.filter(first_classify=first_classify).order_by('sort')
         else:
@@ -39,19 +43,28 @@ def article_list(request,first_classify,second_classify,third_classify):
     else:
         user = UserModel.objects.get(id = int(third_classify))
         articles = ArticleModel.objects.filter(author=user).order_by('sort')
-
+    if first_classify == '0':
+        nav = 'nav2'
+    elif first_classify == '1':
+        nav = 'nav3'
+    else:
+        nav = 'nav4'
     token = request.session.get('token')
     data = {'token': token,
             'articles': articles,
             'likes': likes,
+            'links': links,
+            nav: "current-menu-item",
             }
     return render(request, 'blog/article_list.html', data)
 
 
 def about(request):
     token = request.session.get('token')
-    data = {'token': token}
-    data['title'] = "关于自己-雪舞"
+    data = {'token': token,
+            'nav5': "current-menu-item",
+            'title': '关于自己-雪舞',
+            }
     return render(request, 'blog/about.html', data)
 
 
@@ -64,6 +77,7 @@ def main(request):
             data = {'user': user,
                     'token': token,
                     'title': "个人中心-"+ user.username,
+                    'nav1': "current-menu-item",
                     }
             if request.method == 'POST':
                 username = request.POST.get('username')
@@ -158,6 +172,7 @@ def main_article(request):
             date = {'user': user,
                     'token': token,
                     'title': "我发布的文章-"+user.username,
+                    'nav1' : "current-menu-item",
                     }
             return render(request, 'blog/main_article.html', date)
         except Exception as e:
@@ -181,3 +196,35 @@ def article(request,articleid):
     return render(request, 'blog/article.html', data)
 
 
+def message(request):
+    token = request.session.get('token')
+    data = {'token': token,
+            'nav6': "current-menu-item",
+            'title': '给我留言-雪舞',
+            }
+    return render(request,'blog/message.html',data)
+
+def donate(request):
+    token = request.session.get('token')
+    data = {'token': token,
+            'nav7': "current-menu-item",
+            'title': '赞助作者-雪舞',
+            }
+    return render(request,'blog/donate.html',data)
+
+def exchange(request):
+    token = request.session.get('token')
+    data = {'token': token,
+            'nav8': "current-menu-item",
+            'title': '技术交流-雪舞',
+            }
+    return render(request,'blog/exchange.html',data)
+
+
+def project(request):
+    token = request.session.get('token')
+    data = {'token': token,
+            'nav9': "current-menu-item",
+            'title': '项目合作-雪舞',
+            }
+    return render(request,'blog/project.html',data)
