@@ -5,7 +5,7 @@ from django.contrib.auth import logout
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from blog.models import UserModel, ArticleModel, LinkModel
+from blog.models import UserModel, ArticleModel, LinkModel, CommetModel, ChildCommetModel
 
 global list1,list2,likes,likes
 list1 = ["生活笔记", "技术杂谈", "福利专区"]
@@ -49,8 +49,10 @@ def article_list(request, first_classify, second_classify, third_classify):
         nav = 'nav3'
     else:
         nav = 'nav4'
+    title = ArticleModel.first_class[int(first_classify)][1]
     token = request.session.get('token')
     data = {'token': token,
+            'title': title,
             'articles': articles,
             'likes': likes,
             'links': links,
@@ -184,14 +186,22 @@ def main_article(request):
 
 def article(request,articleid):
     article = ArticleModel.objects.get(id=articleid)
+    title = article.title
     s1 = list1[int(article.first_classify)]
     s2 = list2[int(article.first_classify)][int(article.second_classify)-1]
     token = request.session.get('token')
-    data = {'title': "文章的标题",
+    nav = 'nav'+str(article.first_classify+2)
+    commets = CommetModel.objects.filter(article=article)
+    print(commets)
+    data = {'title': title,
             'token': token,
             'article': article,
+            'likes': likes,
+            'links': links,
             's1': s1,
             's2': s2,
+            'commets': commets,
+            nav: "current-menu-item",
             }
     return render(request, 'blog/article.html', data)
 

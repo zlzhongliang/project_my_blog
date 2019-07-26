@@ -83,3 +83,36 @@ class LinkModel(models.Model):
     def createArticle(cls, link, link_name, sort):
         link = cls(link=link, link_name=link_name, sort=sort)
         return link
+
+
+class CommetModel(models.Model):
+    commet=models.CharField(max_length=500, verbose_name='评论内容')
+    author = models.ForeignKey(UserModel, on_delete=models.CASCADE, verbose_name='作者')
+    article = models.ForeignKey(ArticleModel, on_delete=models.SET_NULL,null=True,blank=True,verbose_name='文章')
+    issuedate = models.DateTimeField(auto_now_add=True,verbose_name='发布时间')
+    classify = models.IntegerField(verbose_name='评论类型',null=True)
+    sort = models.IntegerField(default=0,verbose_name='排序')
+    is_Show = models.BooleanField(default=True,verbose_name='是否显示')
+    is_Delete = models.BooleanField(default=True,verbose_name='是否删除')
+    reserve1 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
+    reserve2 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
+    @classmethod
+    def create_commet(cls, commet, author, article, classify):
+        commet = cls(commet=commet, author=author, article=article, classify=classify)
+        return commet
+
+
+class ChildCommetModel(models.Model):
+    commet=models.CharField(max_length=500, verbose_name='评论内容')
+    author = models.ForeignKey(UserModel, on_delete=models.CASCADE, verbose_name='作者')
+    father_commet = models.ForeignKey(CommetModel, on_delete=models.CASCADE, verbose_name='父评论')
+    issuedate = models.DateTimeField(auto_now_add=True,verbose_name='发布时间')
+    sort = models.IntegerField(default=0,verbose_name='排序')
+    is_Show = models.BooleanField(default=True,verbose_name='是否显示')
+    is_Delete = models.BooleanField(default=True,verbose_name='是否删除')
+    reserve1 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
+    reserve2 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
+    @classmethod
+    def create_commet(cls, commet, author, father_commet):
+        commet = cls(commet=commet, author=author, father_commet=father_commet)
+        return commet
