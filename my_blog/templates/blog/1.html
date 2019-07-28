@@ -1,14 +1,75 @@
-{% load static %}
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<link rel="stylesheet" type="text/css" href="{% static 'blog/fonts/iconfont.css' %}">
-
 <body>
 
-<span class="iconfont icon-eye"></span>
+
+
+
+
+
+
+
+    <ul>
+{#        #遍历boot_list中的所有元素#}
+        {% for book in book_list %}
+{#            #打印书籍的名称和价格#}
+            <li>{{ book.title }} {{ book.price }}</li>
+        {% endfor %}
+    </ul>
+
+
+
+
+
+
+
+
+
+    <ul class="pagination" id="pager">
+{#        上一页按钮开始#}
+{#         如果当前页有上一页#}
+        {% if book_list.has_previous %}
+{#              当前页的上一页按钮正常使用#}
+            <li class="previous"><a href="/test?page={{ book_list.previous_page_number }}">上一页</a></li>
+        {% else %}
+            {# 当前页的不存在上一页时,上一页的按钮不可用#}
+            <li class="previous disabled"><a href="/test#">上一页</a></li>
+        {% endif %}
+        {#上一页按钮结束#}
+
+
+
+
+
+        {# 页码开始#}
+        {% for num in paginator.page_range %}
+
+            {% if num == currentPage %}
+                <li class="item active"><a href="/test?page={{ num }}">{{ num }}</a></li>
+            {% else %}
+                <li class="item"><a href="/test?page={{ num }}">{{ num }}</a></li>
+
+            {% endif %}
+        {% endfor %}
+        {#页码结束#}
+
+
+
+        {# 下一页按钮开始#}
+        {% if book_list.has_next %}
+            <li class="next"><a href="/test?page={{ book_list.next_page_number }}">下一页</a></li>
+        {% else %}
+            <li class="next disabled"><a href="/test#">下一页</a></li>
+        {% endif %}
+        {# 下一页按钮结束#}
+    </ul>
+
 </body>
 </html>

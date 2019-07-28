@@ -36,6 +36,10 @@ class UserModel(models.Model):
     reserve5 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
     reserve6 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
     reserve7 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
+
+    def __str__(self):
+        return self.username
+
     @classmethod
     def createUser(cls, password, email, username):
         user = cls(password=password, email=email, username=username)
@@ -67,6 +71,10 @@ class ArticleModel(models.Model):
     reserve3 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
     reserve4 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
     reserve5 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
+
+    def __str__(self):
+        return self.title
+
     @classmethod
     def createArticle(cls, title, content, picture, first_classify, second_classify, third_classify):
         article = cls(title=title, content=content, picture=picture, first_classify=first_classify, second_classify=second_classify, third_classify=third_classify)
@@ -79,6 +87,9 @@ class LinkModel(models.Model):
     sort = models.IntegerField(default=0, verbose_name='排序')
     issuedate = models.DateTimeField(auto_now_add=True,verbose_name='发布时间')
     is_Delete = models.BooleanField(default=True,verbose_name='是否显示')
+    def __str__(self):
+        return self.link
+
     @classmethod
     def createArticle(cls, link, link_name, sort):
         link = cls(link=link, link_name=link_name, sort=sort)
@@ -87,32 +98,23 @@ class LinkModel(models.Model):
 
 class CommetModel(models.Model):
     commet=models.CharField(max_length=500, verbose_name='评论内容')
-    author = models.ForeignKey(UserModel, on_delete=models.CASCADE, verbose_name='作者')
-    article = models.ForeignKey(ArticleModel, on_delete=models.SET_NULL,null=True,blank=True,verbose_name='文章')
+    author = models.ForeignKey(UserModel,related_name='author', on_delete=models.DO_NOTHING, verbose_name='作者')
+    article = models.ForeignKey(ArticleModel, on_delete=models.DO_NOTHING,null=True,blank=True,verbose_name='文章')
     issuedate = models.DateTimeField(auto_now_add=True,verbose_name='发布时间')
+    alterdate = models.DateTimeField(auto_now=True,verbose_name='最近修改')
     classify = models.IntegerField(verbose_name='评论类型',null=True)
     sort = models.IntegerField(default=0,verbose_name='排序')
     is_Show = models.BooleanField(default=True,verbose_name='是否显示')
     is_Delete = models.BooleanField(default=True,verbose_name='是否删除')
-    reserve1 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
-    reserve2 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
-    @classmethod
-    def create_commet(cls, commet, author, article, classify):
-        commet = cls(commet=commet, author=author, article=article, classify=classify)
-        return commet
+    root = models.ForeignKey('self',related_name='root_comment',null=True,on_delete=models.DO_NOTHING,blank=True,verbose_name='根评论')
+    parent = models.ForeignKey('self',related_name='parent_comment',null=True,on_delete=models.DO_NOTHING,blank=True,verbose_name='父评论')
+    reply_to = models.ForeignKey(UserModel,related_name='replies',null=True,on_delete=models.DO_NOTHING,blank=True,verbose_name='评论给谁')
+
+    def __str__(self):
+        return self.commet
 
 
-class ChildCommetModel(models.Model):
-    commet=models.CharField(max_length=500, verbose_name='评论内容')
-    author = models.ForeignKey(UserModel, on_delete=models.CASCADE, verbose_name='作者')
-    father_commet = models.ForeignKey(CommetModel, on_delete=models.CASCADE, verbose_name='父评论')
-    issuedate = models.DateTimeField(auto_now_add=True,verbose_name='发布时间')
-    sort = models.IntegerField(default=0,verbose_name='排序')
-    is_Show = models.BooleanField(default=True,verbose_name='是否显示')
-    is_Delete = models.BooleanField(default=True,verbose_name='是否删除')
-    reserve1 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
-    reserve2 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
     @classmethod
-    def create_commet(cls, commet, author, father_commet):
-        commet = cls(commet=commet, author=author, father_commet=father_commet)
+    def create_commet(cls, commet, author, article, classify,root,parent,reply_to):
+        commet = cls(commet=commet, author=author, article=article, classify=classify,root=root,parent=parent,reply_to=reply_to)
         return commet

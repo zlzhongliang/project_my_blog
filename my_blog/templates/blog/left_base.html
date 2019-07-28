@@ -4,13 +4,17 @@
     {% block index %}
 
     {% endblock %}
+
     {% for article in articles %}
 <article class="excerpt">
-	<header><a class="label label-important" href="{% url 'blog:article_list' article.first_classify 0 0%}">{{ article.get_first_classify_display }}{{ article.ssecond_classify }}<i class="label-arrow"></i></a><h2><a target="_blank" href="{% url 'blog:article' article.id %}" title="{{ article.title }}">{{ article.title }}  </a></h2>
+	<header>
+        <a class="label label-important" href="{% url 'blog:article_list' article.first_classify 0 0%}">{{ article.get_first_classify_display }}{{ article.ssecond_classify }}<i class="label-arrow"></i></a><h2><a target="_blank" href="{% url 'blog:article' article.id %}" title="{{ article.title }}">{{ article.title }}  </a></h2>
 	</header>
-	<div class="focus"><a target="_blank" href="{% url 'blog:article' article.id %}"><img class="thumb" src="/static/{{ article.picture }}" alt="{{ article.title }}" /></a></div>
+	<div class="focus">
+        <a target="_blank" href="{% url 'blog:article' article.id %}"><img class="thumb" src="/static/{{ article.picture }}" alt="{{ article.title }}" /></a>
+    </div>
 			<span class="note"> {{ article.synopsis }}...</span>
-<p class="auth-span">
+    <p class="auth-span">
 		<span class="muted"><i class="iconfont icon-wo"></i> <a href="{% url 'blog:article_list' 0 0 article.author.id %}">{{ article.author.username }}</a></span>
 		<span class="muted"><i class="iconfont icon-shizhong"></i> {{ article.issuedate }}</span>
         <span class="muted"><i class="iconfont icon-eye"></i> {{ article.browse_count }}浏览</span>
@@ -19,5 +23,51 @@
 <a href="javascript:;" data-action="ding" data-id="6841" id="Addlike" class="action"><i class="iconfont icon-icon-test"></i><span class="count">{{ article.praise }}</span>喜欢</a></span></p>
 </article>
     {% endfor %}
-<div class="pagination"><ul><li class="prev-page"></li><li class="active"><span>1</span></li><li><a href='https://cuiqingcai.com/page/2'>2</a></li><li><a href='https://cuiqingcai.com/page/3'>3</a></li><li><a href='https://cuiqingcai.com/page/4'>4</a></li><li><a href='https://cuiqingcai.com/page/5'>5</a></li><li><span> ... </span></li><li class="next-page"><a href="https://cuiqingcai.com/page/2" >下一页</a></li></ul></div>	</div>
-</div>
+        <div class="pagination">
+
+
+            <ul >
+
+        {#        上一页按钮开始#}
+        {#         如果当前页有上一页#}
+                {% if articles.has_previous %}
+
+        {#              当前页的上一页按钮正常使用#}
+                    <li class="previous"><a href="?page={{ articles.previous_page_number }}">上一页</a></li>
+                {% else %}
+
+                    {# 当前页的不存在上一页时,上一页的按钮不可用#}
+        {#            <li class="previous disabled"><a href="#">上一页</a></li>#}
+                {% endif %}
+                {#上一页按钮结束#}
+
+
+
+
+
+                {# 页码开始#}
+                {% for num in articles.paginator.page_range %}
+
+                    {% if num == articles.number %}
+
+                        <li class="active"><span>{{ num }}</span></li>
+                    {% else %}
+                        <li><a href="?page={{ num }}">{{ num }}</a></li>
+
+                    {% endif %}
+                {% endfor %}
+                {#页码结束#}
+
+
+                {# 下一页按钮开始#}
+                {% if articles.has_next %}
+                    <li class="next-page"><a href="?page={{ articles.next_page_number }}">下一页</a></li>
+                {% else %}
+
+                {% endif %}
+                {# 下一页按钮结束#}
+            </ul>
+                </div>
+            </div>
+        </div>
+

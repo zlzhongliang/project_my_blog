@@ -164,9 +164,9 @@ var _hmt = _hmt || [];
 					<div class="pull-right">
                         {% if token == null %}
                             <i class="iconfont icon-youjian" ></i>
-                            <a href="{% url 'blog:login' %}">投稿</a>&nbsp;&nbsp;&nbsp;
+                            <a href="{% url 'blog:login' %}?next={{ request.get_full_path }}">投稿</a>&nbsp;&nbsp;&nbsp;
                             <i class="iconfont icon-guanji"></i>
-                            <a href="{% url 'blog:login' %}">登录</a>
+                            <a href="{% url 'blog:login' %}?next={{ request.get_full_path }}">登录</a>
                         {% else %}
                             <i class="iconfont icon-wo" ></i> <a href="{% url 'blog:main' %}">{{ token }}</a>&nbsp;&nbsp;&nbsp;
                             <i  class="iconfont icon-guanji"></i>

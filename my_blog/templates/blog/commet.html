@@ -1,81 +1,133 @@
 {% load static %}
 <div id="respond" class="no_webshot">
-		<form action="https://cuiqingcai.com/wp-comments-post.php" method="post" id="commentform">
+    <script>
+        function copyText(id,name) {
+            document.getElementById("commentform").action = "/do_commet/{{ article_id }}/{{ classify_id }}/" + id + '?next={{ request.get_full_path }}'
+            document.getElementById("commentform_who").innerHTML = "请输入对<a href='#comments'>"+name+"</a>的回复:"
+            document.getElementById("submit").innerHTML = "<i class=\"fa fa-check-square-o\"></i> 提交回复"
+            document.getElementById("comment").placeholder = "正在回复"+name+"..........."
+        }
+    </script>
+    <form action="{% url 'blog:do_commet' article_id classify_id 0 %}?next={{ request.get_full_path }}" method="post"
+          id="commentform">
 
-		<div class="comt-title">
-			<div class="comt-avatar pull-left">
-				<img alt='' src='https://cuiqingcai.com/avatar/.png' class='avatar avatar-54 photo avatar-default' height='54' width='54' />			</div>
-			<div class="comt-author pull-left">
-			发表我的评论			</div>
-			<a id="cancel-comment-reply-link" class="pull-right" href="javascript:;">取消评论</a>
-		</div>
+        <div class="comt-title">
+            <div class="comt-avatar pull-left">
+                <img alt='' src='/static/{{ icon }}' class='avatar avatar-54 photo avatar-default' height='54'
+                     width='54'/></div>
+            <div class="comt-author pull-left" id='commentform_who'>发表我的评论</div>
+            <a id="cancel-comment-reply-link" class="pull-right" href="javascript:;">取消评论</a>
+        </div>
 
-		<div class="comt">
-			<div class="comt-box">
-				<textarea placeholder="写点什么..." class="input-block-level comt-area" name="w" id="comment" cols="100%" rows="3" tabindex="1" onkeydown="if(event.ctrlKey&amp;&amp;event.keyCode==13){document.getElementById('submit').click();return false};"></textarea><textarea name="comment" cols="100%" rows="4" style="display:none"></textarea>
-				<div class="comt-ctrl">
-					<button class="btn btn-primary pull-right" type="submit" name="submit" id="submit" tabindex="5"><i class="fa fa-check-square-o"></i> 提交评论</button>
-					<div class="comt-tips pull-right"><input type='hidden' name='comment_post_ID' value='847' id='comment_post_ID' />
-<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
-<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="973598ad57" /></p><div id="tiantest_reply" style="margin-bottom: 14px; height:36px"></div><input name="task_id" id="task_id" type="hidden" /><p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="95"/></p></div>
-					<span data-type="comment-insert-smilie" class="muted comt-smilie"><i class="fa fa-smile-o"></i> 表情</span>
-					<span class="muted comt-mailme"><label for="comment_mail_notify" class="checkbox inline" style="padding-top:0"><input type="checkbox" name="comment_mail_notify" id="comment_mail_notify" value="comment_mail_notify" checked="checked"/>有人回复时邮件通知我</label></span>
-				</div>
-			</div>
+        <div class="comt">
+            <div class="comt-box">
+                <textarea placeholder="写点什么..." class="input-block-level comt-area" name="up_comment" id="comment"
+                          cols="100%" rows="3" tabindex="1"
+                          onkeydown="if(event.ctrlKey&amp;&amp;event.keyCode==13){document.getElementById('submit').click();return false};"></textarea>
+                <textarea name="comment" cols="100%" rows="4" style="display:none"></textarea>
+                <div class="comt-ctrl">
+                    <button class="btn btn-primary pull-right" type="submit" name="submit" id="submit" tabindex="5"><i
+                            class="fa fa-check-square-o"></i> 提交评论
+                    </button>
+                    <div class="comt-tips pull-right">
+                        <input type='hidden' name='comment_post_ID' value='847' id='comment_post_ID'/>
+                        <input type='hidden' name='comment_parent' id='comment_parent' value='0'/>
+                        <p style="display: none;">
+                            <input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce"
+                                   value="973598ad57"/>
+                        </p>
+                        <div id="tiantest_reply" style="margin-bottom: 14px; height:36px">
 
-							</script>
-			</script>
-					<div class="comt-comterinfo" id="comment-author-info" >
-						<h4>Hi，您需要填写昵称和邮箱！</h4>
-						<ul>
-							<li class="form-inline"><label class="hide" for="author">昵称</label><input class="ipt" type="text" name="author" id="author" value="" tabindex="2" placeholder="昵称"><span class="help-inline">昵称 (必填)</span></li>
-							<li class="form-inline"><label class="hide" for="email">邮箱</label><input class="ipt" type="text" name="email" id="email" value="" tabindex="3" placeholder="邮箱"><span class="help-inline">邮箱 (必填)</span></li>
-							<li class="form-inline"><label class="hide" for="url">网址</label><input class="ipt" type="text" name="url" id="url" value="" tabindex="4" placeholder="网址"><span class="help-inline">网址</span></li>
-						</ul>
-					</div>
-									</div>
+                        </div>
+                        <input name="task_id" id="task_id" type="hidden"/>
+                        <p style="display: none;">
+                            <input type="hidden" id="ak_js" name="ak_js" value="95"/>
+                        </p>
+                    </div>
+                    <span data-type="comment-insert-smilie" class="muted comt-smilie"><i
+                            class="fa fa-smile-o"></i> 表情</span>
+                    <span class="muted comt-mailme"><label for="comment_mail_notify" class="checkbox inline"
+                                                           style="padding-top:0"><input type="checkbox"
+                                                                                        name="comment_mail_notify"
+                                                                                        id="comment_mail_notify"
+                                                                                        value="comment_mail_notify"
+                                                                                        checked="checked"/>有人回复时邮件通知我</label></span>
+                </div>
+            </div>
+
+            </script>
+            </script>
+
+        </div>
 
 
-	</form>
-	</div>
+    </form>
+</div>
 <div id="postcomments">
-	<div id="comments">
-		<i class="fa fa-comments-o"></i> <b> (17)</b>个小伙伴在吐槽
-	</div>
-	<ol class="commentlist">
+    <div id="comments">
+        <i class="fa fa-comments-o"></i> <b> ({{ count }})</b>条评论
+    </div>
+    <ol class="commentlist">
         {% for commet in commets %}
-		<li class="comment even thread-even depth-1" id="comment-258876">
-            <div class="c-avatar">
-                <img alt='' src='/static/{{ commet.author.icon }}' class='avatar avatar-54 photo' height='54' width='54' />
+            <li class="comment even thread-even depth-1" id="comment-258876">
+                <div class="c-avatar">
+                    <img alt='' src='/static/{{ commet.author.icon }}' class='avatar avatar-54 photo' height='54'
+                         width='54'/>
                     <div class="c-main" id="div-comment-258876">{{ commet.commet }}
                         <div class="c-meta">
                             <span class="c-author">
-                                <a href='http://www.cj318.cn' rel='external nofollow' class='url'>http://www.cj318.cn</a></span>{{ commet.issuedate }} <a rel='nofollow' class='comment-reply-link' href='https://cuiqingcai.com/about?replytocom=258876#respond' onclick='return addComment.moveForm( "div-comment-258876", "258876", "respond", "847" )' aria-label='回复给http://www.cj318.cn'>回复
-                                </a>
+                                <a href='#' rel='external nofollow'
+                                   class='url'>{{ commet.author.username }}</a></span>{{ commet.issuedate }}
+                            <a rel='nofollow' class='comment-reply-link' href='#respond'
+                               aria-label='回复给{{ commet.author.username }}' onclick="copyText({{ commet.id }},'{{ commet.author.username}}')">回复</a>&nbsp;&nbsp;共{{ commet.sort }}条回复
                         </div>
                     </div>
-            </div>
+                </div>
 
-            {% for children in childs %}
-            <ul class="children">
-                <li class="comment byuser comment-author-cqcre bypostauthor odd alt depth-2" id="comment-271040">
-                    <div class="c-avatar"><img alt='' data-original='https://cuiqingcai.com/avatar/543a23b160314459b92fd4e2e8fb85b3.png' class='avatar avatar-54 photo' height='54' width='54' />
-                        <div class="c-main" id="div-comment-271040">发表啦：https://cuiqingcai.com/6942.html
-                            <div class="c-meta"><span class="c-author"><a href='http://cuiqingcai.com' rel='external nofollow' class='url'>崔庆才</a></span>2019-07-26 10:46  (6小时前)<a rel='nofollow' class='comment-reply-link' href='https://cuiqingcai.com/message?replytocom=271040#respond' onclick='return addComment.moveForm( "div-comment-271040", "271040", "respond", "42" )' aria-label='回复给崔庆才'>回复</a>
+                {% for reply in commet.root_comment.all %}
+                    <ul class="children">
+                        <li class="comment byuser comment-author-cqcre bypostauthor odd alt depth-2"
+                            id="comment-271040">
+                            <div class="c-avatar"><img alt='' src='/static/{{ reply.author.icon }}'
+                                                       class='avatar avatar-54 photo' height='54' width='54'/>
+                                <div class="c-main" id="div-comment-271040">{{ reply.commet }}
+                                    <div class="c-meta"><span class="c-author"><a href='#' rel='external nofollow'
+                                                                                  class='url'>{{ reply.author.username }}</a></span>回复<span
+                                            class="c-author"><a href='#' rel='external nofollow' class='url'>&nbsp;&nbsp;{{ reply.reply_to.username }}</a></span>{{ reply.issuedate }}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </li><!-- #comment-## -->
-            </ul><!-- .children -->
-            {% endfor %}
+                        </li><!-- #comment-## -->
+                    </ul><!-- .children -->
+                {% endfor %}
 
 
-
-        </li><!-- #comment-## -->
+            </li><!-- #comment-## -->
         {% endfor %}
-	</ol>
-	<div class="commentnav"	>
-		<a class="prev page-numbers" href="https://cuiqingcai.com/about/comment-page-1#comments">«</a>
-<a class='page-numbers' href='https://cuiqingcai.com/about/comment-page-1#comments'>1</a>
-<span aria-current='page' class='page-numbers current'>2</span>	</div>
+    </ol>
+    <div class="commentnav">
+        {% if commets.has_previous %}
+            <a class="prev page-numbers" href="?page={{ commets.previous_page_number }}#comments">«</a>
+        {% endif %}
+
+        {# 页码开始#}
+        {% for num in commets.paginator.page_range %}
+            {% if num == commets.number %}
+                <span aria-current='page' class='page-numbers current'>{{ num }}</span>
+            {% else %}
+                <a class='page-numbers' href='?page={{ num }}#comments'>{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+        {#页码结束#}
+
+
+        {# 下一页按钮开始#}
+        {% if commets.has_next %}
+            <a class="next page-numbers" href="?page={{ commets.next_page_number }}#comments">»</a>
+        {% else %}
+
+        {% endif %}
+    </div>
 </div>
+
+
