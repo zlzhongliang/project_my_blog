@@ -1,75 +1,69 @@
-{% load staticfiles %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>点赞特效</title>
+
+    <style>
+        #container{
+            padding: 50px;
+            border:1px solid #e51400;
+        }
+        #item{
+            position: relative;
+        }
+    </style>
+
 </head>
 <body>
+<div id="container">
+    <div id="item">
+        <span>赞</span>
+    </div>
+</div>
 
+<script src="{% static 'blog/js/jquery.js' %}"></script>
+<script>
 
+    $('#item').click(function () {
+        console.log(111111111111)
+        addZanStyle(this);
+        console.log(111111111111)
+    })
 
+    function addZanStyle(self){
+        console.log(1212121212121212)
+        var sp=document.createElement('span');
+        var top=0;
+        var left=0;
+        var fontSize=15;
+        var opacity=1;
+        $(sp).text('+1');
+        $(sp).css('top',top+'px');
+        $(sp).css('left',left+'px');
+        $(sp).css('fontSize',fontSize+'px');
+        $(sp).css('opacity',opacity);
+        $(sp).css('color','red');
+        $(sp).css('position','absolute');
+        $(self).append(sp);
+        var inte=setInterval(function(){
+            top=top-13;
+            left=left+10;
+            opacity=opacity-0.2;
+            fontSize=fontSize+5;
+            $(sp).css('top',top+'px');
+            $(sp).css('left',left+'px');
+            $(sp).css('fontSize',fontSize+'px');
+            $(sp).css('opacity',opacity);
+            if(opacity<0){
+                clearInterval(inte);
+                $(sp).remove();
+            }
+        },100);
 
-
-
-
-
-    <ul>
-{#        #遍历boot_list中的所有元素#}
-        {% for book in book_list %}
-{#            #打印书籍的名称和价格#}
-            <li>{{ book.title }} {{ book.price }}</li>
-        {% endfor %}
-    </ul>
-
-
-
-
-
-
-
-
-
-    <ul class="pagination" id="pager">
-{#        上一页按钮开始#}
-{#         如果当前页有上一页#}
-        {% if book_list.has_previous %}
-{#              当前页的上一页按钮正常使用#}
-            <li class="previous"><a href="/test?page={{ book_list.previous_page_number }}">上一页</a></li>
-        {% else %}
-            {# 当前页的不存在上一页时,上一页的按钮不可用#}
-            <li class="previous disabled"><a href="/test#">上一页</a></li>
-        {% endif %}
-        {#上一页按钮结束#}
-
-
-
-
-
-        {# 页码开始#}
-        {% for num in paginator.page_range %}
-
-            {% if num == currentPage %}
-                <li class="item active"><a href="/test?page={{ num }}">{{ num }}</a></li>
-            {% else %}
-                <li class="item"><a href="/test?page={{ num }}">{{ num }}</a></li>
-
-            {% endif %}
-        {% endfor %}
-        {#页码结束#}
-
-
-
-        {# 下一页按钮开始#}
-        {% if book_list.has_next %}
-            <li class="next"><a href="/test?page={{ book_list.next_page_number }}">下一页</a></li>
-        {% else %}
-            <li class="next disabled"><a href="/test#">下一页</a></li>
-        {% endif %}
-        {# 下一页按钮结束#}
-    </ul>
+    }
+</script>
 
 </body>
 </html>

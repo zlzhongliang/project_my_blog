@@ -25,7 +25,13 @@
 			<h2 class="title">热门排行</h2>
 			<ul>
                 {% for praise in praises %}
-                <li><p><span class="muted"><a href="javascript:;" data-action="ding" data-id="1052" id="Addlike" class="action"><i class="iconfont icon-icon-test"></i><span class="count">{{ praise.praise }}</span> 喜欢</a></span></p><span class="label label-{{ forloop.counter }}">{{ forloop.counter }}</span><a href="{% url 'blog:article' praise.id%}" title="{{ praise.title }}">{{ praise.title }}</a></li>
+                <li><p>
+                        <span class="muted">
+                        <a  href="javascript:;" data-action="ding" data-id="{{ praise.id }}" id="Addlike" class="action" onclick="like_change(this,{{ praise.id }})"><i class="iconfont icon-icon-test"></i><span class="count">{{ praise.praise }}</span> 喜欢</a>
+                        </span>
+                    </p>
+                    <span class="label label-{{ forloop.counter }}">{{ forloop.counter }}</span><a href="{% url 'blog:article' praise.id%}" title="{{ praise.title }}">{{ praise.title }}</a>
+                </li>
                 {% endfor %}
             </ul>
 		</div></div>

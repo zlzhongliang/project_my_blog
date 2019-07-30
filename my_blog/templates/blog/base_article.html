@@ -8,7 +8,7 @@
 				<header class="article-header">
 			<h1 class="article-title"><a href="#">{{ article.title }}</a></h1>
 			<div class="meta">
-				<span id="mute-category" class="muted"><i class="fa fa-list-alt"></i><a href="{% url 'blog:article_list' article.first_classify article.second_classify 0%}"> {{ s2 }}</a></span>
+				<span id="mute-category" class="muted"><i class="fa iconfont icon-bijiben"></i><a href="{% url 'blog:article_list' article.first_classify article.second_classify 0%}"> {{ s2 }}</a></span>
                 <span class="muted"><i class="iconfont icon-wo"></i> <a href="{% url 'blog:article_list' 0 0 article.author.id %}">{{ article.author.username }}</a></span>
 				<time class="muted"><i class="iconfont icon-shizhong"></i> {{ article.issuedate }}</time>
 				<span class="muted"><i class="iconfont icon-eye"></i> {{ article.browse_count }}浏览</span>
@@ -35,14 +35,12 @@
             {% endblock %}
 
 			<p>最后欢迎大家关注「钟亮」的个人公众号「公众号名称」</p>
-<p><img class="aligncenter" src="https://qiniu.cuiqingcai.com/2019-06-02-163318.jpg" alt="" width="228" height="228" /></p>
-<p>转载请注明：<a href="https://cuiqingcai.com">静觅</a> &raquo; <a href="https://cuiqingcai.com/6702.html">对崔庆才的个人采访记录</a></p>
+<p><img class="aligncenter" src="{% static 'blog/img/smill_img/weixin_add.png' %}" alt="" width="228" height="228" /></p>
+<p>转载请注明：<a href="#">雪舞</a> &raquo; <a href="{% url 'blog:article' article.id %}">{{ article.title }}</a></p>
 
 
 <div class="article-social">
-			<a href="javascript:;" data-action="ding" data-id="6702" id="Addlike" class="action">
-                <i class="fa fa-heart-o"></i>喜欢 (<span class="count">{{ article.praise }}</span>)</a>
-                    <span class="or">or</span>
+			<a href="javascript:;" data-action="ding" data-id="6702" id="Addlike" class="action" onclick="like_change(this,{{ article.id }})"  ><i class="iconfont icon-icon-test"></i>喜欢 (<span class="count">{{ article.praise }}</span>)</a><span class="or">or</span>
                         {% include 'blog/share.html' %}
 </div>
 	</article>
@@ -743,37 +741,25 @@
 		<footer class="article-footer">
 					</footer>
 	<nav class="article-nav">
-			<span class="article-nav-prev"><i class="fa fa-angle-double-left"></i> <a href="https://cuiqingcai.com/6763.html" rel="prev">微信公众号文章爬取之：微信自动化</a></span>
-			<span class="article-nav-next"><a href="https://cuiqingcai.com/6797.html" rel="next">阿里新开发了一款神器，零基础也能轻松做出酷炫动效！</a>  <i class="fa fa-angle-double-right"></i></span>
+			<span class="article-nav-prev"><i class="fa iconfont icon-icon_paging_left"></i> <a href="{% url 'blog:article' article_fuli.0.id %}" rel="prev">{{ article_fuli.0.title }}</a></span>
+			<span class="article-nav-next"><a href="{% url 'blog:article' article_fuli.1.id %}" rel="next">{{ article_fuli.1.title }}</a>  <i class="fa iconfont icon-icon_paging_right"></i></span>
 		</nav>
 
 		<div class="related_top">
 			<div class="related_posts"><ul class="related_img">
-
+    {% for article_li in article_ul  %}
 	<li class="related_box"  >
-		<a href="https://cuiqingcai.com/6511.html" title="从学校迈入职场" target="_blank">
-		<img src="https://cuiqingcai.com/wp-content/themes/Yusi/timthumb.php?src=https://qiniu.cuiqingcai.com/wp-content/uploads/2018/02/5.3.2.jpg&h=110&w=185&q=90&zc=1&ct=1" alt="从学校迈入职场" /><br><span class="r_title">从学校迈入职场</span></a>
+		<a href="{% url 'blog:article' article_li.id %}" title="{{ article_li.title }}" target="_blank">
+		<img src="/static/{{ article_li.picture }}" alt="{{ article_li.title }}" /><br><span class="r_title">{{ article_li.title }}</span></a>
 		</li>
-
-	<li class="related_box"  >
-		<a href="https://cuiqingcai.com/2416.html" title="弃用多说，改用畅言" target="_blank">
-		<img src="https://cuiqingcai.com/wp-content/themes/Yusi/timthumb.php?src=https://qiniu.cuiqingcai.com/wp-content/uploads/2016/02/bg1-e1454442892955.jpg&h=110&w=185&q=90&zc=1&ct=1" alt="弃用多说，改用畅言" /><br><span class="r_title">弃用多说，改用畅言</span></a>
-		</li>
-
-	<li class="related_box"  >
-		<a href="https://cuiqingcai.com/1547.html" title="致那逝去的三月" target="_blank">
-		<img src="https://cuiqingcai.com/wp-content/themes/Yusi/timthumb.php?src=https://qiniu.cuiqingcai.com/wp-content/uploads/2015/04/1-e1428092392689.png&h=110&w=185&q=90&zc=1&ct=1" alt="致那逝去的三月" /><br><span class="r_title">致那逝去的三月</span></a>
-		</li>
-
-	<li class="related_box"  >
-		<a href="https://cuiqingcai.com/1458.html" title="开始备战了" target="_blank">
-		<img src="https://cuiqingcai.com/wp-content/themes/Yusi/timthumb.php?src=https://qiniu.cuiqingcai.com/wp-content/uploads/2015/03/wallpaper_5224934-e1426517127365.jpg&h=110&w=185&q=90&zc=1&ct=1" alt="开始备战了" /><br><span class="r_title">开始备战了</span></a>
-		</li>
+    {% endfor %}
 	</ul>
 
 <div class="relates">
 <ul>
-<li><i class="fa fa-minus"></i><a target="_blank" href="https://cuiqingcai.com/6511.html">从学校迈入职场</a></li><li><i class="fa fa-minus"></i><a target="_blank" href="https://cuiqingcai.com/2416.html">弃用多说，改用畅言</a></li><li><i class="fa fa-minus"></i><a target="_blank" href="https://cuiqingcai.com/1547.html">致那逝去的三月</a></li><li><i class="fa fa-minus"></i><a target="_blank" href="https://cuiqingcai.com/1458.html">开始备战了</a></li><li><i class="fa fa-minus"></i><a target="_blank" href="https://cuiqingcai.com/1250.html">珍惜自己年轻的时光吧</a></li><li><i class="fa fa-minus"></i><a target="_blank" href="https://cuiqingcai.com/319.html">从西少爷肉夹馍谈起创业</a></li>
+    {% for article_li in article_myself %}
+    <li><i class="fa iconfont icon-yuanjiaochangfangxing"></i><a target="_blank" href="{% url 'blog:article' article_li.id %}">{{ article_li.title}}</a></li>
+    {% endfor %}
 </ul></div></div>		</div>
 {% include 'blog/commet.html' %}
 

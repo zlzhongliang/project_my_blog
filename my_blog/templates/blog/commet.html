@@ -4,7 +4,7 @@
         function copyText(id,name) {
             document.getElementById("commentform").action = "/do_commet/{{ article_id }}/{{ classify_id }}/" + id + '?next={{ request.get_full_path }}'
             document.getElementById("commentform_who").innerHTML = "请输入对<a href='#comments'>"+name+"</a>的回复:"
-            document.getElementById("submit").innerHTML = "<i class=\"fa fa-check-square-o\"></i> 提交回复"
+            document.getElementById("submit").innerHTML = "<i class=\"fa iconfont icon-bijiben\"></i> 提交回复"
             document.getElementById("comment").placeholder = "正在回复"+name+"..........."
         }
     </script>
@@ -27,7 +27,7 @@
                 <textarea name="comment" cols="100%" rows="4" style="display:none"></textarea>
                 <div class="comt-ctrl">
                     <button class="btn btn-primary pull-right" type="submit" name="submit" id="submit" tabindex="5"><i
-                            class="fa fa-check-square-o"></i> 提交评论
+                            class="fa iconfont icon-bijiben"></i> 提交评论
                     </button>
                     <div class="comt-tips pull-right">
                         <input type='hidden' name='comment_post_ID' value='847' id='comment_post_ID'/>
@@ -45,7 +45,7 @@
                         </p>
                     </div>
                     <span data-type="comment-insert-smilie" class="muted comt-smilie"><i
-                            class="fa fa-smile-o"></i> 表情</span>
+                            class="fa iconfont icon-ziyuan"></i> 表情</span>
                     <span class="muted comt-mailme"><label for="comment_mail_notify" class="checkbox inline"
                                                            style="padding-top:0"><input type="checkbox"
                                                                                         name="comment_mail_notify"
@@ -65,7 +65,7 @@
 </div>
 <div id="postcomments">
     <div id="comments">
-        <i class="fa fa-comments-o"></i> <b> ({{ count }})</b>条评论
+        <i class="fa iconfont icon-pinglun"></i> <b> ({{ count }})</b>条评论
     </div>
     <ol class="commentlist">
         {% for commet in commets %}

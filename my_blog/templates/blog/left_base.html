@@ -18,9 +18,9 @@
 		<span class="muted"><i class="iconfont icon-wo"></i> <a href="{% url 'blog:article_list' 0 0 article.author.id %}">{{ article.author.username }}</a></span>
 		<span class="muted"><i class="iconfont icon-shizhong"></i> {{ article.issuedate }}</span>
         <span class="muted"><i class="iconfont icon-eye"></i> {{ article.browse_count }}浏览</span>
-        <span class="muted"><i class="iconfont icon-pinglun"></i> <a target="_blank" href="{% url 'blog:article' article.id %}#comments">0评论</a></span>
+        <span class="muted"><i class="iconfont icon-pinglun"></i> <a target="_blank" href="{% url 'blog:article' article.id %}#comments">{{ article.comment_num }}评论</a></span>
         <span class="muted">
-<a href="javascript:;" data-action="ding" data-id="6841" id="Addlike" class="action"><i class="iconfont icon-icon-test"></i><span class="count">{{ article.praise }}</span>喜欢</a></span></p>
+<a href="javascript:;" data-action="ding" data-id="{{ article.id }}" id="Addlike" class="action" onclick="like_change(this,{{ article.id }})" ><i class="iconfont icon-icon-test"></i><span class="count">{{ article.praise }}</span>喜欢</a></span></p>
 </article>
     {% endfor %}
         <div class="pagination">

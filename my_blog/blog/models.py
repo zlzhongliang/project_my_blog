@@ -67,7 +67,7 @@ class ArticleModel(models.Model):
     share = models.IntegerField(default=0, verbose_name='分享')
     is_Delete = models.BooleanField(default=True,verbose_name='是否显示')
     synopsis = models.CharField(max_length=500, default='0', verbose_name='大纲')
-    reserve2 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
+    comment_num = models.IntegerField(default=0, verbose_name='评论次数')
     reserve3 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
     reserve4 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
     reserve5 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
@@ -118,3 +118,18 @@ class CommetModel(models.Model):
     def create_commet(cls, commet, author, article, classify,root,parent,reply_to):
         commet = cls(commet=commet, author=author, article=article, classify=classify,root=root,parent=parent,reply_to=reply_to)
         return commet
+
+
+class LikeModel(models.Model):
+    user = models.ForeignKey(UserModel, on_delete=models.DO_NOTHING, verbose_name='用户')
+    article = models.ForeignKey(ArticleModel, on_delete=models.DO_NOTHING,verbose_name='文章')
+    sort = models.IntegerField(default=0, verbose_name='排序')
+    issuedate = models.DateTimeField(auto_now_add=True,verbose_name='发布时间')
+    is_Delete = models.BooleanField(default=True,verbose_name='是否显示')
+    def __str__(self):
+        return self.article.title
+
+    @classmethod
+    def createLike(cls, user, article):
+        like = cls(user=user, article=article)
+        return like

@@ -3,11 +3,11 @@ import time
 
 from django.contrib.auth import logout
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from blog.models import UserModel, ArticleModel, LinkModel, CommetModel
+from blog.models import UserModel, ArticleModel, LinkModel, CommetModel, LikeModel
 
 global list1,list2,likes,likes,icon
 list1 = ["生活笔记", "技术杂谈", "福利专区"]
@@ -55,7 +55,7 @@ def index(request):
 
 def article_list(request, first_classify, second_classify, third_classify):
 
-    if third_classify == '0':  # 这是作者文章列表的标记
+    if third_classify == '0':  # 这是当前点击的作者的文章列表的标记
         if second_classify == '0':
             articles = ArticleModel.objects.filter(first_classify=first_classify).order_by('sort')
         else:
@@ -246,6 +246,8 @@ def main_article(request):
 
 def article(request,articleid):
     article = ArticleModel.objects.get(id=articleid)
+    article.browse_count +=1
+    article.save()
     title = article.title
     share = article.share
     s1 = list1[int(article.first_classify)]
@@ -254,7 +256,9 @@ def article(request,articleid):
     nav = 'nav'+str(article.first_classify+2)
     commets = CommetModel.objects.filter(article=article,parent=None).order_by('-alterdate')
     count=len(CommetModel.objects.filter(article=article))
-
+    article_ul = ArticleModel.objects.all().order_by('-browse_count')[:4]
+    article_myself = ArticleModel.objects.filter(first_classify=0).order_by('-browse_count')[:6]
+    article_fuli = ArticleModel.objects.filter(first_classify=2).order_by('-browse_count')[:2]
 
     # 生成paginator对象,定义每页显示10条记录
     paginator = Paginator(commets, 5)
@@ -289,7 +293,10 @@ def article(request,articleid):
             'icon': icon,
             'article_id':article.id,
             'classify_id': 0,
-            'share': share
+            'share': share,
+            'article_ul': article_ul,
+            'article_myself': article_myself,
+            'article_fuli': article_fuli,
             }
     return render(request, 'blog/article.html', data)
 
@@ -344,6 +351,7 @@ def project(request):
     return render(request,'blog/project.html',data)
 
 
+
 def do_commet(request, article_id, classify_id,root_id):  # 在评论只有两层的情况下
 
     next = request.GET.get('next')
@@ -361,8 +369,11 @@ def do_commet(request, article_id, classify_id,root_id):  # 在评论只有两�
                     commet.commet = up_commet
                     commet.author = user
                     commet.classify = classify_id
-                    if classify_id == '0':
-                        commet.article = ArticleModel.objects.get(id=article_id)
+                    if classify_id == '0':  #表明是文章的评论
+                        article = ArticleModel.objects.get(id=article_id)
+                        article.comment_num += 1
+                        article.save()
+                        commet.article = article
                     if root_id == '0':
                         commet.save()
                     else:
@@ -403,3 +414,46 @@ def link(request):
             'count': count,
             }
     return render(request,'blog/link.html',data)
+
+
+
+def like_add(request):
+    article_id = request.GET.get('id')
+    flag = request.GET.get('flag')
+    print(type(flag))
+    print(flag)
+    article = ArticleModel.objects.get(id=article_id)
+    if flag == '0':
+        article.praise += 1
+    else:
+        article.praise -= 1
+    article.save()
+    data={
+        'status':"success",
+        'praise':article.praise,
+    }
+    return JsonResponse(data)
+
+
+def like_show(request):
+    article_list = request.POST.getlist('article_list')
+    print(article_list)
+    # article = ArticleModel.objects.get(id=article_id)
+    # ticket = request.session.get('ticket')
+    # username = UserModel.objects.filter(ticket=ticket)
+    # try:
+    #     like_articles = LikeModel.objects.filter(user=username)
+    # except Exception as e:
+    #     like_articles = 0
+
+    data = {
+        'status': "success",
+        'flag': 1,
+    }
+    return JsonResponse(data)
+    # else:
+    #     data = {
+    #         'status': "success",
+    #         'flag': 0,
+    #     }
+    #     return JsonResponse(data)
