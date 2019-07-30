@@ -27,32 +27,36 @@ window._deel = {name: '静觅',url: 'https://cuiqingcai.com/wp-content/themes/Yu
 		<script type="text/javascript">
             window.onload=function(){
                 var a = $('.action');
-                var mycars=new Array()
                     a.each(function(e){
 
-                        mycars[e]=a[e].getAttribute('data-id')
-
-
-                });
-                console.log(mycars)
-                $.ajax({
+                        article_id = a[e].getAttribute('data-id')
+                        $.ajax({
                         url:"{% url 'blog:like_show' %}",
-                        type:'POST',
-                        traditional:true,
+                        type:'get',
                         data:{
-                            article_list:mycars,
+                            'article_id':article_id,
                         },
                         cache:false,
                         success:function(data){
-                            console.log(data['flag'])
-                            a[0].innerHTML=data['praise']
-                            i.className ="iconfont icon-icon-test"
+
+
+                            if (data['flag']=='1'){
+                                console.log(data['flag'])
+                                var i = a[e].firstChild
+                                i.className ="iconfont icon-aixin"
+                            }
                         },
                         error:function (xhr) {
                             console.log(xhr)
                         }
                         }
                     );
+
+
+
+                });
+                console.log(mycars)
+
 
             }
             function like_change(obj,id){

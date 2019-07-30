@@ -420,12 +420,26 @@ def link(request):
 def like_add(request):
     article_id = request.GET.get('id')
     flag = request.GET.get('flag')
-    print(type(flag))
-    print(flag)
     article = ArticleModel.objects.get(id=article_id)
+    user = 0
+    try:
+        user = UserModel.objects.get(ticket=request.session.get('ticket'))
+        like_flag = LikeModel.objects.get(user=user, article=article)
+    except Exception as e:
+        pass
     if flag == '0':
+        if user:
+            like_article = LikeModel.createLike(user=user, article=article)
+            like_article.save()
+        else:
+            pass
         article.praise += 1
     else:
+        if user:
+            like_article = LikeModel.objects.get(user=user, article=article)
+            like_article.delete()
+        else:
+            pass
         article.praise -= 1
     article.save()
     data={
@@ -436,24 +450,28 @@ def like_add(request):
 
 
 def like_show(request):
-    article_list = request.POST.getlist('article_list')
-    print(article_list)
-    # article = ArticleModel.objects.get(id=article_id)
-    # ticket = request.session.get('ticket')
-    # username = UserModel.objects.filter(ticket=ticket)
-    # try:
-    #     like_articles = LikeModel.objects.filter(user=username)
-    # except Exception as e:
-    #     like_articles = 0
+    article_id = request.GET.get('article_id')
+    article = ArticleModel.objects.get(id=article_id)
+    try:
+        ticket = request.session.get('ticket')
+        user = UserModel.objects.get(ticket=ticket)
+    except Exception as e:
+        pass
+    data={}
 
-    data = {
-        'status': "success",
-        'flag': 1,
-    }
-    return JsonResponse(data)
-    # else:
-    #     data = {
-    #         'status': "success",
-    #         'flag': 0,
-    #     }
-    #     return JsonResponse(data)
+    try:
+        print(user)
+        print(type(user))
+        print(article)
+        print(type(article))
+        is_like = LikeModel.objects.get(user=user,article=article)
+        print(is_like)
+        if is_like:
+            data = {
+                'status': "success",
+                'flag': 1,
+            }
+            return JsonResponse(data)
+    except Exception as e:
+        return JsonResponse(data)
+
