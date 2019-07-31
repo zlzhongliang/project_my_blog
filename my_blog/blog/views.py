@@ -1,4 +1,5 @@
 import random
+import re
 import time
 
 from django.contrib.auth import logout
@@ -115,9 +116,10 @@ def about(request):
     return render(request, 'blog/about.html', data)
 
 
-def main(request):
+def main(request):  # 这是用户的主页的首页
     ticket = request.session.get('ticket')
     token = request.session.get('token')
+    phone_result = request.session.get('phone_result')  # 修改电话号码时返回的错误信息
     if ticket:
         try:
             user = UserModel.objects.get(ticket=ticket)
@@ -127,6 +129,9 @@ def main(request):
                     'nav1': "current-menu-item",
                     'icon': icon,
                     }
+            if phone_result:
+                data['phone_result'] = phone_result
+                del request.session['phone_result']
             if request.method == 'POST':
                 username = request.POST.get('username')
                 try:
@@ -258,7 +263,8 @@ def article(request,articleid):
     count=len(CommetModel.objects.filter(article=article))
     article_ul = ArticleModel.objects.all().order_by('-browse_count')[:4]
     article_myself = ArticleModel.objects.filter(first_classify=0).order_by('-browse_count')[:6]
-    article_fuli = ArticleModel.objects.filter(first_classify=2).order_by('-browse_count')[:2]
+    article_next = ArticleModel.objects.filter(id__gt=articleid).first()
+    article_prev = ArticleModel.objects.filter(id__lt=articleid).order_by('-id').first()
 
     # 生成paginator对象,定义每页显示10条记录
     paginator = Paginator(commets, 5)
@@ -286,9 +292,6 @@ def article(request,articleid):
                 like_style = 'iconfont icon-aixin'
         except Exception as e:
             pass
-
-
-
     data = {'title': title,
             'token': token,
             'article': article,
@@ -305,7 +308,8 @@ def article(request,articleid):
             'share': share,
             'article_ul': article_ul,
             'article_myself': article_myself,
-            'article_fuli': article_fuli,
+            'article_next': article_next,
+            'article_prev': article_prev,
             'like_style': like_style,
             }
     return render(request, 'blog/article.html', data)
@@ -463,63 +467,60 @@ def like_add(request):
         return JsonResponse(data)
 
 
-
-#
-# def like_add(request):
-#     article_id = request.GET.get('id')
-#     flag = request.GET.get('flag')
-#     article = ArticleModel.objects.get(id=article_id)
-#     user = 0
-#     try:
-#         user = UserModel.objects.get(ticket=request.session.get('ticket'))
-#         like_flag = LikeModel.objects.get(user=user, article=article)
-#     except Exception as e:
-#         pass
-#     if flag == '0':
-#         if user:
-#             like_article = LikeModel.createLike(user=user, article=article)
-#             like_article.save()
-#         else:
-#             article.praise += 1
-#     else:
-#         if user:
-#             like_article = LikeModel.objects.get(user=user, article=article)
-#             like_article.delete()
-#         else:
-#             pass
-#         article.praise -= 1
-#     article.save()
-#     data={
-#         'status':"success",
-#         'praise':article.praise,
-#     }
-#     return JsonResponse(data)
-
-
-
 def like_show(request):
     ticket = request.session.get('ticket')
-    data = {}
+    data = {'status': "success",}
     if ticket:
         article_id = request.GET.get('article_id')
         article = ArticleModel.objects.get(id=article_id)
-        try:
-
-            user = UserModel.objects.get(ticket=ticket)
-        except Exception as e:
-            pass
-
-
+        user = UserModel.objects.get(ticket=ticket)
         try:
             is_like = LikeModel.objects.filter(user=user,article=article).first()
-            print(is_like)
             if is_like:
-                data = {
-                    'status': "success",
-                    'flag': 1,
-                }
+                data['flag'] = 1
+                print(1111111111111111)
                 return JsonResponse(data)
         except Exception as e:
             return JsonResponse(data)
     else:
         return JsonResponse(data)
+
+
+def change_sex(request):
+    if request.method == 'POST':
+        sex = request.POST.get('sex')
+        ticket = request.session.get('ticket')
+        if ticket:
+            user = UserModel.objects.get(ticket=ticket)
+            user.sex = sex
+            user.save()
+            return redirect('/main')
+        else:
+            return redirect('/login')
+    else:
+        return redirect('/main')
+
+def change_phone(request):
+    if request.method == 'POST':
+        phonenumber = request.POST.get('phonenumber')
+        try:
+            test = UserModel.objects.get(phonenumber=phonenumber)
+            request.session['phone_result'] = "此号码已经被注册"
+            return redirect('/main')
+        except Exception as e:
+            re_phone = re.search("^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\d{8}$",phonenumber)
+            print(re_phone)
+            if not re_phone:
+                request.session['phone_result']="请输入正确的电话号码"
+                return redirect('/main')
+            else:
+                ticket = request.session.get('ticket')
+                if ticket:
+                    user = UserModel.objects.get(ticket=ticket)
+                    user.phonenumber = phonenumber
+                    user.save()
+                    return redirect('/main')
+                else:
+                    return redirect('/login')
+    else:
+        return redirect('/main')

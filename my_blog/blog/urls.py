@@ -5,6 +5,8 @@ from blog import views
 urlpatterns = [
 url(r'^test$', views.test, name='test'),
 url(r'^link$', views.link, name='link'),
+url(r'^change_sex$', views.change_sex, name='change_sex'),
+url(r'^change_phone$', views.change_phone, name='change_phone'),
 url(r'^like_add$', views.like_add, name='like_add'),
 url(r'^like_show$', views.like_show, name='like_show'),
 url(r'^do_commet/(\d+)/(\d+)/(\d+)$', views.do_commet, name='do_commet'),
