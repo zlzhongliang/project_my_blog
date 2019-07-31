@@ -1,69 +1,22 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>点赞特效</title>
+<script >
 
-    <style>
-        #container{
-            padding: 50px;
-            border:1px solid #e51400;
-        }
-        #item{
-            position: relative;
-        }
-    </style>
-
-</head>
-<body>
-<div id="container">
-    <div id="item">
-        <span>赞</span>
-    </div>
-</div>
-
-<script src="{% static 'blog/js/jquery.js' %}"></script>
-<script>
-
-    $('#item').click(function () {
-        console.log(111111111111)
-        addZanStyle(this);
-        console.log(111111111111)
-    })
-
-    function addZanStyle(self){
-        console.log(1212121212121212)
-        var sp=document.createElement('span');
-        var top=0;
-        var left=0;
-        var fontSize=15;
-        var opacity=1;
-        $(sp).text('+1');
-        $(sp).css('top',top+'px');
-        $(sp).css('left',left+'px');
-        $(sp).css('fontSize',fontSize+'px');
-        $(sp).css('opacity',opacity);
-        $(sp).css('color','red');
-        $(sp).css('position','absolute');
-        $(self).append(sp);
-        var inte=setInterval(function(){
-            top=top-13;
-            left=left+10;
-            opacity=opacity-0.2;
-            fontSize=fontSize+5;
-            $(sp).css('top',top+'px');
-            $(sp).css('left',left+'px');
-            $(sp).css('fontSize',fontSize+'px');
-            $(sp).css('opacity',opacity);
-            if(opacity<0){
-                clearInterval(inte);
-                $(sp).remove();
-            }
-        },100);
-
+    function aaa() {
+        document.getElementById('year').select();
+    }
+    function bbb() {
+        document.getElementById('mon').select();
     }
 </script>
 
-</body>
-</html>
+
+
+<input type="text" id="year" name="year">
+
+
+
+
+<input type="text" id="mon" name="mon" >
+
+
+<a href="#" onclick="aaa()" >1111</a>>
+<a href="#" onclick="bbb()" >2222</a>>

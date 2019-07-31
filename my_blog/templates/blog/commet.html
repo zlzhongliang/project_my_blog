@@ -2,10 +2,18 @@
 <div id="respond" class="no_webshot">
     <script>
         function copyText(id,name) {
+            document.getElementById('comment').select();
             document.getElementById("commentform").action = "/do_commet/{{ article_id }}/{{ classify_id }}/" + id + '?next={{ request.get_full_path }}'
             document.getElementById("commentform_who").innerHTML = "请输入对<a href='#comments'>"+name+"</a>的回复:"
             document.getElementById("submit").innerHTML = "<i class=\"fa iconfont icon-bijiben\"></i> 提交回复"
             document.getElementById("comment").placeholder = "正在回复"+name+"..........."
+            var scroll_offset = $("#comment").offset(); //得到pos这个div层的offset，包含两个值，top和left
+            $("body,html").animate({
+            scrollTop:scroll_offset.top //让body的scrollTop等于pos的top，就实现了滚动
+            },1110);
+
+
+
         }
     </script>
     <form action="{% url 'blog:do_commet' article_id classify_id 0 %}?next={{ request.get_full_path }}" method="post"
@@ -18,7 +26,6 @@
             <div class="comt-author pull-left" id='commentform_who'>发表我的评论</div>
             <a id="cancel-comment-reply-link" class="pull-right" href="javascript:;">取消评论</a>
         </div>
-
         <div class="comt">
             <div class="comt-box">
                 <textarea placeholder="写点什么..." class="input-block-level comt-area" name="up_comment" id="comment"
@@ -61,6 +68,7 @@
         </div>
 
 
+
     </form>
 </div>
 <div id="postcomments">
@@ -78,7 +86,7 @@
                             <span class="c-author">
                                 <a href='#' rel='external nofollow'
                                    class='url'>{{ commet.author.username }}</a></span>{{ commet.issuedate }}
-                            <a rel='nofollow' class='comment-reply-link' href='#respond'
+                            <a rel='nofollow' class='comment-reply-link' href='javascript:;'
                                aria-label='回复给{{ commet.author.username }}' onclick="copyText({{ commet.id }},'{{ commet.author.username}}')">回复</a>&nbsp;&nbsp;共{{ commet.sort }}条回复
                         </div>
                     </div>
@@ -91,9 +99,7 @@
                             <div class="c-avatar"><img alt='' src='/static/{{ reply.author.icon }}'
                                                        class='avatar avatar-54 photo' height='54' width='54'/>
                                 <div class="c-main" id="div-comment-271040">{{ reply.commet }}
-                                    <div class="c-meta"><span class="c-author"><a href='#' rel='external nofollow'
-                                                                                  class='url'>{{ reply.author.username }}</a></span>回复<span
-                                            class="c-author"><a href='#' rel='external nofollow' class='url'>&nbsp;&nbsp;{{ reply.reply_to.username }}</a></span>{{ reply.issuedate }}
+                                    <div class="c-meta"><span class="c-author"><a href='#' rel='external nofollow' class='url'>{{ reply.author.username }}</a></span>回复<span class="c-author"><a href='#' rel='external nofollow' class='url'>&nbsp;&nbsp;{{ reply.reply_to.username }}</a></span>{{ reply.issuedate }}
                                     </div>
                                 </div>
                             </div>

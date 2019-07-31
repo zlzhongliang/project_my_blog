@@ -40,7 +40,7 @@
 
 
 <div class="article-social">
-			<a href="javascript:;" data-action="ding" data-id="6702" id="Addlike" class="action" onclick="like_change(this,{{ article.id }})"  ><i class="iconfont icon-icon-test"></i>喜欢 (<span class="count">{{ article.praise }}</span>)</a><span class="or">or</span>
+			<a href="javascript:;" data-action="ding" data-id="6702" id="Addlike" class="action" onclick="like_change(this,{{ article.id }})"  ><i class="{{ like_style }}"></i>喜欢 (<span class="count">{{ article.praise }}</span>)</a><span class="or">or</span>
                         {% include 'blog/share.html' %}
 </div>
 	</article>

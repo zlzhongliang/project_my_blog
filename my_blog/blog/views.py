@@ -276,7 +276,16 @@ def article(request,articleid):
     except EmptyPage:
         page_of_blogs = paginator.page(paginator.num_pages)  # 如果用户输入的页数不在系统的页码列表中时,显示最后一页的内容
 
-
+    ticket = request.session.get("ticket")
+    like_style = 'iconfont icon-icon-test'
+    if ticket:
+        try:
+            user = UserModel.objects.get(ticket = ticket)
+            like_article = LikeModel.objects.filter(user=user,article=article).first()
+            if like_article:
+                like_style = 'iconfont icon-aixin'
+        except Exception as e:
+            pass
 
 
 
@@ -297,6 +306,7 @@ def article(request,articleid):
             'article_ul': article_ul,
             'article_myself': article_myself,
             'article_fuli': article_fuli,
+            'like_style': like_style,
             }
     return render(request, 'blog/article.html', data)
 
@@ -418,60 +428,98 @@ def link(request):
 
 
 def like_add(request):
+    ticket = request.session.get('ticket')
     article_id = request.GET.get('id')
     flag = request.GET.get('flag')
     article = ArticleModel.objects.get(id=article_id)
-    user = 0
-    try:
-        user = UserModel.objects.get(ticket=request.session.get('ticket'))
-        like_flag = LikeModel.objects.get(user=user, article=article)
-    except Exception as e:
-        pass
-    if flag == '0':
-        if user:
+    if ticket:
+        user = UserModel.objects.get(ticket=ticket)
+        like_flag = LikeModel.objects.filter(user=user, article=article).first()
+        if like_flag:
+            like_flag.delete()
+            article.praise -= 1
+        else:
             like_article = LikeModel.createLike(user=user, article=article)
             like_article.save()
-        else:
-            pass
-        article.praise += 1
+            article.praise += 1
+        article.save()
+        data = {
+            'status': "success",
+            'praise': article.praise,
+        }
+        return JsonResponse(data)
+
+
     else:
-        if user:
-            like_article = LikeModel.objects.get(user=user, article=article)
-            like_article.delete()
+        if flag == '0':
+            article.praise += 1
         else:
-            pass
-        article.praise -= 1
-    article.save()
-    data={
-        'status':"success",
-        'praise':article.praise,
-    }
-    return JsonResponse(data)
+            article.praise -= 1
+        article.save()
+        data = {
+            'status': "success",
+            'praise': article.praise,
+        }
+        return JsonResponse(data)
+
+
+
+#
+# def like_add(request):
+#     article_id = request.GET.get('id')
+#     flag = request.GET.get('flag')
+#     article = ArticleModel.objects.get(id=article_id)
+#     user = 0
+#     try:
+#         user = UserModel.objects.get(ticket=request.session.get('ticket'))
+#         like_flag = LikeModel.objects.get(user=user, article=article)
+#     except Exception as e:
+#         pass
+#     if flag == '0':
+#         if user:
+#             like_article = LikeModel.createLike(user=user, article=article)
+#             like_article.save()
+#         else:
+#             article.praise += 1
+#     else:
+#         if user:
+#             like_article = LikeModel.objects.get(user=user, article=article)
+#             like_article.delete()
+#         else:
+#             pass
+#         article.praise -= 1
+#     article.save()
+#     data={
+#         'status':"success",
+#         'praise':article.praise,
+#     }
+#     return JsonResponse(data)
+
 
 
 def like_show(request):
-    article_id = request.GET.get('article_id')
-    article = ArticleModel.objects.get(id=article_id)
-    try:
-        ticket = request.session.get('ticket')
-        user = UserModel.objects.get(ticket=ticket)
-    except Exception as e:
-        pass
-    data={}
+    ticket = request.session.get('ticket')
+    data = {}
+    if ticket:
+        article_id = request.GET.get('article_id')
+        article = ArticleModel.objects.get(id=article_id)
+        try:
 
-    try:
-        print(user)
-        print(type(user))
-        print(article)
-        print(type(article))
-        is_like = LikeModel.objects.get(user=user,article=article)
-        print(is_like)
-        if is_like:
-            data = {
-                'status': "success",
-                'flag': 1,
-            }
+            user = UserModel.objects.get(ticket=ticket)
+        except Exception as e:
+            pass
+
+
+        try:
+            is_like = LikeModel.objects.filter(user=user,article=article).first()
+            print(is_like)
+            if is_like:
+                data = {
+                    'status': "success",
+                    'flag': 1,
+                }
+                return JsonResponse(data)
+        except Exception as e:
             return JsonResponse(data)
-    except Exception as e:
+    else:
         return JsonResponse(data)
-
