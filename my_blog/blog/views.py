@@ -246,6 +246,8 @@ def main_article(request):
                     'nav1' : "current-menu-item",
                     'icon': icon,
                     'main_articles': main_articles,
+                    'first_classify': list1,
+                    'second_classify': list2,
                     }
             return render(request, 'blog/main_article.html', date)
         except Exception as e:
