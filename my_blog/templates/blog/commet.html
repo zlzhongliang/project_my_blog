@@ -21,7 +21,7 @@
 
         <div class="comt-title">
             <div class="comt-avatar pull-left">
-                <img alt='' src='/static/{{ icon }}' class='avatar avatar-54 photo avatar-default' height='54'
+                <img alt='' src='/media/{{ icon }}' class='avatar avatar-54 photo avatar-default' height='54'
                      width='54'/></div>
             <div class="comt-author pull-left" id='commentform_who'>发表我的评论</div>
             <a id="cancel-comment-reply-link" class="pull-right" href="javascript:;">取消评论</a>
@@ -79,7 +79,7 @@
         {% for commet in commets %}
             <li class="comment even thread-even depth-1" id="comment-258876">
                 <div class="c-avatar">
-                    <img alt='' src='/static/{{ commet.author.icon }}' class='avatar avatar-54 photo' height='54'
+                    <img alt='' src='/media/{{ commet.author.icon }}' class='avatar avatar-54 photo' height='54'
                          width='54'/>
                     <div class="c-main" id="div-comment-258876">{{ commet.commet }}
                         <div class="c-meta">
@@ -96,7 +96,7 @@
                     <ul class="children">
                         <li class="comment byuser comment-author-cqcre bypostauthor odd alt depth-2"
                             id="comment-271040">
-                            <div class="c-avatar"><img alt='' src='/static/{{ reply.author.icon }}'
+                            <div class="c-avatar"><img alt='' src='/media/{{ reply.author.icon }}'
                                                        class='avatar avatar-54 photo' height='54' width='54'/>
                                 <div class="c-main" id="div-comment-271040">{{ reply.commet }}
                                     <div class="c-meta"><span class="c-author"><a href='#' rel='external nofollow' class='url'>{{ reply.author.username }}</a></span>回复<span class="c-author"><a href='#' rel='external nofollow' class='url'>&nbsp;&nbsp;{{ reply.reply_to.username }}</a></span>{{ reply.issuedate }}

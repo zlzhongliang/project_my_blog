@@ -1,22 +1,46 @@
-<script >
+{% load static %}
 
-    function aaa() {
-        document.getElementById('year').select();
+<style type="text/css">
+        .upload-file{
+      position: relative;
+      width: 100px;
+      padding: 10px 15px;
+      border: 1px solid rgb(119, 154, 80);
+      border-radius: 5px;
+      background-color: rgb(66, 215, 142);
+      color: #333333;
+      font-size: 14px;
+      text-align: center;
+      overflow: hidden;
     }
-    function bbb() {
-        document.getElementById('mon').select();
+
+    .upload-file span{ //单行显示
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
-</script>
+
+    .upload-file:hover{ //简单的hover效果
+      font-size: 15px;
+      border-color: rgb(39, 226, 81);
+    }
+
+    .upload-file input[type='file']{
+      height: 100%;
+      width: 100%;
+      position: absolute; //设置为绝对定位，不会影响到其他元素
+      top: 0;
+      right: 0;
+      opacity: 0;   //透明度为0
+      filter: alpha(opacity=0);
+      cursor: pointer;
+    }
+
+</style>
 
 
-
-<input type="text" id="year" name="year">
-
-
-
-
-<input type="text" id="mon" name="mon" >
-
-
-<a href="#" onclick="aaa()" >1111</a>>
-<a href="#" onclick="bbb()" >2222</a>>
+      <div class="upload-file">
+{#           // mulitiple属性控制是否允许上传多个文件#}
+        <input type="file" class="input-file" multiple="true">
+        <span class="tip">点击上传图片</span>
+      </div>

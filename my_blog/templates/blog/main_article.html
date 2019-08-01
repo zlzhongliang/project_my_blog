@@ -22,68 +22,44 @@
                 <h2><a>我发布的文章</a>
                 </h2>
             </header>
+        <style type="text/css">
+            table{
+
+                    table-layout:fixed;/* 只有定义了表格的布局算法为fixed，下面td的定义才能起作用。 */
+                }
+                td{
+                    width:100%;
+                    word-break:keep-all;/* 不换行 */
+                    white-space:nowrap;/* 不换行 */
+                    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+                    text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+                }
+        </style>
 
              <table style="font-size: 20px;" border="0" width="100%">
-                <tr bgcolor="#f0ffff" style="height: 55px">
-                    <td style="width: 20%">&nbsp;&nbsp;用户名 :</td>
-                    <td style="width: 40%">&nbsp;&nbsp;{{ user.username }}</td>
-                    <td style="width: 40%"><h2><a style="font-size: 16px" href="#">修改</a></h2></td>
+                <tr bgcolor="#f0ffff" style="height: 55px;" align="center">
+                    <td style="width: 25%">文章标题</td>
+                    <td style="width: 23%">类别</td>
+                    <td style="width: 20%">发布时间</td>
+                    <td style="width: 8%">浏览</td>
+                    <td style="width: 8%">喜欢</td>
+                    <td style="width: 8%">删除</td>
+                    <td style="width: 8%">修改</td>
                 </tr>
-                <tr style="height: 55px">
-                    <td style="width: 20%">&nbsp;&nbsp;密码 :</td>
-                    <td style="width: 40%">&nbsp;&nbsp;*********</td>
-                    <td style="width: 40%"><h2><a style="font-size: 16px" href="#">修改</a></h2></td>
+                 {% for main_article in main_articles %}
+                 <tr bgcolor="" style="height: 55px;font-size: 16px" align="center">
+                    <td noWrap style="width: 25%">{{ main_article.title }}</td>
+                    <td style="width: 23%">{{ main_article.first_classify }}>>{{ main_article.second_classify }}</td>
+                    <td style="width: 20%">{{ main_article.issuedate }}</td>
+                    <td style="width: 8%">{{ main_article.browse_count }}</td>
+                    <td style="width: 8%">{{ main_article.praise }}</td>
+                    <td style="width: 8%">{{ main_article.is_Delete }}</td>
+                    <td style="width: 8%">{{ main_article.id }}</td>
                 </tr>
-                <tr bgcolor="#f0ffff" style="height: 55px">
-                    <td style="width: 20%">&nbsp;&nbsp;邮箱 :</td>
-                    <td style="width: 40%">&nbsp;&nbsp;{{ user.email }}</td>
-                    <td style="width: 40%"><h2><a style="font-size: 16px" href="#">修改</a></h2></td>
-                </tr>
-                <tr style="height: 55px">
-                    <td style="width: 20%">&nbsp;&nbsp;头像 :</td>
-                    <td style="width: 40%">&nbsp;&nbsp;<img width="40px" height="40px" style="border-radius: 50%"
-                                                            src='/static/{{ user.icon }}'></td>
-                    <td style="width: 40%"><h2><a style="font-size: 16px" href="#">修改</a></h2></td>
-                </tr>
-                <form method="post">
-                    <tr bgcolor="#f0ffff" style="height: 55px">
-                        <td style="width: 20%">&nbsp;&nbsp;性别 :</td>
-                        <td style="width: 40%">
-                            <table >
-                                <tr>
-                                    {% if user.sex == '0' %}
-                                        <td><label for="sex_1"><input id="sex_1" name="sex" type="radio">&nbsp;男&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                        </td>
-                                        <td><label for="sex_2"><input id="sex_2" name="sex" type="radio"
-                                                                      checked>&nbsp;女&nbsp;</label></td>
-                                    {% elif user.sex == '1' %}
-                                        <td><label for="sex_1"><input id="sex_1" name="sex" type="radio" checked>&nbsp;男&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                        </td>
-                                        <td><label for="sex_2"><input id="sex_2" name="sex" type="radio"
-                                                                      >&nbsp;女&nbsp;</label></td>
-                                    {% else %}
-                                        <td><label for="sex_1"><input id="sex_1" name="sex" type="radio">&nbsp;男&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                        </td>
-                                        <td><label for="sex_2"><input id="sex_2" name="sex" type="radio">&nbsp;女&nbsp;</label></td>
-                                    {% endif %}
-                                </tr>
-                            </table>
+                 {% endfor %}
 
-                        </td>
-                        <td style="width: 40%"><h2><a style="font-size: 16px" href="#">修改</a></h2></td>
-                    </tr>
-                </form>
 
-                <tr style="height: 55px">
-                    <td style="width: 20%">&nbsp;&nbsp;手机号码 :</td>
-                    <td style="width: 40%">&nbsp;&nbsp;{{ user.phonenumber }}</td>
-                    <td style="width: 40%"><h2><a style="font-size: 16px" href="#">修改</a></h2></td>
-                </tr>
-                <tr bgcolor="#f0ffff" style="height: 55px">
-                    <td style="width: 20%">&nbsp;&nbsp;注册时间 :</td>
-                    <td style="width: 40%">&nbsp;&nbsp;{{ user.registertime }}</td>
-                    <td style="width: 40%"><h2><a style="font-size: 16px" href="#">修改</a></h2></td>
-                </tr>
+
             </table>
 
         </article>

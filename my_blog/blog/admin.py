@@ -6,6 +6,8 @@ from blog.models import UserModel, ArticleModel, LinkModel, CommetModel, LikeMod
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ('id','username','password','email','sex','icon','is_delete','is_activate','phonenumber','registertime')
+    # 可以快捷编辑的选项
+    list_editable = ["username","sex","phonenumber"]
 
 
 class ArticleAdmin(admin.ModelAdmin):

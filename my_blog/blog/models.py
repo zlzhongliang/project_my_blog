@@ -12,7 +12,7 @@ def user_avatar_path(instance, filename):
     # 通过当前时间字符串作为文件名
     file_name = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     # 拼接文件名和后缀
-    file = 'blog/img/carouse/'+file_name + '.' + ext
+    file = 'blog/img/icon/'+file_name + '.' + ext
     # 使用当前用户id为路径
     return file
 
@@ -23,7 +23,7 @@ class UserModel(models.Model):
     email = models.CharField(max_length=64, unique=True, verbose_name='邮箱地址')
     # Falsh代表女
     sex = models.BooleanField(null=True, verbose_name='性别')
-    icon = models.ImageField(default='blog/img/user/icon.png', verbose_name='头像')
+    icon = models.ImageField(upload_to=user_avatar_path,default='blog/img/user/icon.png', verbose_name='头像')
     is_delete = models.BooleanField(default=True, verbose_name='是否禁用')
     is_activate = models.BooleanField(default=False, verbose_name='是否激活')
     ticket = models.CharField(max_length=30,null=True, verbose_name='session值')

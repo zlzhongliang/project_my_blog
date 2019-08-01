@@ -80,8 +80,8 @@ DATABASES = {
         'NAME': 'my_blog',
         'USER': 'zhongliang',
         'PASSWORD': 'Px8023.*',
-        # 'HOST': '192.168.229.141',
-        'HOST': 'localhost',
+        'HOST': '192.168.229.142',
+        # 'HOST': 'localhost',
         'PORT': '3306',
     }
 }
@@ -127,3 +127,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')

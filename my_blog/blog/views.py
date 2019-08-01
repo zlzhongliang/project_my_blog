@@ -1,3 +1,4 @@
+import datetime
 import random
 import re
 import time
@@ -15,7 +16,7 @@ list1 = ["生活笔记", "技术杂谈", "福利专区"]
 list2 = [['个人随笔','个人日记','个人展示'],['C/C++','java','PHP','HTML','Python','JS','Other'],['福利专区']]
 likes = ArticleModel.objects.all().order_by('-share')[:8]
 links = LinkModel.objects.all().order_by('sort')
-icon = 'blog/img/user/icon.png'
+icon = 'blog/img/icon/icon.png'
 
 def test(request):
     return render(request, 'blog/1.html')
@@ -100,9 +101,13 @@ def article_list(request, first_classify, second_classify, third_classify):
 
 
 def about(request):
+    global icon
     token = request.session.get('token')
+    ticket = request.session.get('ticket')
+    if ticket:
+        user = UserModel.objects.get(ticket=ticket)
+        icon = user.icon
     comments = CommetModel.objects.filter(classify=1,parent=None).order_by('-alterdate')
-    print(comments)
     count = len(CommetModel.objects.filter(classify=1))
     data = {'token': token,
             'nav5': "current-menu-item",
@@ -231,15 +236,16 @@ def quit(request):
 def main_article(request):
     ticket = request.session.get('ticket')
     token = request.session.get('token')
-
     if ticket:
         try:
             user = UserModel.objects.get(ticket=ticket)
+            main_articles = ArticleModel.objects.filter(author=user)
             date = {'user': user,
                     'token': token,
                     'title': "我发布的文章-"+user.username,
                     'nav1' : "current-menu-item",
                     'icon': icon,
+                    'main_articles': main_articles,
                     }
             return render(request, 'blog/main_article.html', date)
         except Exception as e:
@@ -250,6 +256,10 @@ def main_article(request):
 
 
 def article(request,articleid):
+    global icon
+    ticket = request.session.get('ticket')
+    if ticket:
+        icon = UserModel.objects.get(ticket=ticket).icon
     article = ArticleModel.objects.get(id=articleid)
     article.browse_count +=1
     article.save()
@@ -524,3 +534,24 @@ def change_phone(request):
                     return redirect('/login')
     else:
         return redirect('/main')
+
+
+def change_icon(request):
+    ticket = request.session.get('ticket')
+    if ticket:
+        user = UserModel.objects.get(ticket=ticket)
+        if request.method == 'POST':
+            filename = request.FILES.get('icon')
+
+            ext = str(filename).split('.')[-1]
+            # 通过当前时间字符串作为文件名
+            file_name = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+            # 拼接文件名和后缀
+            file = 'media/blog/img/icon/' + file_name + '.' + ext
+            user.icon = 'blog/img/icon/' + file_name + '.' + ext
+            user.save()
+            with open(file, 'wb+') as f:
+                f.write(filename.read())
+        return redirect('/main')
+    else:
+        return redirect('/login')
