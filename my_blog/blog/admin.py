@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from blog.models import UserModel, ArticleModel, LinkModel, CommetModel, LikeModel
+from blog.models import UserModel, ArticleModel, LinkModel, CommetModel, LikeModel, NavModel
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -11,7 +11,7 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('id','title','synopsis','picture','first_classify','second_classify','third_classify','author','issuedate','alterdate','sort','browse_count','praise','share','is_Delete')
+    list_display = ('id','title','synopsis','picture','nav1','nav2','author','issuedate','alterdate','sort','browse_count','praise','share','is_Delete')
 
 
 class LinkAdmin(admin.ModelAdmin):
@@ -25,8 +25,13 @@ class CommetAdmin(admin.ModelAdmin):
 class LikeAdmin(admin.ModelAdmin):
     like_display = ('id', 'user', 'article', 'issuedate','sort', 'is_Delete')
 
+
+class NavAdmin(admin.ModelAdmin):
+    like_display = ('id', 'nav_name')
+
 admin.site.register(UserModel, UserAdmin)
 admin.site.register(ArticleModel, ArticleAdmin)
 admin.site.register(LinkModel, LinkAdmin)
 admin.site.register(CommetModel, CommetAdmin)
 admin.site.register(LikeModel, LikeAdmin)
+admin.site.register(NavModel, NavAdmin)

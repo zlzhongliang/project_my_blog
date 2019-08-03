@@ -8,14 +8,14 @@
     {% for article in articles %}
 <article class="excerpt">
 	<header>
-        <a class="label label-important" href="{% url 'blog:article_list' article.first_classify 0 0%}">{{ article.get_first_classify_display }}{{ article.ssecond_classify }}<i class="label-arrow"></i></a><h2><a target="_blank" href="{% url 'blog:article' article.id %}" title="{{ article.title }}">{{ article.title }}  </a></h2>
+        <a class="label label-important" href="{% url 'blog:article_list' article.nav2.id%}">{{ article.nav2.nav_name }}<i class="label-arrow"></i></a><h2><a target="_blank" href="{% url 'blog:article' article.id %}" title="{{ article.title }}">{{ article.title }}  </a></h2>
 	</header>
 	<div class="focus">
-        <a target="_blank" href="{% url 'blog:article' article.id %}"><img class="thumb" src="/static/{{ article.picture }}" alt="{{ article.title }}" /></a>
+        <a target="_blank" href="{% url 'blog:article' article.id %}"><img style="width: 200px;height: 123px" class="thumb" src="/media/{{ article.picture }}" alt="{{ article.title }}" /></a>
     </div>
 			<span class="note"> {{ article.synopsis }}...</span>
     <p class="auth-span">
-		<span class="muted"><i class="iconfont icon-wo"></i> <a href="{% url 'blog:article_list' 0 0 article.author.id %}">{{ article.author.username }}</a></span>
+		<span class="muted"><i class="iconfont icon-wo"></i> <a href="{{ article.author.my_url }}" target="_blank">{{ article.author.username }}</a></span>
 		<span class="muted"><i class="iconfont icon-shizhong"></i> {{ article.issuedate }}</span>
         <span class="muted"><i class="iconfont icon-eye"></i> {{ article.browse_count }}浏览</span>
         <span class="muted"><i class="iconfont icon-pinglun"></i> <a target="_blank" href="{% url 'blog:article' article.id %}#comments">{{ article.comment_num }}评论</a></span>

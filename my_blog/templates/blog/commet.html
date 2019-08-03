@@ -84,8 +84,7 @@
                     <div class="c-main" id="div-comment-258876">{{ commet.commet }}
                         <div class="c-meta">
                             <span class="c-author">
-                                <a href='#' rel='external nofollow'
-                                   class='url'>{{ commet.author.username }}</a></span>{{ commet.issuedate }}
+                                <a href="{{ article.author.my_url }}" target="_blank" rel='external nofollow' class='url'>{{ commet.author.username }}</a></span>{{ commet.issuedate }}
                             <a rel='nofollow' class='comment-reply-link' href='javascript:;'
                                aria-label='回复给{{ commet.author.username }}' onclick="copyText({{ commet.id }},'{{ commet.author.username}}')">回复</a>&nbsp;&nbsp;共{{ commet.sort }}条回复
                         </div>
@@ -99,7 +98,7 @@
                             <div class="c-avatar"><img alt='' src='/media/{{ reply.author.icon }}'
                                                        class='avatar avatar-54 photo' height='54' width='54'/>
                                 <div class="c-main" id="div-comment-271040">{{ reply.commet }}
-                                    <div class="c-meta"><span class="c-author"><a href='#' rel='external nofollow' class='url'>{{ reply.author.username }}</a></span>回复<span class="c-author"><a href='#' rel='external nofollow' class='url'>&nbsp;&nbsp;{{ reply.reply_to.username }}</a></span>{{ reply.issuedate }}
+                                    <div class="c-meta"><span class="c-author"><a href="{{ article.author.my_url }}" target="_blank" rel='external nofollow' class='url'>{{ reply.author.username }}</a></span>回复<span class="c-author"><a href='#' rel='external nofollow' class='url'>&nbsp;&nbsp;{{ reply.reply_to.username }}</a></span>{{ reply.issuedate }}
                                     </div>
                                 </div>
                             </div>

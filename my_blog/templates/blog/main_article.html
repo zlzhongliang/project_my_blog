@@ -1,21 +1,8 @@
-{% extends 'blog/base.html' %}
+{% extends 'blog/main_base.html' %}
+
 {% load static %}
-{% block body %}
-    <link rel='stylesheet' href='{% static 'blog/css/main_style.css' %}' type='text/css'/>
-    <div class="content-wrap">
-        <div class="content">
-
-            <div class="widget d_tag">
-                <div class="d_tags">
-                    <a title="我的个人资料" href="{% url 'blog:main' %}">我的资料</a>
-                    <a title="我发布的文章" href="{% url 'blog:main_article' %}">我的文章</a>
-                </div>
-            </div>
-
-
-        </div>
-    </div>
-    <aside class="sidebar">
+    {% block main_content %}
+   <aside class="sidebar">
         <article class="excerpt">
             <header>
                 <a class="label label-important">当前页面<i class="label-arrow"></i></a>
@@ -48,13 +35,17 @@
                 </tr>
                  {% for main_article in main_articles %}
                  <tr bgcolor="" style="height: 55px;font-size: 16px" align="center">
-                    <td noWrap style="width: 25%">{{ main_article.title }}</td>
-                    <td style="width: 23%">{{ first_classify }}>>{{ second_classify }}</td>
+                    <td noWrap style="width: 25%"><a href="{% url 'blog:article' main_article.id %}">{{ main_article.title }}</a></td>
+                     <td style="width: 23%"><a href="{% url 'blog:article_list' main_article.nav1.id %}">{{ main_article.nav1.nav_name }}</a>>><a href="{% url 'blog:article_list' main_article.nav2.id %}">{{ main_article.nav2.nav_name }}</a></td>
                     <td style="width: 20%">{{ main_article.issuedate }}</td>
                     <td style="width: 8%">{{ main_article.browse_count }}</td>
                     <td style="width: 8%">{{ main_article.praise }}</td>
-                    <td style="width: 8%">{% if main_article.is_Delete == True %}显示{% else %}隐藏{% endif %}</td>
-                    <td style="width: 8%">修改</td>
+                    {% if main_article.is_show == True %}
+                        <td style="width: 8%;color: #00d084">发布</td>
+                    {% else %}
+                        <td style="width: 8%;color: #e51400">隐藏</td>
+                    {% endif %}
+                    <td style="width: 8%"><a href="{% url "blog:article_write" main_article.id%}">修改</a></td>
                 </tr>
                  {% endfor %}
 
@@ -65,5 +56,4 @@
         </article>
 
     </aside>
-
-{% endblock %}
+    {% endblock %}

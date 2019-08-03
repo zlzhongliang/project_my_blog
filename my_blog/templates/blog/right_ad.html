@@ -62,7 +62,7 @@
         <div class="widget d_postlist"><div class="title"><h2>猜你喜欢</h2></div>
             <ul>
                 {% for like in likes %}
-                <li><a href="{% url 'blog:article' like.id %}" title="{{ like.title }}" ><span class="thumbnail"><img src="/static/{{ like.picture }}" alt="{{ like.title }}" /></span><span class="text">{{ like.title }}</span><span class="muted">{{ like.issuedate}}</span><span class="muted">{{ like.share }}分享</span></a></li>
+                <li><a href="{% url 'blog:article' like.id %}" title="{{ like.title }}" ><span class="thumbnail"><img src="/media/{{ like.picture }}" alt="{{ like.title }}" /></span><span class="text">{{ like.title }}</span><span class="muted">{{ like.issuedate}}</span><span class="muted">{{ like.share }}分享</span></a></li>
                 {% endfor %}
             </ul>
         </div>

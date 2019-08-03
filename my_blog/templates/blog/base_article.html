@@ -7,25 +7,24 @@
             <div class="breadcrumbs"><a title="返回首页" href="{% url 'blog:index' %}"><i class="iconfont icon-fl-jia"
                                                                                       style="font-size: 22px"></i></a>
                 <small>></small>
-                <a href="{% url 'blog:article_list' article.first_classify 0 0 %}">{{ s1 }}</a>
+                <a href="{% url 'blog:article_list' article.nav1.id %}">{{ article.nav1.nav_name }}</a>
                 <small>></small>
-                <a href="{% url 'blog:article_list' article.first_classify article.second_classify 0 %}">{{ s2 }}</a>
+                <a href="{% url 'blog:article_list' article.nav2.id %}">{{ article.nav2.nav_name }}</a>
                 <small>></small>
                 <span class="muted">{{ article.title }}</span></div>
             <header class="article-header">
                 <h1 class="article-title"><a href="#">{{ article.title }}</a></h1>
                 <div class="meta">
                     <span id="mute-category" class="muted"><i class="fa iconfont icon-bijiben"></i><a
-                            href="{% url 'blog:article_list' article.first_classify article.second_classify 0 %}"> {{ s2 }}</a></span>
-                    <span class="muted"><i class="iconfont icon-wo"></i> <a
-                            href="{% url 'blog:article_list' 0 0 article.author.id %}">{{ article.author.username }}</a></span>
+                            href="{% url 'blog:article_list' article.nav1.id %}"> {{ article.nav1.nav_name }}</a></span>
+                    <span class="muted"><i class="iconfont icon-wo"></i> <a href="{{ article.author.my_url }}" target="_blank">{{ article.author.username }}</a></span>
                     <time class="muted"><i class="iconfont icon-shizhong"></i> {{ article.issuedate }}</time>
                     <span class="muted"><i class="iconfont icon-eye"></i> {{ article.browse_count }}浏览</span>
                     <span class="muted"><i class="iconfont icon-pinglun"></i> <a
                             href="#comments">{{ count }}评论</a></span></div>
             </header>
             <div class="banner banner-post"><a href="{% url 'blog:index' %}"><img
-                    src="{% static 'blog/img/article/article_picture.png' %}"/></a>
+                    src="/media/blog/img/article/article_picture.png"></a>
                 <script>
                     (function () {
                         var bp = document.createElement('script');
@@ -999,7 +998,7 @@
                             <li class="related_box">
                                 <a href="{% url 'blog:article' article_li.id %}" title="{{ article_li.title }}"
                                    target="_blank">
-                                    <img src="/static/{{ article_li.picture }}" alt="{{ article_li.title }}"/><br><span
+                                    <img src="/media/{{ article_li.picture }}" alt="{{ article_li.title }}"/><br><span
                                         class="r_title">{{ article_li.title }}</span></a>
                             </li>
                         {% endfor %}

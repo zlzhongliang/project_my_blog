@@ -1,0 +1,23 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block body %}
+    <link rel='stylesheet' href='{% static 'blog/css/main_style.css' %}' type='text/css'/>
+    <div class="content-wrap">
+        <div class="content">
+
+            <div class="widget d_tag">
+                <div class="d_tags">
+                    <a title="我的个人资料" href="{% url 'blog:main' %}">我的资料</a>
+                    <a title="我发布的文章" href="{% url 'blog:main_article' %}">我的文章</a>
+                    <a title="我发布的文章" href="{% url 'blog:article_write' 0 %}">发布文章</a>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    {% block main_content %}
+
+    {% endblock %}
+<script src="{% static 'blog/js/main_my.js' %}" type="javascript"></script>
+{% endblock %}

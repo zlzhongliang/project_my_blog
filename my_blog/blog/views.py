@@ -5,11 +5,12 @@ import time
 
 from django.contrib.auth import logout
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db.models import Q
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from blog.models import UserModel, ArticleModel, LinkModel, CommetModel, LikeModel
+from blog.models import UserModel, ArticleModel, LinkModel, CommetModel, LikeModel, NavModel
 
 global list1,list2,likes,likes,icon
 list1 = ["生活笔记", "技术杂谈", "福利专区"]
@@ -25,7 +26,7 @@ def test(request):
 def index(request):
     token = request.session.get('token')
     praises = ArticleModel.objects.all().order_by('-praise')[:5]
-    articles = ArticleModel.objects.all().order_by('sort')
+    articles = ArticleModel.objects.filter(is_show=True,is_Delete=True).order_by('sort','-id')
 
     # 生成paginator对象,定义每页显示10条记录
     paginator = Paginator(articles, 5)
@@ -55,23 +56,41 @@ def index(request):
     return render(request, 'blog/index.html', data)
 
 
-def article_list(request, first_classify, second_classify, third_classify):
+def author_show(request,id):
+    global icon
+    token = request.session.get('token')
+    ticket = request.session.get('ticket')
+    if ticket:
+        user = UserModel.objects.get(ticket=ticket)
+        icon = user.icon
+    comments = CommetModel.objects.filter(classify=1,parent=None).order_by('-alterdate')
+    count = len(CommetModel.objects.filter(classify=1))
+    data = {'token': token,
+            'nav5': "current-menu-item",
+            'title': '关于自己-雪舞',
+            'icon': icon,
+            'article_id': 0,
+            'classify_id': 1,
+            'commets': comments,
+            'count': count,
+            }
+    return render(request,'blog/authorshow.html',data)
 
-    if third_classify == '0':  # 这是当前点击的作者的文章列表的标记
-        if second_classify == '0':
-            articles = ArticleModel.objects.filter(first_classify=first_classify).order_by('sort')
-        else:
-            articles = ArticleModel.objects.filter(first_classify=first_classify, second_classify=second_classify).order_by('sort')
+
+
+def article_list(request, id):
+    nav_flag = NavModel.objects.get(id=id)
+    if nav_flag.Nav_root:
+        articles = ArticleModel.objects.filter(nav2=nav_flag,is_Delete=True,is_show=True).order_by('sort','-id')
     else:
-        user = UserModel.objects.get(id = int(third_classify))
-        articles = ArticleModel.objects.filter(author=user).order_by('sort')
-    if first_classify == '0':
-        nav = 'nav2'
-    elif first_classify == '1':
-        nav = 'nav3'
-    else:
+        articles = ArticleModel.objects.filter(nav1=nav_flag,is_Delete=True,is_show=True).order_by('sort','-id')
+
+    if id in ['3','14']:
         nav = 'nav4'
-    title = ArticleModel.first_class[int(first_classify)][1]
+    elif id in ['1','4','5','6']:
+        nav = 'nav2'
+    else:
+        nav = 'nav3'
     token = request.session.get('token')
     # 生成paginator对象,定义每页显示10条记录
     paginator = Paginator(articles, 5)
@@ -90,7 +109,7 @@ def article_list(request, first_classify, second_classify, third_classify):
         page_of_blogs = paginator.page(paginator.num_pages)  # 如果用户输入的页数不在系统的页码列表中时,显示最后一页的内容
 
     data = {'token': token,
-            'title': title,
+            'title': nav_flag.nav_name,
             'articles': page_of_blogs,
             'likes': likes,
             'links': links,
@@ -239,7 +258,7 @@ def main_article(request):
     if ticket:
         try:
             user = UserModel.objects.get(ticket=ticket)
-            main_articles = ArticleModel.objects.filter(author=user)
+            main_articles = ArticleModel.objects.filter(author=user,is_Delete=True)
             date = {'user': user,
                     'token': token,
                     'title': "我发布的文章-"+user.username,
@@ -267,16 +286,19 @@ def article(request,articleid):
     article.save()
     title = article.title
     share = article.share
-    s1 = list1[int(article.first_classify)]
-    s2 = list2[int(article.first_classify)][int(article.second_classify)-1]
     token = request.session.get('token')
-    nav = 'nav'+str(article.first_classify+2)
+    if article.nav1.id == 3:
+        nav = 'nav4'
+    elif article.nav1.id in [1, 4, 5, 6]:
+        nav = 'nav2'
+    else:
+        nav = 'nav3'
     commets = CommetModel.objects.filter(article=article,parent=None).order_by('-alterdate')
     count=len(CommetModel.objects.filter(article=article))
     article_ul = ArticleModel.objects.all().order_by('-browse_count')[:4]
-    article_myself = ArticleModel.objects.filter(first_classify=0).order_by('-browse_count')[:6]
-    article_next = ArticleModel.objects.filter(id__gt=articleid).first()
-    article_prev = ArticleModel.objects.filter(id__lt=articleid).order_by('-id').first()
+    article_myself = ArticleModel.objects.all().order_by('-browse_count')[:6]
+    article_next = ArticleModel.objects.filter(id__lt=articleid).order_by('-id').first()
+    article_prev = ArticleModel.objects.filter(id__gt=articleid).first()
 
     # 生成paginator对象,定义每页显示10条记录
     paginator = Paginator(commets, 5)
@@ -309,8 +331,6 @@ def article(request,articleid):
             'article': article,
             'likes': likes,
             'links': links,
-            's1': s1,
-            's2': s2,
             'commets': page_of_blogs,
             nav: "current-menu-item",
             'count': count,
@@ -490,7 +510,6 @@ def like_show(request):
             is_like = LikeModel.objects.filter(user=user,article=article).first()
             if is_like:
                 data['flag'] = 1
-                print(1111111111111111)
                 return JsonResponse(data)
         except Exception as e:
             return JsonResponse(data)
@@ -557,3 +576,123 @@ def change_icon(request):
         return redirect('/main')
     else:
         return redirect('/login')
+
+
+def change_url(request):
+    if request.method == 'POST':
+        my_url = request.POST.get('my_url')
+        print(my_url)
+        ticket = request.session.get('ticket')
+        if ticket:
+            user = UserModel.objects.get(ticket=ticket)
+            user.my_url = my_url
+            user.save()
+            return redirect('/main')
+        else:
+            return redirect('/login')
+    else:
+        return redirect('/main')
+
+
+def article_write(request,id):
+    ticket = request.session.get("ticket")
+    token = request.session.get('token')
+    if ticket:
+        data = {'token': token,
+                'article_id': 0,
+                'title': '发布/修改文章',
+                }
+        # id = 0 表示发布文章
+        if id == '0':
+            pass
+        # id !=0 表示修改文章
+        else:
+            article = ArticleModel.objects.filter(id=id,author=UserModel.objects.get(ticket=ticket)).first()
+            nav2_list = NavModel.objects.filter(Nav_root=article.nav1)
+            data['article'] = article
+            data['article_id'] = article.id
+            data['nav2_list'] = nav2_list
+        return render(request,'blog/articlewrite.html',data)
+    else:
+        return redirect('/login')
+
+
+def do_article(request,id):
+    ticket = request.session.get("ticket")
+    if ticket:
+        author = UserModel.objects.get(ticket=ticket)
+        title = request.POST.get('title')
+        first_class=request.POST.get('first')
+        second_class = request.POST.get('second')
+        is_show = request.POST.get('is_show')
+        synopsis = request.POST.get('synopsis')
+        content = request.POST.get('content')
+        print(first_class)
+        print(second_class)
+        nav1 = NavModel.objects.get(nav_name=first_class,Nav_root=None)
+        nav2 = NavModel.objects.get(nav_name=second_class,Nav_root=nav1)
+
+
+
+
+        if id == '0':
+
+            picture = request.FILES.get('icon')
+            if picture == None:
+                article_picture = 'blog/img/article/default.png'
+            else:
+                ext = str(picture).split('.')[-1]
+                # 通过当前时间字符串作为文件名
+                file_name = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+                # 拼接文件名和后缀
+                file = 'media/blog/img/icon/' + file_name + '.' + ext
+                article_picture = 'blog/img/icon/' + file_name + '.' + ext
+                with open(file, 'wb+') as f:
+                    f.write(picture.read())
+            article = ArticleModel.createArticle(author,title,synopsis,content,nav1,nav2,is_show,article_picture)
+            article.save()
+
+        else:
+            article = ArticleModel.objects.get(id=id)
+            article.title = title
+            article.nav1=nav1
+            article.nav2=nav2
+            article.is_show = is_show
+            article.synopsis = synopsis
+            article.content = content
+            picture = request.FILES.get('icon')
+            if picture == None:
+                article.save()
+            else:
+                ext = str(picture).split('.')[-1]
+                # 通过当前时间字符串作为文件名
+                file_name = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+                # 拼接文件名和后缀
+                file = 'media/blog/img/icon/' + file_name + '.' + ext
+                article_picture = 'blog/img/icon/' + file_name + '.' + ext
+                with open(file, 'wb+') as f:
+                    f.write(picture.read())
+                article.picture = 'blog/img/icon/' + file_name + '.' + ext
+                article.save()
+        return redirect('/main_article')
+    else:
+        return redirect('/login')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

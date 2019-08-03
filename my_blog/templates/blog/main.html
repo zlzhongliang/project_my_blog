@@ -1,20 +1,6 @@
-{% extends 'blog/base.html' %}
+{% extends 'blog/main_base.html' %}
 {% load static %}
-{% block body %}
-    <link rel='stylesheet' href='{% static 'blog/css/main_style.css' %}' type='text/css'/>
-    <div class="content-wrap">
-        <div class="content">
-
-            <div class="widget d_tag">
-                <div class="d_tags">
-                    <a title="我的个人资料" href="{% url 'blog:main' %}">我的资料</a>
-                    <a title="我发布的文章" href="{% url 'blog:main_article' %}">我的文章</a>
-                </div>
-            </div>
-
-
-        </div>
-    </div>
+    {% block main_content %}
     <aside class="sidebar">
         <article class="excerpt">
             <header>
@@ -47,7 +33,7 @@
                 <form action="{% url 'blog:change_icon' %}" method="post" id="submit_icon" enctype="multipart/form-data">
                 <tr style="height: 55px">
                     <td style="width: 14%">&nbsp;&nbsp;头像 :</td>
-                    <td style="width: 6%">&nbsp;&nbsp;<img width="40px" height="40px" style="border-radius: 50%" src='/media/{{ user.icon }}'></td>
+                    <td style="width: 6%">&nbsp;&nbsp;<img style="width: 40px;height: 40px;border-radius: 50%" src='/media/{{ user.icon }}'></td>
                     <td style="width: 30%;padding-top: 10px;padding-left: 10px"><input type="file" name="icon" style="width: 208px;font-size: 16px"></td>
                     <td style="width: 6%"><h2><a id="modify_name" style="font-size: 16px" href="javascript:;" onclick="document:submit_icon.submit()">提交</a></h2></td>
                     <td style="width: 44%;color: red; font-size: 12px">{{ icon_result }}</td>
@@ -88,7 +74,15 @@
                     <td style="width: 44%;color: red; font-size: 12px">{{ phone_result }}</td>
                 </tr>
                 </form>
+                <form action="{% url 'blog:change_url' %}" method="post" id="submit_url">
                 <tr bgcolor="#f0ffff" style="height: 55px">
+                    <td colspan="2" style="width: 20%">&nbsp;&nbsp;我的主页 :</td>
+                    <td style="width: 30%;padding-top: 10px">&nbsp;&nbsp;<input type="text" name="my_url" value="{{ user.my_url }}"></td>
+                    <td style="width: 6%"><h2><a id="modify_name" style="font-size: 16px" href="javascript:;" onclick="document:submit_url.submit()">修改</a></h2></td>
+                    <td style="width: 44%;color: red; font-size: 12px">{{ url_result }}</td>
+                </tr>
+                </form>
+                <tr style="height: 55px">
                     <td colspan="2" style="width: 20%">&nbsp;&nbsp;注册时间 :</td>
                     <td style="width: 30%">&nbsp;&nbsp;{{ user.registertime }}</td>
                     <td style="width: 6%"><h2><a id="modify_name" style="font-size: 16px" href="#"></a></h2></td>
@@ -99,5 +93,4 @@
         </article>
 
     </aside>
-<script src="{% static 'blog/js/main_my.js' %}" type="javascript"></script>
-{% endblock %}
+    {% endblock %}

@@ -41,7 +41,7 @@
 </form>
 
 <p id="nav">
-<a href="{% url 'blog:register' %}">注册</a> | 	<a href="https://cuiqingcai.com/wp-login.php?action=lostpassword">忘记密码？</a>
+<a href="{% url 'blog:register' %}">注册</a> | 	<a href="#">忘记密码？</a>
 </p>
 
 <script type="text/javascript">
@@ -58,7 +58,7 @@ wp_attempt_focus();
 if(typeof wpOnload=='function')wpOnload();
 </script>
 
-	<p id="backtoblog"><a href="https://cuiqingcai.com/">&larr; 返回到静觅</a></p>
+	<p id="backtoblog"><a href="{% url 'blog:index' %}">&larr; 返回到首页</a></p>
 		
 	</div>
 

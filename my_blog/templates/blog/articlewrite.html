@@ -1,0 +1,115 @@
+{% extends 'blog/main_base.html' %}
+
+{% load static %}
+    {% block main_content %}
+   <aside class="sidebar">
+        <article class="excerpt">
+            <header>
+                <a class="label label-important">当前页面<i class="label-arrow"></i></a>
+                <h2><a>发布/修改文章</a>
+                </h2>
+            </header>
+        <form action="{% url 'blog:do_article' article_id %}" method="post" id="do_aticle" enctype="multipart/form-data">
+        <table border="0" style="width: 100%;font-size: 20px">
+            <tr style="height: 60px">
+                <td style="width: 17%">标题 : </td>
+                <td colspan="2" style="padding-top: 10px"><input type="text" name="title" style="width: 98%" value="{{ article.title }}"></td>
+            </tr>
+            <tr style="height: 60px"  bgcolor="#f0ffff">
+                <td style="width: 17%">类别 : </td>
+                <td style="width: 15%">
+                    <script>
+                        function change()
+                        {
+                           var x = document.getElementById("first");
+                           var y = document.getElementById("second");
+                           y.options.length = 0; // 清除second下拉框的所有内容
+                           if(x.selectedIndex == 0)
+                           {
+
+                                y.options.add(new Option("个人随笔", "个人随笔", false, true));  // 默认选中省会城市
+                                y.options.add(new Option("个人日记", "个人日记"));
+                                y.options.add(new Option("个人展示", "个人展示"));
+                           }
+
+                           if(x.selectedIndex == 1)
+                           {
+                                y.options.add(new Option("C/C++", "C/C++", false, true));
+                                y.options.add(new Option("Java", "Java"));
+                                y.options.add(new Option("PHP", "PHP"));
+                                y.options.add(new Option("HTML", "HTML"));
+                                y.options.add(new Option("Python", "Python"));
+                                y.options.add(new Option("JS", "JS"));
+                                y.options.add(new Option("Other", "Other"));
+                           }
+                          if(x.selectedIndex == 2)
+                           {
+                                y.options.add(new Option("福利专区", "福利专区"));
+                           }
+
+                        }
+                    </script>
+                    <select id="first" name="first" onChange="change()">
+                      <option {% if article.nav1.nav_name == '生活笔记' %}selected="selected"{% endif %} value="生活笔记" >生活笔记</option>
+                      <option {% if article.nav1.nav_name == '技术杂谈' %}selected="selected"{% endif %} value="技术杂谈">技术杂谈</option>
+                      <option {% if article.nav1.nav_name == '福利专区' %}selected="selected"{% endif %} value="福利专区">福利专区</option>
+                    </select>
+                </td>
+                <td>
+                    {% if article_id == 0 %}
+                    <select id="second" name="second">
+                       <option  value="个人随笔">个人随笔</option>
+                       <option value="个人日记">个人日记</option>
+                       <option value="个人展示">个人展示</option>
+                    </select>
+                    {% else %}
+
+                        <select id="second" name="second">
+                        {% for nav in nav2_list %}
+                        <option {% if article.nav2.nav_name == nav.nav_name %}selected="selected"{% endif %} value="{{ nav.nav_name }}">{{ nav.nav_name }}</option>
+                        {% endfor %}
+                        </select>
+                    {% endif %}
+                </td>
+
+            </tr>
+            <tr style="height: 60px">
+                <td style="width: 17%">状态 : </td>
+                {% if article_id == 0 %}
+                    <td style="width: 15%"><label for="show_1"><input id="show_1" name="is_show" type="radio" value="1"> 发布到首页 </label></td>
+                    <td><label for="show_2"><input id="show_2" name="is_show" type="radio" value="0" checked> 暂存到我的文章 </label></td>
+
+                {% else %}
+                    <td style="width: 15%"><label for="show_1"><input id="show_1" name="is_show" type="radio" value="1" {% if article.is_show == True %}checked{% endif %}> 发布到首页 </label></td>
+                    <td><label for="show_2"><input id="show_2" name="is_show" type="radio" value="0" {% if article.is_show == False %}checked{% endif %}> 暂存到我的文章 </label></td>
+                {% endif %}
+
+
+
+            </tr>
+            <tr style="height: 60px" bgcolor="#f0ffff">
+                <td style="width: 17%">文章缩略图 : </td>
+                <td colspan="2" style="width: 100%;padding-top: 10px"><input type="file" name="icon" style="width: 98%"></td>
+            </tr>
+            <tr style="height: 60px">
+                <td colspan="3">序言（200字） : </td>
+            </tr>
+            <tr>
+                <td colspan="3"><textarea class="input-block-level comt-area" name="synopsis" id="comment" cols="100%" rows="3" tabindex="1">{{ article.synopsis }}</textarea></td>
+            </tr>
+            <tr style="height: 60px">
+                <td colspan="3">文章内容 : </td>
+            </tr>
+            <tr>
+                <td colspan="3"><textarea class="input-block-level comt-area" name="content" id="comment" cols="100%" rows="10" tabindex="1">{{ article.content }}</textarea></td>
+            </tr>
+            <tr>
+                <td colspan="3"><button class="btn btn-primary pull-left" type="submit" name="submit" id="submit" tabindex="5" style="background-color: #e51400">删除文章</button><button class="btn btn-primary pull-right" type="submit" >提交并发布</button></td>
+            </tr>
+        </table>
+
+       </form>
+        </article>
+
+    </aside>
+    {% endblock %}
