@@ -87,6 +87,7 @@ class ArticleModel(models.Model):
     share = models.IntegerField(default=0, verbose_name='分享')
     is_Delete = models.BooleanField(default=True,verbose_name='是否删除')
     is_show = models.BooleanField(default=True,verbose_name='是否显示')
+    to_examine = models.BooleanField(default=False,verbose_name='审核')
     comment_num = models.IntegerField(default=0, verbose_name='评论次数')
     reserve3 = models.CharField(max_length=62, default='0', verbose_name='保留字段')
     reserve4 = models.CharField(max_length=62, default='0', verbose_name='保留字段')

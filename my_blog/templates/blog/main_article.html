@@ -2,6 +2,16 @@
 
 {% load static %}
     {% block main_content %}
+        <script language="javascript">
+        <!--
+         function linkok(url){
+          question = confirm("你确认要链接到" + url +"吗？");
+          if (question){
+           window.location.href = url;
+          }
+         }
+        //-->
+        </script>
    <aside class="sidebar">
         <article class="excerpt">
             <header>
@@ -25,31 +35,35 @@
 
              <table style="font-size: 20px;" border="0" width="100%">
                 <tr bgcolor="#f0ffff" style="height: 55px;" align="center">
-                    <td style="width: 25%">文章标题</td>
-                    <td style="width: 23%">类别</td>
-                    <td style="width: 20%">发布时间</td>
+                    <td style="width: 21%">文章标题</td>
+                    <td style="width: 20%">类别</td>
+                    <td style="width: 18%">发布时间</td>
                     <td style="width: 8%">浏览</td>
                     <td style="width: 8%">喜欢</td>
                     <td style="width: 8%">状态</td>
                     <td style="width: 8%">操作</td>
+                    <td style="width: 8%">删除</td>
                 </tr>
                  {% for main_article in main_articles %}
                  <tr bgcolor="" style="height: 55px;font-size: 16px" align="center">
-                    <td noWrap style="width: 25%"><a href="{% url 'blog:article' main_article.id %}">{{ main_article.title }}</a></td>
-                     <td style="width: 23%"><a href="{% url 'blog:article_list' main_article.nav1.id %}">{{ main_article.nav1.nav_name }}</a>>><a href="{% url 'blog:article_list' main_article.nav2.id %}">{{ main_article.nav2.nav_name }}</a></td>
-                    <td style="width: 20%">{{ main_article.issuedate }}</td>
+                    <td noWrap style="width: 21%"><a href="{% url 'blog:article' main_article.id %}">{{ main_article.title }}</a></td>
+                     <td style="width: 20%"><a href="{% url 'blog:article_list' main_article.nav1.id %}">{{ main_article.nav1.nav_name }}</a>>><a href="{% url 'blog:article_list' main_article.nav2.id %}">{{ main_article.nav2.nav_name }}</a></td>
+                    <td style="width: 18%">{{ main_article.issuedate }}</td>
                     <td style="width: 8%">{{ main_article.browse_count }}</td>
                     <td style="width: 8%">{{ main_article.praise }}</td>
                     {% if main_article.is_show == True %}
-                        <td style="width: 8%;color: #00d084">发布</td>
+                        {% if main_article.to_examine == False %}
+                            <td style="width: 8%;color: #0693e3">审核中</td>
+                        {% else %}
+                            <td style="width: 8%;color: #00d084">已发布</td>
+                        {% endif %}
                     {% else %}
                         <td style="width: 8%;color: #e51400">隐藏</td>
                     {% endif %}
                     <td style="width: 8%"><a href="{% url "blog:article_write" main_article.id%}">修改</a></td>
+                    <td style="width: 8%"><a href="javascript:linkok('{% url 'blog:article_delete' main_article.id %}')">删除</a> </td>
                 </tr>
                  {% endfor %}
-
-
 
             </table>
 

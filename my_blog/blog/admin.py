@@ -11,8 +11,8 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('id','title','synopsis','picture','nav1','nav2','author','issuedate','alterdate','sort','browse_count','praise','share','is_Delete')
-
+    list_display = ('id','title','synopsis','picture','nav1','nav2','author','issuedate','alterdate','sort','browse_count','praise','share','is_show','to_examine','is_Delete')
+    list_editable = ['to_examine']
 
 class LinkAdmin(admin.ModelAdmin):
     list_display = ('id', 'link', 'link_name', 'issuedate','sort', 'is_Delete')

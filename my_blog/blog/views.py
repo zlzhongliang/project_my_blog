@@ -12,11 +12,8 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from blog.models import UserModel, ArticleModel, LinkModel, CommetModel, LikeModel, NavModel
 
-global list1,list2,likes,likes,icon
-list1 = ["生活笔记", "技术杂谈", "福利专区"]
-list2 = [['个人随笔','个人日记','个人展示'],['C/C++','java','PHP','HTML','Python','JS','Other'],['福利专区']]
-likes = ArticleModel.objects.all().order_by('-share')[:8]
-links = LinkModel.objects.all().order_by('sort')
+global icon
+
 icon = 'blog/img/icon/icon.png'
 
 def test(request):
@@ -25,8 +22,10 @@ def test(request):
 
 def index(request):
     token = request.session.get('token')
-    praises = ArticleModel.objects.all().order_by('-praise')[:5]
-    articles = ArticleModel.objects.filter(is_show=True,is_Delete=True).order_by('sort','-id')
+    praises = ArticleModel.objects.filter(is_show=True,is_Delete=True,to_examine=True).order_by('-praise')[:5]
+    articles = ArticleModel.objects.filter(is_show=True,is_Delete=True,to_examine=True).order_by('sort','-id')
+    likes = ArticleModel.objects.filter(is_show=True, is_Delete=True, to_examine=True).order_by('-comment_num')[:8]
+    links = LinkModel.objects.all().order_by('sort')
 
     # 生成paginator对象,定义每页显示10条记录
     paginator = Paginator(articles, 5)
@@ -45,9 +44,8 @@ def index(request):
         page_of_blogs = paginator.page(paginator.num_pages)  # 如果用户输入的页数不在系统的页码列表中时,显示最后一页的内容
 
     data = {'token': token,
-            'title': "雪舞-钟亮的个人博客",
+            'title': "明日之我-钟亮的个人博客",
             'articles': page_of_blogs,
-            'list2': list2,
             'praises': praises,
             'likes': likes,
             'links': links,
@@ -56,41 +54,41 @@ def index(request):
     return render(request, 'blog/index.html', data)
 
 
-def author_show(request,id):
-    global icon
-    token = request.session.get('token')
-    ticket = request.session.get('ticket')
-    if ticket:
-        user = UserModel.objects.get(ticket=ticket)
-        icon = user.icon
-    comments = CommetModel.objects.filter(classify=1,parent=None).order_by('-alterdate')
-    count = len(CommetModel.objects.filter(classify=1))
-    data = {'token': token,
-            'nav5': "current-menu-item",
-            'title': '关于自己-雪舞',
-            'icon': icon,
-            'article_id': 0,
-            'classify_id': 1,
-            'commets': comments,
-            'count': count,
-            }
-    return render(request,'blog/authorshow.html',data)
+# def author_show(request,id):
+#     global icon
+#     token = request.session.get('token')
+#     ticket = request.session.get('ticket')
+#     if ticket:
+#         user = UserModel.objects.get(ticket=ticket)
+#         icon = user.icon
+#     comments = CommetModel.objects.filter(classify=1,parent=None).order_by('-alterdate')
+#     count = len(CommetModel.objects.filter(classify=1))
+#     data = {'token': token,
+#             'nav5': "current-menu-item",
+#             'title': '关于自己-雪舞',
+#             'icon': icon,
+#             'article_id': 0,
+#             'classify_id': 1,
+#             'commets': comments,
+#             'count': count,
+#             }
+#     return render(request,'blog/authorshow.html',data)
 
 
 
 def article_list(request, id):
     if id == '0':
         serch = request.GET.get('s')
-        articles=ArticleModel.objects.filter(title__contains=serch,is_Delete=True,is_show=True).order_by('-browse_count')
-        title = '搜索'+serch+'的结果'
+        articles=ArticleModel.objects.filter(title__contains=serch,is_Delete=True,is_show=True,to_examine=True).order_by('-browse_count')
+        title = '搜索'+serch+'的结果-明日之我-钟亮的个人博客'
         str_serch = 's='+serch
     else:
         nav_flag = NavModel.objects.get(id=id)
         if nav_flag.Nav_root:
-            articles = ArticleModel.objects.filter(nav2=nav_flag,is_Delete=True,is_show=True).order_by('sort','-id')
+            articles = ArticleModel.objects.filter(nav2=nav_flag,is_Delete=True,is_show=True,to_examine=True).order_by('sort','-id')
         else:
-            articles = ArticleModel.objects.filter(nav1=nav_flag,is_Delete=True,is_show=True).order_by('sort','-id')
-        title = nav_flag.nav_name
+            articles = ArticleModel.objects.filter(nav1=nav_flag,is_Delete=True,is_show=True,to_examine=True).order_by('sort','-id')
+        title = nav_flag.nav_name+'-明日之我-钟亮的个人博客'
         str_serch = 0
     if id in ['3','14']:
         nav = 'nav4'
@@ -117,6 +115,8 @@ def article_list(request, id):
     except EmptyPage:
         page_of_blogs = paginator.page(paginator.num_pages)  # 如果用户输入的页数不在系统的页码列表中时,显示最后一页的内容
 
+    likes = ArticleModel.objects.filter(is_show=True, is_Delete=True, to_examine=True).order_by('-comment_num')[:8]
+    links = LinkModel.objects.all().order_by('sort')
     data = {'token': token,
             'title': title,
             'articles': page_of_blogs,
@@ -140,7 +140,7 @@ def about(request):
     count = len(CommetModel.objects.filter(classify=1))
     data = {'token': token,
             'nav5': "current-menu-item",
-            'title': '关于自己-雪舞',
+            'title': '关于自己-明日之我-钟亮的个人博客',
             'icon': icon,
             'article_id': 0,
             'classify_id': 1,
@@ -159,7 +159,7 @@ def main(request):  # 这是用户的主页的首页
             user = UserModel.objects.get(ticket=ticket)
             data = {'user': user,
                     'token': token,
-                    'title': "个人中心-"+ user.username,
+                    'title': user.username+"-个人中心",
                     'nav1': "current-menu-item",
                     'icon': icon,
                     }
@@ -206,7 +206,7 @@ def login(request):
     if ticket:
         return redirect('/main')
     else:
-        data = {'title': '登陆页面-雪舞',
+        data = {'title': '登陆页面-明日之我-钟亮的个人博客',
                 'next': next
                 }
         return render(request, 'blog/login.html', data)
@@ -239,7 +239,7 @@ def do_login(request):
 
 
 def register(request):
-    data = {'title': '注册页面-雪舞'}
+    data = {'title': '注册页面-明日之我-钟亮的个人博客'}
     return render(request, 'blog/register.html', data)
 
 
@@ -266,22 +266,20 @@ def main_article(request):
     ticket = request.session.get('ticket')
     token = request.session.get('token')
     if ticket:
-        try:
-            user = UserModel.objects.get(ticket=ticket)
-            main_articles = ArticleModel.objects.filter(author=user,is_Delete=True)
-            date = {'user': user,
-                    'token': token,
-                    'title': "我发布的文章-"+user.username,
-                    'nav1' : "current-menu-item",
-                    'icon': icon,
-                    'main_articles': main_articles,
-                    'first_classify': list1,
-                    'second_classify': list2,
-                    }
-            return render(request, 'blog/main_article.html', date)
-        except Exception as e:
-            quit()
-            return redirect("/login")
+        # try:
+        user = UserModel.objects.get(ticket=ticket)
+        main_articles = ArticleModel.objects.filter(author=user,is_Delete=True).order_by('-id')
+        date = {'user': user,
+                'token': token,
+                'title': user.username+"-发布的文章",
+                'nav1' : "current-menu-item",
+                'icon': icon,
+                'main_articles': main_articles,
+                }
+        return render(request, 'blog/main_article.html', date)
+        # except Exception as e:
+        #     logout(request)
+        #     return redirect("/login")
     else:
         return redirect("/login")
 
@@ -291,25 +289,28 @@ def article(request,articleid):
     ticket = request.session.get('ticket')
     if ticket:
         icon = UserModel.objects.get(ticket=ticket).icon
-    article = ArticleModel.objects.get(id=articleid)
-    article.browse_count +=1
-    article.save()
-    title = article.title
-    share = article.share
-    token = request.session.get('token')
-    if article.nav1.id == 3:
-        nav = 'nav4'
-    elif article.nav1.id in [1, 4, 5, 6]:
-        nav = 'nav2'
-    else:
-        nav = 'nav3'
-    commets = CommetModel.objects.filter(article=article,parent=None).order_by('-alterdate')
-    count=len(CommetModel.objects.filter(article=article))
-    article_ul = ArticleModel.objects.all().order_by('-browse_count')[:4]
-    article_myself = ArticleModel.objects.all().order_by('-browse_count')[:6]
-    article_next = ArticleModel.objects.filter(id__lt=articleid).order_by('-id').first()
-    article_prev = ArticleModel.objects.filter(id__gt=articleid).first()
+    try:
+        article = ArticleModel.objects.get(id=articleid,is_show=True,is_Delete=True,to_examine=True)
 
+        article.browse_count +=1
+        article.save()
+        title = article.title
+        share = article.share
+        token = request.session.get('token')
+        if article.nav1.id == 3:
+            nav = 'nav4'
+        elif article.nav1.id in [1, 4, 5, 6]:
+            nav = 'nav2'
+        else:
+            nav = 'nav3'
+        commets = CommetModel.objects.filter(article=article,parent=None).order_by('-alterdate')
+        count=len(CommetModel.objects.filter(article=article))
+        article_ul = ArticleModel.objects.filter(is_show=True,is_Delete=True,to_examine=True).order_by('-browse_count')[:4]
+        article_myself = ArticleModel.objects.filter(is_show=True,is_Delete=True,to_examine=True).order_by('-browse_count')[:6]
+        article_next = ArticleModel.objects.filter(id__lt=articleid,is_show=True,is_Delete=True,to_examine=True).order_by('-id').first()
+        article_prev = ArticleModel.objects.filter(id__gt=articleid,is_show=True,is_Delete=True,to_examine=True).first()
+    except Exception as e:
+        return redirect('/index')
     # 生成paginator对象,定义每页显示10条记录
     paginator = Paginator(commets, 5)
 
@@ -336,6 +337,8 @@ def article(request,articleid):
                 like_style = 'iconfont icon-aixin'
         except Exception as e:
             pass
+    likes = ArticleModel.objects.filter(is_show=True, is_Delete=True, to_examine=True).order_by('-comment_num')[:8]
+    links = LinkModel.objects.all().order_by('sort')
     data = {'title': title,
             'token': token,
             'article': article,
@@ -363,7 +366,7 @@ def message(request):
     count = len(CommetModel.objects.filter(classify=2))
     data = {'token': token,
             'nav6': "current-menu-item",
-            'title': '给我留言-雪舞',
+            'title': '给我留言-明日之我-钟亮的个人博客',
             'icon': icon,
             'article_id': 0,
             'classify_id': 2,
@@ -378,7 +381,7 @@ def donate(request):
     token = request.session.get('token')
     data = {'token': token,
             'nav7': "current-menu-item",
-            'title': '赞助作者-雪舞',
+            'title': '赞助作者-明日之我-钟亮的个人博客',
             'icon': icon,
             'article_id': 0,
             'classify_id': 3,
@@ -391,7 +394,7 @@ def exchange(request):
     token = request.session.get('token')
     data = {'token': token,
             'nav8': "current-menu-item",
-            'title': '技术交流-雪舞',
+            'title': '技术交流-明日之我-钟亮的个人博客',
             'icon': icon,
             }
     return render(request,'blog/exchange.html',data)
@@ -401,7 +404,7 @@ def project(request):
     token = request.session.get('token')
     data = {'token': token,
             'nav9': "current-menu-item",
-            'title': '项目合作-雪舞',
+            'title': '项目合作-明日之我-钟亮的个人博客',
             'icon': icon,
             }
     return render(request,'blog/project.html',data)
@@ -462,7 +465,7 @@ def link(request):
     count = len(CommetModel.objects.filter(classify=4))
     data = {'token': token,
             'nav1': "current-menu-item",
-            'title': '友情连接-雪舞',
+            'title': '友情连接-明日之我-钟亮的个人博客',
             'icon': icon,
             'article_id': 0,
             'classify_id': 4,
@@ -607,17 +610,18 @@ def change_url(request):
 def article_write(request,id):
     ticket = request.session.get("ticket")
     token = request.session.get('token')
+    user = UserModel.objects.get(ticket=ticket)
     if ticket:
         data = {'token': token,
                 'article_id': 0,
-                'title': '发布/修改文章',
+                'title': user.username+'-发布/修改文章',
                 }
         # id = 0 表示发布文章
         if id == '0':
             pass
         # id !=0 表示修改文章
         else:
-            article = ArticleModel.objects.filter(id=id,author=UserModel.objects.get(ticket=ticket)).first()
+            article = ArticleModel.objects.filter(id=id,is_Delete=True,author=user).first()
             nav2_list = NavModel.objects.filter(Nav_root=article.nav1)
             data['article'] = article
             data['article_id'] = article.id
@@ -637,8 +641,6 @@ def do_article(request,id):
         is_show = request.POST.get('is_show')
         synopsis = request.POST.get('synopsis')
         content = request.POST.get('content')
-        print(first_class)
-        print(second_class)
         nav1 = NavModel.objects.get(nav_name=first_class,Nav_root=None)
         nav2 = NavModel.objects.get(nav_name=second_class,Nav_root=nav1)
 
@@ -663,13 +665,14 @@ def do_article(request,id):
             article.save()
 
         else:
-            article = ArticleModel.objects.get(id=id)
+            article = ArticleModel.objects.get(id=id,author=author,is_Delete=True)
             article.title = title
             article.nav1=nav1
             article.nav2=nav2
             article.is_show = is_show
             article.synopsis = synopsis
             article.content = content
+            article.to_examine = False
             picture = request.FILES.get('icon')
             if picture == None:
                 article.save()
@@ -689,10 +692,20 @@ def do_article(request,id):
         return redirect('/login')
 
 
-
-
-
-
+def article_delete(request,id):
+    ticket = request.session.get('ticket')
+    if ticket:
+        try:
+            user = UserModel.objects.get(ticket=ticket)
+            article = ArticleModel.objects.get(id = id,is_Delete=True,author=user)
+            article.is_Delete = False
+            article.save()
+            return redirect('blog:main_article')
+        except Exception as e:
+            return redirect('blog:main_article')
+    else:
+        logout(request)
+        return redirect('/login')
 
 
 
