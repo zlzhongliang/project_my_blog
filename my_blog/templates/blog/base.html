@@ -97,6 +97,14 @@
 
 
             }
+            function search(obj) {
+                var a = obj.nextSibling
+                if (a.style.display == 'none'){
+                    a.style.display='block'
+                }else {
+                    a.style.display='none'
+                }
+            }
 
 
             {#function addZanStyle(self){#}
@@ -254,13 +262,18 @@ a.bibtex_title{
             <li id="menu-item-1131" class="menu-item menu-item-type-post_type menu-item-object-page {{ nav7 }} menu-item-1131"><a href="{% url 'blog:donate' %}">赞助作者</a></li>
             <li id="menu-item-4571" class="menu-item menu-item-type-post_type menu-item-object-page {{ nav8 }} menu-item-4571"><a href="{% url 'blog:exchange' %}">技术交流</a></li>
             <li id="menu-item-6397" class="menu-item menu-item-type-post_type menu-item-object-page {{ nav9 }} menu-item-6397"><a href="{% url 'blog:project' %}">项目合作</a></li>
-<li style="float:right;">
-
-
-                    <div class="toggle-search"><i class="iconfont icon-sousuo" style="font-size: 22px"></i></div>
-
-<div class="search-expand" style="display: none;"><div class="search-expand-inner"><form method="get" class="searchform themeform" onsubmit="location.href='https://cuiqingcai.com/?s=' + encodeURIComponent(this.s.value).replace(/%20/g, '+'); return false;" action="/"><div> <input type="ext" class="search" name="s" onblur="if(this.value=='')this.value='search...';" onfocus="if(this.value=='search...')this.value='';" value="search..."></div></form></div></div>
-</li>
+            <li style="float:right;">
+                <div class="toggle-search" onclick="search(this)"><i class="iconfont icon-sousuo" style="font-size: 22px"></i></div><div class="search-expand" style="display:none;">
+                    <div class="search-expand-inner">
+                        <form method="get" class="searchform themeform" onsubmit="location.href='{% url 'blog:article_list' 0 %}?s=' + encodeURIComponent(this.s.value).replace(/%20/g, '+'); return false;" action="/">
+                            <div>
+                                <i class="iconfont icon-sousuo" style="position: absolute;padding-top: 10px;padding-left: 8px;z-index: 9999"></i>
+                                <input type="ext" class="search" name="s" onblur="if(this.value=='')this.value='search...';" onfocus="if(this.value=='search...')this.value='';" value="search...">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </li>
 		</ul>
 	</div>
 	</div>

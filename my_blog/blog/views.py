@@ -79,16 +79,25 @@ def author_show(request,id):
 
 
 def article_list(request, id):
-    nav_flag = NavModel.objects.get(id=id)
-    if nav_flag.Nav_root:
-        articles = ArticleModel.objects.filter(nav2=nav_flag,is_Delete=True,is_show=True).order_by('sort','-id')
+    if id == '0':
+        serch = request.GET.get('s')
+        articles=ArticleModel.objects.filter(title__contains=serch,is_Delete=True,is_show=True).order_by('-browse_count')
+        title = '搜索'+serch+'的结果'
+        str_serch = 's='+serch
     else:
-        articles = ArticleModel.objects.filter(nav1=nav_flag,is_Delete=True,is_show=True).order_by('sort','-id')
-
+        nav_flag = NavModel.objects.get(id=id)
+        if nav_flag.Nav_root:
+            articles = ArticleModel.objects.filter(nav2=nav_flag,is_Delete=True,is_show=True).order_by('sort','-id')
+        else:
+            articles = ArticleModel.objects.filter(nav1=nav_flag,is_Delete=True,is_show=True).order_by('sort','-id')
+        title = nav_flag.nav_name
+        str_serch = 0
     if id in ['3','14']:
         nav = 'nav4'
     elif id in ['1','4','5','6']:
         nav = 'nav2'
+    elif id == '0':
+        nav = 'nav1'
     else:
         nav = 'nav3'
     token = request.session.get('token')
@@ -109,12 +118,13 @@ def article_list(request, id):
         page_of_blogs = paginator.page(paginator.num_pages)  # 如果用户输入的页数不在系统的页码列表中时,显示最后一页的内容
 
     data = {'token': token,
-            'title': nav_flag.nav_name,
+            'title': title,
             'articles': page_of_blogs,
             'likes': likes,
             'links': links,
             'icon': icon,
             nav: "current-menu-item",
+            'str_serch':str_serch,
             }
     return render(request, 'blog/article_list.html', data)
 
