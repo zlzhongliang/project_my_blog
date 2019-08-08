@@ -9,6 +9,9 @@ from django.db.models import Q
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 
+# coding=utf-8
+import sys
+
 # Create your views here.
 from blog.models import UserModel, ArticleModel, LinkModel, CommetModel, LikeModel, NavModel
 

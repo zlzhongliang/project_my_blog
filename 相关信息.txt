@@ -42,5 +42,138 @@ docker run -p 3306:3306 --name [name] -v /project_my_blog/mysql/conf:/etc/mysql/
 启动pycharm：
 /usr/src/pycharm-2018.3.4/bin/pycharm.sh
 
+启动uwsgi：在docker 内：
+1.命令行
+uwsgi --chdir /project_my_blog/my_blog --http :8080 --module my_blog.wsgi:application
+2.配置文件启动
+a：
+[uwsgi]
+chdir = /project_my_blog/my_blog
+module = my_blog.wsgi:application
+
+master = True
+processes = 4
+harakiri = 60
+max-requests = 5000
+
+socket = 127.0.0.1:8080
+uid = 1000
+gid = 2000
+
+pidfile = /project_my_blog/my_blog/uwsgi/master.pid
+daemonize = /project_my_blog/my_blog/uwsgi/uwsgi.log
+vacuum = True
+
+b:文件启动的命令
+uwsgi --ini /project_my_blog/my_blog/uswgi/uswgi.ini
+
+nginx配置文件/etc/nginx/nginx.conf
+server {
+        listen       80;
+        server_name  localhost;
+        
+        location / {            
+            include  /tec/nginx/uwsgi_params;
+            uwsgi_pass  127.0.0.1:8080;              //必须和uwsgi中的设置一致
+            uwsgi_param UWSGI_SCRIPT /project_my_blog/my_blog/my_blog.wsgi;  //入口文件，即wsgi.py相对于项目根目录的位置，“.”相当于一层目录
+            uwsgi_param UWSGI_CHDIR /project_my_blog/my_blog;       //项目根目录
+            index  index.html index.htm;
+            client_max_body_size 35m;
+        }
+    }
+server {
+        listen       80;
+        server_name  localhost;
+        
+        location / {
+            include  /tec/nginx/uwsgi_params;
+            uwsgi_pass  127.0.0.1:8080;
+            uwsgi_param UWSGI_SCRIPT /project_my_blog/my_blog/my_blog.wsgi;
+            uwsgi_param UWSGI_CHDIR /project_my_blog/my_blog;
+            index  index.html index.htm;
+            client_max_body_size 35m;
+        }
+    }
+
+命令行启动docker nginx：
+docker run -p 9090:80 --name nginx_web -v /project_my_blog/nginx/log/:/var/log/nginx -v /project_my_blog/nginx/etc/default.conf:/etc/nginx/conf.d/default.conf -v /project_my_blog/nginx/html/:/usr/share/nginx/html -d nginx 
+
+
+
+upstream django{
+         # server unix:///home/andrew/django/abuild/abulid.sock;
+         server 192.168.21.59:8022;
+}
+
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        server_name 192.168.21.59;//宿主机ip地址
+        charset utf-8;
+
+        client_max_body_size 75M;
+
+
+       location /media {
+             alias /home/andrew/testdjango/media;
+       }
+
+       location /static {
+            alias /home/andrew/testdjango/static;
+       }　　
+
+       location / {
+           uwsgi_pass django;
+           include /etc/nginx/uwsgi_params;
+
+       }
+}
+upstream django{
+         # server unix:///home/andrew/django/abuild/abulid.sock;
+         server 192.168.229.144:8080;
+}
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        server_name 192.168.229.144;
+        charset utf-8;
+
+        client_max_body_size 75M;
+
+
+       location /media {
+             alias /project_my_blog/my_blog/media;
+       }
+
+       location /static {
+            alias /project_my_blog/my_blog/static;
+       }　　
+
+       location / {
+           uwsgi_pass django;
+           include /etc/nginx/uwsgi_params;
+
+       }
+}
+
+
+[uwsgi]
+socket = :8080
+chdir = /project_my_blog/my_blog
+module = my_blog.wsgi:application
+
+master = true
+processes = 4
+harakiri = 60
+max-requests = 5000
+chmod-socket = 664
+
+vacuum = true
+py-autoreload = 1
+
+
+
+
+
 
 

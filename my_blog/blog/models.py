@@ -23,7 +23,7 @@ class UserModel(models.Model):
     email = models.CharField(max_length=64, unique=True, verbose_name='邮箱地址')
     # Falsh代表女
     sex = models.BooleanField(null=True, verbose_name='性别')
-    icon = models.ImageField(upload_to=user_avatar_path,default='blog/img/user/icon.png', verbose_name='头像')
+    icon = models.ImageField(upload_to=user_avatar_path,default='blog/img/icon/icon.png', verbose_name='头像')
     is_delete = models.BooleanField(default=True, verbose_name='是否禁用')
     is_activate = models.BooleanField(default=False, verbose_name='是否激活')
     ticket = models.CharField(max_length=30,null=True, verbose_name='session值')
@@ -103,7 +103,7 @@ class ArticleModel(models.Model):
 
 
 class LinkModel(models.Model):
-    link = models.CharField(max_length=50,verbose_name='链接地址')
+    link = models.CharField(max_length=55,verbose_name='链接地址')
     link_name = models.CharField(max_length=20,verbose_name='链接名称')
     sort = models.IntegerField(default=0, verbose_name='排序')
     issuedate = models.DateTimeField(auto_now_add=True,verbose_name='发布时间')
