@@ -1,42 +1,121 @@
-<html>
+
+<!DOCTYPE html>
+
+<html lang="zh-hans" >
 <head>
-<title>JS给超链接加一个确认对话框</title>
+<title>增加 article model | Django 站点管理员</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">
 
+
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+<script type="text/javascript" src="/static/admin/js/urlify.js"></script>
+<script type="text/javascript" src="/static/admin/js/prepopulate.js"></script>
+<script type="text/javascript" src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
+<script type="text/javascript" src="/static/ckeditor/ckeditor-init.js" data-ckeditor-basepath="/static/ckeditor/ckeditor/" id="ckeditor-init-script"></script>
+<script type="text/javascript" src="/static/ckeditor/ckeditor/ckeditor.js"></script>
+
+
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+    
+
+<meta name="robots" content="NONE,NOARCHIVE">
 </head>
-<body>
-<a href="http://v.t.sina.com.cn/share/share.php?url=http://www.jb51.net&title='分享内容'" target="_blank">新浪微博</a>
-<a href="http://v.t.sina.com.cn/share/share.php?url=http://www.jb51.net&title='分享内容'" target="_blank">新浪微博</a> </p> <p>2、腾讯微博
-    <a href="http://v.t.qq.com/share/share.php?url=http://www.jb51.net&title='分享内容'" target="_blank">腾讯微博</a> </p> <p>3、开心网
-    <a href="javascript:window.open('http://www.kaixin001.com/repaste/share.php?rtitle='+encodeURIComponent(document.title)+'&rurl='+encodeURIComponent(document.location.href)+'&rcontent=');void(0)">开心网</a>
-    或者用
-    <a href="http://www.kaixin001.com/repaste/share.php?rurl=http://www.jb51.net&rcontent=http://www.baidu.com&rtitle=kaixin" target="_blank">开心网</a> </p> <p>4、豆瓣网
-    <a href="javascript:window.open('http://www.douban.com/recommend/?url='+encodeURIComponent(document.location.href)+'&title='+encodeURIComponent(document.title));void(0)">豆瓣</a> </p> <p>或者用
-    <a href="http://www.douban.com/recommend/?url=http://www.jb51.net&title=douban" target="_blank">豆瓣</a> </p> <p>5、人人网
-    <a href="javascript:window.open('http://share.renren.com/share/buttonshare.do?link='+encodeURIComponent(document.location.href)+'&title='+encodeURIComponent(document.title));void(0)">人人网</a>
-    或者用
-    <a href="http://share.renren.com/share/buttonshare.do?link=http://www.jb51.net" target="_blank">人人网</a> </p> <p>6、百度贴吧
-    <a href="http://tieba.baidu.com/f/commit/share/openShareApi?url=http://www.jb51.net&title=hello&desc=&pic=" target="_blank">百度贴吧</a> </p> <p>7、QQ好友
-    <a href="http://connect.qq.com/widget/shareqq/index.html?title=qqhaoyou&url=http://www.jb51.net&desc=还不错哦&pics=&site=优酷" target="_blank">QQ好友</a> </p> <p>8、QQ空间
-    <a href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.jb51.net" target="_blank">QQ空间</a> </p> <p>9、腾讯朋友
-    <a href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?to=pengyou&url=http://www.jb51.net" target="_blank">腾讯朋友</a> </p> <p>
-    10、百度收藏
+
+
+<body class=" app-blog model-articlemodel change-form"
+  data-admin-utc-offset="28800">
 
 
 
-    <a href="javascript:window.open('http://cang.baidu.com/do/add?it='+encodeURIComponent(document.title.substring(0,76))+'&iu='+encodeURIComponent(location.href)+'&fr=ien#nw=1','scrollbars=no,width=600,height=450,left=75,top=20,status=no,resizable=yes'); void 0">百度搜藏</a> </p> <p>11、优酷空间
-    <a href="http://i.youku.com/u/share/?url=http://www.jb51.net&content='分享内容'" target="_blank">优酷空间</a> </p> <p>12、搜狐微博
-    <a href="http://t.sohu.com/third/post.jsp?content=utf-8&url=http://www.jb51.net&title=souhu" target="_blank">搜狐微博</a> </p> <p>13、MSN
-    <a href="http://profile.live.com/badge/?url=http://www.jb51.net&Title=msn" target="_blank">MSN</a> </p> <p>14、猫扑
-    <a href="http://tt.mop.com/share/shareV.jsp?title=moptietie&pageUrl=http://www.jb51.net" target="_blank">MOP贴贴</a> </p> <p>15、网易微博
-    <a href="http://t.163.com/article/user/checkLogin.do?link=http://www.jb51.net" target="_blank">网易微博</a> </p> <p>16、QQ书签 </p> <p><a href="javascript:window.open('http://shuqian.qq.com/post?from=3&title='+encodeURIComponent(document.title)+'&uri='+encodeURIComponent(document.location.href)+'&jumpback=2&noui=1','favit','width=930,height=470,left=50,top=50,toolbar=no,menubar=no,location=no,scrollbars=yes,status=yes,resizable=yes');void(0)">QQ书签</a> </p> <p>17、GOOGLE书签：
-    <a href="javascript:window.open('http://www.google.com/bookmarks/mark?op=add&bkmk='+encodeURIComponent(document.location.href)+'&title='+encodeURIComponent(document.title));void(0)">Google</a> </p> <p>18、Twitter
-    <a href="javascript:window.open('http://twitter.com/home?status='+encodeURIComponent(document.location.href)+' '+encodeURIComponent(document.title));void(0)">Twitter</a> </p> <p>19、Facebook
-    <a class="fav_facebook" rel="nofollow" href="javascript:window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(document.location.href)+'&t='+encodeURIComponent(document.title));void(0)">Facebook</a> </p> <p>20、Delicious书签： </p> <p><a href="javascript:window.open('http://del.icio.us/post?url='+encodeURIComponent(document.location.href)+'&title='+encodeURIComponent(document.title)+'&notes=');void(0)">Delicious</a>
+<form enctype="multipart/form-data" action="" method="post" id="articlemodel_form" novalidate><input type="hidden" name="csrfmiddlewaretoken" value="2QivBwqybQ95R2nj3y8pbReAPVcIK6tB4yxqCMWj831dCRnYbsL0eGiCU5BKET2z">
+<div>
 
----------------------
-作者：mapbar_front
-来源：CSDN
-原文：https://blog.csdn.net/mapbar_front/article/details/80455022
-版权声明：本文为博主原创文章，转载请附上博文链接！
+
+
+
+
+
+
+  <fieldset class="module aligned ">
+    
+    
+            <div class="form-row field-content">
+
+
+                <div>
+
+
+                        <label class="required" for="id_content">Content:</label>
+
+                            <div class="django-ckeditor-widget" data-field-id="id_content" style="display: inline-block;">
+    <textarea cols="40" id="id_content" name="content" rows="10" required data-processed="0"
+              data-config="{&quot;skin&quot;: &quot;moono-lisa&quot;, &quot;toolbar_Basic&quot;: [[&quot;Source&quot;, &quot;-&quot;, &quot;Bold&quot;, &quot;Italic&quot;]], &quot;toolbar_Full&quot;: [[&quot;Styles&quot;, &quot;Format&quot;, &quot;Bold&quot;, &quot;Italic&quot;, &quot;Underline&quot;, &quot;Strike&quot;, &quot;SpellChecker&quot;, &quot;Undo&quot;, &quot;Redo&quot;], [&quot;Link&quot;, &quot;Unlink&quot;, &quot;Anchor&quot;], [&quot;Image&quot;, &quot;Flash&quot;, &quot;Table&quot;, &quot;HorizontalRule&quot;], [&quot;TextColor&quot;, &quot;BGColor&quot;], [&quot;Smiley&quot;, &quot;SpecialChar&quot;], [&quot;Source&quot;]], &quot;toolbar&quot;: [[&quot;div&quot;, &quot;Source&quot;, &quot;-&quot;, &quot;Save&quot;, &quot;NewPage&quot;, &quot;Preview&quot;, &quot;-&quot;, &quot;Templates&quot;], [&quot;Cut&quot;, &quot;Copy&quot;, &quot;Paste&quot;, &quot;PasteText&quot;, &quot;PasteFromWord&quot;, &quot;-&quot;, &quot;Print&quot;, &quot;SpellChecker&quot;, &quot;Scayt&quot;], [&quot;Undo&quot;, &quot;Redo&quot;, &quot;-&quot;, &quot;Find&quot;, &quot;Replace&quot;, &quot;-&quot;, &quot;SelectAll&quot;, &quot;RemoveFormat&quot;], [&quot;Form&quot;, &quot;Checkbox&quot;, &quot;Radio&quot;, &quot;TextField&quot;, &quot;Textarea&quot;, &quot;Select&quot;, &quot;Button&quot;, &quot;ImageButton&quot;, &quot;HiddenField&quot;], [&quot;Bold&quot;, &quot;Italic&quot;, &quot;Underline&quot;, &quot;Strike&quot;, &quot;-&quot;, &quot;Subscript&quot;, &quot;Superscript&quot;], [&quot;NumberedList&quot;, &quot;BulletedList&quot;, &quot;-&quot;, &quot;Outdent&quot;, &quot;Indent&quot;, &quot;Blockquote&quot;], [&quot;JustifyLeft&quot;, &quot;JustifyCenter&quot;, &quot;JustifyRight&quot;, &quot;JustifyBlock&quot;], [&quot;Link&quot;, &quot;Unlink&quot;, &quot;Anchor&quot;], [&quot;Image&quot;, &quot;Flash&quot;, &quot;Table&quot;, &quot;HorizontalRule&quot;, &quot;Smiley&quot;, &quot;SpecialChar&quot;, &quot;PageBreak&quot;], [&quot;Styles&quot;, &quot;Format&quot;, &quot;Font&quot;, &quot;FontSize&quot;], [&quot;TextColor&quot;, &quot;BGColor&quot;], [&quot;Maximize&quot;, &quot;ShowBlocks&quot;, &quot;-&quot;, &quot;About&quot;, &quot;pbckcode&quot;]], &quot;height&quot;: 291, &quot;width&quot;: 835, &quot;filebrowserWindowWidth&quot;: 940, &quot;filebrowserWindowHeight&quot;: 725, &quot;filebrowserUploadUrl&quot;: &quot;/ckeditor/upload/&quot;, &quot;filebrowserBrowseUrl&quot;: &quot;/ckeditor/browse/&quot;, &quot;language&quot;: &quot;zh-cn&quot;}"
+              data-external-plugin-resources="[]"
+              data-id="id_content"
+              data-type="ckeditortype">
+
+    </textarea>
+</div>
+
+
+
+                </div>
+
+        </div>
+    
+</fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="submit-row">
+
+<input type="submit" value="保存" class="default" name="_save">
+
+
+<input type="submit" value="保存并增加另一个" name="_addanother">
+<input type="submit" value="保存并继续编辑" name="_continue">
+
+
+</div>
+
+
+
+    <script type="text/javascript"
+            id="django-admin-form-add-constants"
+            src="/static/admin/js/change_form.js"
+            
+                data-model-name="articlemodel"
+            >
+    </script>
+
+
+
+
+<script type="text/javascript"
+        id="django-admin-prepopulated-fields-constants"
+        src="/static/admin/js/prepopulate_init.js"
+        data-prepopulated-fields="[]">
+</script>
+
+
+</div>
+</form>
 </body>
 </html>

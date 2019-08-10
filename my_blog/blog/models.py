@@ -1,6 +1,7 @@
 import datetime
 
 from django.db import models
+from ckeditor_uploader.fields import  RichTextUploadingField
 
 # Create your models here.
 
@@ -71,7 +72,7 @@ class ArticleModel(models.Model):
     # )
     title = models.CharField(max_length=200, verbose_name='文章标题')
     synopsis = models.CharField(max_length=500, default='0', verbose_name='大纲')
-    content = models.TextField(verbose_name='正文')
+    content = RichTextUploadingField()
     picture = models.ImageField(default='blog/img/article/default.png', verbose_name='图片')
     # first_classify = models.IntegerField(choices=first_class,verbose_name='一级分类')
     # second_classify = models.IntegerField(verbose_name='二级分类')

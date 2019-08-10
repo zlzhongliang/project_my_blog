@@ -54,3 +54,17 @@ docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
 docker rmi $(docker images -q)
 
 
+
+1. 登录阿里云Docker Registry
+$ sudo docker login --username=370499002@qq.com registry.cn-hangzhou.aliyuncs.com
+用于登录的用户名为阿里云账号全名，密码为开通服务时设置的密码。
+
+您可以在产品控制台首页修改登录密码。
+
+2. 从Registry中拉取镜像
+$ sudo docker pull registry.cn-hangzhou.aliyuncs.com/my_blog/my_blog:[镜像版本号]
+3. 将镜像推送到Registry
+$ sudo docker login --username=370499002@qq.com registry.cn-hangzhou.aliyuncs.com
+$ sudo docker tag [ImageId] registry.cn-hangzhou.aliyuncs.com/my_blog/my_blog:[镜像版本号]
+$ sudo docker push registry.cn-hangzhou.aliyuncs.com/my_blog/my_blog:[镜像版本号]
+

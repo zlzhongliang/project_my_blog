@@ -1,5 +1,5 @@
 {% extends 'blog/base_article.html' %}
 {% load static %}
 {% block article %}
-{{ article.content }}
+{{ article.content|safe }}
 {% endblock %}

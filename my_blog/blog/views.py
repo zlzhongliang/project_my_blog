@@ -8,6 +8,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
+from blog.form import RegisterForm
 
 # coding=utf-8
 import sys
@@ -20,7 +21,8 @@ global icon
 icon = 'blog/img/icon/icon.png'
 
 def test(request):
-    return render(request, 'blog/1.html')
+    data = {'register': RegisterForm()}
+    return render(request, 'blog/1.html', data)
 
 
 def index(request):

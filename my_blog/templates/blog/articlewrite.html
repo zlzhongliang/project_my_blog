@@ -2,6 +2,29 @@
 
 {% load static %}
     {% block main_content %}
+{#        <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">#}
+{#<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css">#}
+
+
+{#<script type="text/javascript" src="/admin/jsi18n/"></script>#}
+{#<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.js"></script>#}
+{#<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>#}
+{#<script type="text/javascript" src="/static/admin/js/core.js"></script>#}
+{#<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>#}
+{#<script type="text/javascript" src="/static/admin/js/actions.js"></script>#}
+{#<script type="text/javascript" src="/static/admin/js/urlify.js"></script>#}
+{#<script type="text/javascript" src="/static/admin/js/prepopulate.js"></script>#}
+{#<script type="text/javascript" src="/static/admin/js/vendor/xregexp/xregexp.js"></script>#}
+<script type="text/javascript" src="/static/ckeditor/ckeditor-init.js" data-ckeditor-basepath="/static/ckeditor/ckeditor/" id="ckeditor-init-script"></script>
+<script type="text/javascript" src="/static/ckeditor/ckeditor/ckeditor.js"></script>
+
+
+
+{#    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">#}
+{#    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">#}
+
+
+{#<meta name="robots" content="NONE,NOARCHIVE">#}
    <aside class="sidebar">
         <article class="excerpt">
             <header>
@@ -101,7 +124,40 @@
                 <td colspan="3">文章内容 : </td>
             </tr>
             <tr>
-                <td colspan="3"><textarea class="input-block-level comt-area" name="content" id="comment" cols="100%" rows="10" tabindex="1">{{ article.content }}</textarea></td>
+                <td colspan="3">
+
+
+
+
+                      <fieldset class="module aligned " style="width: 100%">
+
+                    <div class="django-ckeditor-widget" data-field-id="id_content" style="display: inline-block;width: 100%">
+    <textarea style="width: 100%" cols="40" id="id_content" name="content" rows="10" required data-processed="0"
+              data-config="{&quot;skin&quot;: &quot;moono-lisa&quot;, &quot;toolbar_Basic&quot;: [[&quot;Source&quot;, &quot;-&quot;, &quot;Bold&quot;, &quot;Italic&quot;]], &quot;toolbar_Full&quot;: [[&quot;Styles&quot;, &quot;Format&quot;, &quot;Bold&quot;, &quot;Italic&quot;, &quot;Underline&quot;, &quot;Strike&quot;, &quot;SpellChecker&quot;, &quot;Undo&quot;, &quot;Redo&quot;], [&quot;Link&quot;, &quot;Unlink&quot;, &quot;Anchor&quot;], [&quot;Image&quot;, &quot;Flash&quot;, &quot;Table&quot;, &quot;HorizontalRule&quot;], [&quot;TextColor&quot;, &quot;BGColor&quot;], [&quot;Smiley&quot;, &quot;SpecialChar&quot;], [&quot;Source&quot;]], &quot;toolbar&quot;: [[&quot;div&quot;, &quot;Source&quot;, &quot;-&quot;, &quot;Save&quot;, &quot;NewPage&quot;, &quot;Preview&quot;, &quot;-&quot;, &quot;Templates&quot;], [&quot;Cut&quot;, &quot;Copy&quot;, &quot;Paste&quot;, &quot;PasteText&quot;, &quot;PasteFromWord&quot;, &quot;-&quot;, &quot;Print&quot;, &quot;SpellChecker&quot;, &quot;Scayt&quot;], [&quot;Undo&quot;, &quot;Redo&quot;, &quot;-&quot;, &quot;Find&quot;, &quot;Replace&quot;, &quot;-&quot;, &quot;SelectAll&quot;, &quot;RemoveFormat&quot;], [&quot;Form&quot;, &quot;Checkbox&quot;, &quot;Radio&quot;, &quot;TextField&quot;, &quot;Textarea&quot;, &quot;Select&quot;, &quot;Button&quot;, &quot;ImageButton&quot;, &quot;HiddenField&quot;], [&quot;Bold&quot;, &quot;Italic&quot;, &quot;Underline&quot;, &quot;Strike&quot;, &quot;-&quot;, &quot;Subscript&quot;, &quot;Superscript&quot;], [&quot;NumberedList&quot;, &quot;BulletedList&quot;, &quot;-&quot;, &quot;Outdent&quot;, &quot;Indent&quot;, &quot;Blockquote&quot;], [&quot;JustifyLeft&quot;, &quot;JustifyCenter&quot;, &quot;JustifyRight&quot;, &quot;JustifyBlock&quot;], [&quot;Link&quot;, &quot;Unlink&quot;, &quot;Anchor&quot;], [&quot;Image&quot;, &quot;Flash&quot;, &quot;Table&quot;, &quot;HorizontalRule&quot;, &quot;Smiley&quot;, &quot;SpecialChar&quot;, &quot;PageBreak&quot;], [&quot;Styles&quot;, &quot;Format&quot;, &quot;Font&quot;, &quot;FontSize&quot;], [&quot;TextColor&quot;, &quot;BGColor&quot;], [&quot;Maximize&quot;, &quot;ShowBlocks&quot;, &quot;-&quot;, &quot;About&quot;, &quot;pbckcode&quot;]], &quot;height&quot;: 291, &quot;width&quot;: 950, &quot;filebrowserWindowWidth&quot;: 940, &quot;filebrowserWindowHeight&quot;: 725, &quot;filebrowserUploadUrl&quot;: &quot;/ckeditor/upload/&quot;, &quot;filebrowserBrowseUrl&quot;: &quot;/ckeditor/browse/&quot;, &quot;language&quot;: &quot;zh-cn&quot;}"
+              data-external-plugin-resources="[]"
+              data-id="id_content"
+              data-type="ckeditortype">
+
+    </textarea>
+</div>
+
+
+
+                </div>
+
+        </div>
+
+</fieldset>
+
+
+
+
+
+
+
+
+
+                </td>
             </tr>
             <tr>
                 <td colspan="3"><button class="btn btn-primary pull-right" type="submit" >提交文章</button></td>
